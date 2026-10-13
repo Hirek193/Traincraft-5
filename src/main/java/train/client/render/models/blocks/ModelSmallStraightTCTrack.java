@@ -128,7 +128,7 @@ public class ModelSmallStraightTCTrack extends ModelBase {
 		if (type.equals("dynamic")){
 			fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(Info.resourceLocation, Info.modelTexPrefix + "track_roadcrossing_base.png"));
 			modelRoadCrossing.renderAll();
-			fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(ballastTexture[0],  "textures/blocks/" + ballastTexture[1] +".png"));
+			fexcraft.tmt.slim.Tessellator.bindTexture(train.client.core.helpers.SpriteHelper.blockTexture(ballastTexture[0], ballastTexture[1]));
 			float r =  (float)(colour >> 16 & 255) / 255.0F;
 			float g = (float)(colour >> 8 & 255) / 255.0F;
 			float b = (float)(colour & 255) / 255.0F;

@@ -78,7 +78,9 @@ public final class TCModels {
             if (name == null || !Info.modID.equals(name.getNamespace())) {
                 continue;
             }
-            if (item instanceof ILegacyIcon) {
+            if (TCItemRenderRegistry.hasRenderer(item)) {
+                ModelLoader.setCustomModelResourceLocation(item, 0, TCItemRenderRegistry.MODEL_LOCATION);
+            } else if (item instanceof ILegacyIcon) {
                 for (int meta : metadataValues(item)) {
                     String icon = ((ILegacyIcon) item).legacyIcon(meta);
                     if (icon != null && !icon.isEmpty()) {
@@ -96,6 +98,11 @@ public final class TCModels {
                     ModelLoader.setCustomModelResourceLocation(item, meta,
                             new ModelResourceLocation(block.getRegistryName(), VARIANTS.getPropertyString(state.getProperties())));
                 }
+            } else {
+                // 1.12 items only get a model if one is assigned explicitly, otherwise they render as the
+                // missing model (and Forge doesn't log anything). Use the item json when there is one,
+                // else the block's "inventory" variant, else the block's default state variant.
+                ModelLoader.setCustomModelResourceLocation(item, 0, defaultItemModel(item));
             }
         }
 
@@ -118,6 +125,41 @@ public final class TCModels {
                 ModelLoader.setCustomStateMapper(block, new net.minecraft.client.renderer.block.statemap.StateMap.Builder()
                         .ignore(net.minecraftforge.fluids.BlockFluidBase.LEVEL).build());
             }
+        }
+    }
+
+    private static ModelResourceLocation defaultItemModel(Item item) {
+        ResourceLocation name = item.getRegistryName();
+        ModelResourceLocation inventory = new ModelResourceLocation(name, "inventory");
+        if (resourceExists(new ResourceLocation(name.getNamespace(), "models/item/" + name.getPath() + ".json"))) {
+            return inventory;
+        }
+        if (item instanceof ItemBlock) {
+            Block block = ((ItemBlock) item).getBlock();
+            ResourceLocation blockName = block.getRegistryName();
+            String blockstate = readResource(new ResourceLocation(blockName.getNamespace(), "blockstates/" + blockName.getPath() + ".json"));
+            if (blockstate != null && !blockstate.contains("\"inventory\"")) {
+                return new ModelResourceLocation(blockName, VARIANTS.getPropertyString(block.getDefaultState().getProperties()));
+            }
+            return new ModelResourceLocation(blockName, "inventory");
+        }
+        return inventory;
+    }
+
+    private static boolean resourceExists(ResourceLocation location) {
+        try (net.minecraft.client.resources.IResource ignored = net.minecraft.client.Minecraft.getMinecraft().getResourceManager().getResource(location)) {
+            return true;
+        } catch (java.io.IOException e) {
+            return false;
+        }
+    }
+
+    @Nullable
+    private static String readResource(ResourceLocation location) {
+        try (net.minecraft.client.resources.IResource res = net.minecraft.client.Minecraft.getMinecraft().getResourceManager().getResource(location)) {
+            return org.apache.commons.io.IOUtils.toString(res.getInputStream(), java.nio.charset.StandardCharsets.UTF_8);
+        } catch (java.io.IOException e) {
+            return null;
         }
     }
 

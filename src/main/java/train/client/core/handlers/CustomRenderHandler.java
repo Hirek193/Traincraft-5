@@ -29,13 +29,21 @@ public class CustomRenderHandler {
     public void onRenderWorldLast(RenderWorldLastEvent event) {
         EntityPlayerSP player = Minecraft.getMinecraft().player;
         if (player != null && player.getHeldItemMainhand() != null && (player.getHeldItemMainhand().getItem() instanceof ItemTCRail)) {
-            renderTCRailPreview(player, player.getHeldItemMainhand());
+            train.client.render.gl.GLStateHelper.begin();
+            try {
+                renderTCRailPreview(player, player.getHeldItemMainhand());
+            } finally {
+                train.client.render.gl.GLStateHelper.end();
+            }
         }
     }
 
     private void renderTCRailPreview(EntityPlayerSP player, ItemStack stack) {
         World world = Minecraft.getMinecraft().world;
-        if (world == null || Minecraft.getMinecraft().objectMouseOver == null) {
+        // 1.12: getBlockPos() is null unless the player is looking at a block (not an entity / the sky)
+        if (world == null || Minecraft.getMinecraft().objectMouseOver == null
+                || Minecraft.getMinecraft().objectMouseOver.typeOfHit != net.minecraft.util.math.RayTraceResult.Type.BLOCK
+                || Minecraft.getMinecraft().objectMouseOver.getBlockPos() == null) {
             return;
         }
         int x = Minecraft.getMinecraft().objectMouseOver.getBlockPos().getX();

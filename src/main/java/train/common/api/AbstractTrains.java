@@ -402,16 +402,30 @@ public abstract class AbstractTrains extends EntityMinecart implements IMinecart
     }
 
     public void setColor(String color) {
-        DebugUtil.println(color);
-        if (SkinRegistry.get(this) != null && SkinRegistry.get(this).size()>0) {
-            if (color.equals("-1") || !SkinRegistry.get(this).containsKey(color)) {
-                List<TransportSkin> skins = new ArrayList<>();
-                skins.addAll(SkinRegistry.get(this).values());
-                color = (skins.get(skins.indexOf(color)+1>skins.size()-1?0:skins.indexOf(color)+1).addr);
+        // accepts a livery name ("Red") or a skin texture address as saved in "colorstr"
+        // ("tc:textures/trains/gp7_Red.png"); the old code crashed loading the latter
+        String addr = color;
+        java.util.Map<String, TransportSkin> skins = SkinRegistry.get(this);
+        if (skins != null && !skins.isEmpty()) {
+            TransportSkin skin = color == null ? null : skins.get(color);
+            if (skin == null && color != null) {
+                for (TransportSkin s : skins.values()) {
+                    if (s.addr != null && s.addr.equalsIgnoreCase(color)) {
+                        skin = s;
+                        break;
+                    }
+                }
             }
+            if (skin == null) {
+                skin = skins.values().iterator().next();
+            }
+            addr = skin.addr;
+        }
+        if (addr == null) {
+            return;
         }
 
-        entity_data.putString("color", SkinRegistry.get(this).get(color).addr);
+        entity_data.putString("color", addr);
         getDataWatcher().updateObject(30, entity_data.toXMLString());
         this.getEntityData().setString("xml", entity_data.toXMLString());
     }

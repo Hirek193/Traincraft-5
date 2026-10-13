@@ -84,6 +84,7 @@ public class ItemRollingStock extends ItemMinecart implements train.common.items
 
 	public ItemRollingStock(AbstractTrains train, String modid, CreativeTabs tab){
 		this(modid+":trains/"+train.transportName().replace(' ','_'),tab);
+		setTranslationKey(train.transportName());
 		entity=train;
 		if(tab ==Traincraft.tcTab && ConfigHandler.SPLIT_CREATIVE) {
 			setCreativeTab(Traincraft.tcTrainTab);
@@ -93,6 +94,7 @@ public class ItemRollingStock extends ItemMinecart implements train.common.items
 	@Deprecated
 	public ItemRollingStock(String name, String iconName, String modid){
 		this(modid+":trains/" +iconName);
+		setTranslationKey(name);
 		if(!ConfigHandler.SPLIT_CREATIVE) {
 			setCreativeTab(Traincraft.tcTab);
 		} else {
@@ -212,6 +214,28 @@ public class ItemRollingStock extends ItemMinecart implements train.common.items
 		}
 
 	}
+	/**
+	 * Train items from the TC 4.5 registry use the transport name as translation key, which has no lang entry;
+	 * their names live under "entity.tc.&lt;transport name&gt;.name" (the entity's name), so fall back to that.
+	 */
+	@Override
+	@SuppressWarnings("deprecation")
+	public String getItemStackDisplayName(ItemStack stack) {
+		String key = getTranslationKey(stack) + ".name";
+		if (net.minecraft.util.text.translation.I18n.canTranslate(key)) {
+			return net.minecraft.util.text.translation.I18n.translateToLocal(key).trim();
+		}
+		AbstractTrains transport = getEntity();
+		if (transport != null && transport.transportName() != null) {
+			String entityKey = "entity." + train.common.library.Info.modID + "." + transport.transportName() + ".name";
+			if (net.minecraft.util.text.translation.I18n.canTranslate(entityKey)) {
+				return net.minecraft.util.text.translation.I18n.translateToLocal(entityKey).trim();
+			}
+			return transport.transportName();
+		}
+		return super.getItemStackDisplayName(stack);
+	}
+
 	@Override
 	public EnumRarity getRarity(ItemStack par1ItemStack) {
 		return EnumRarity.RARE;

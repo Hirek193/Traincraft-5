@@ -39,6 +39,12 @@ public final class TCItemRenderRegistry {
     /** One shared built-in model for every item drawn by a {@link TCItemRenderer}. */
     public static final ModelResourceLocation MODEL_LOCATION = new ModelResourceLocation(Info.modID + ":tc_item_renderer", "inventory");
 
+    private static final java.util.Set<Item> ITEMS = java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
+
+    public static boolean hasRenderer(Item item) {
+        return ITEMS.contains(item);
+    }
+
     private static ItemCameraTransforms.TransformType currentTransform = ItemCameraTransforms.TransformType.NONE;
 
     private TCItemRenderRegistry() {
@@ -54,7 +60,11 @@ public final class TCItemRenderRegistry {
             return;
         }
         item.setTileEntityItemStackRenderer(renderer);
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, stack -> MODEL_LOCATION);
+        ITEMS.add(item);
+        // before init (no RenderItem yet) TCModels assigns the model during ModelRegistryEvent
+        if (Minecraft.getMinecraft().getRenderItem() != null) {
+            Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, stack -> MODEL_LOCATION);
+        }
     }
 
     @SubscribeEvent

@@ -46,7 +46,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
         if (type.equals("large")) {
             fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(Info.resourceLocation, Info.modelTexPrefix + "track_normal.png"));
             modelLargeLeftCurvedTrack.renderAll();
-            fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(ballastTexture[0],  "textures/blocks/" + ballastTexture[1] +".png"));
+            fexcraft.tmt.slim.Tessellator.bindTexture(train.client.core.helpers.SpriteHelper.blockTexture(ballastTexture[0], ballastTexture[1]));
 
             float r = (float)(ballastColour >> 16 & 255) / 255.0F;
             float g = (float)(ballastColour >> 8 & 255) / 255.0F;
@@ -59,7 +59,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
         if (type.equals("embedded_large")) {
             fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(Info.resourceLocation, Info.modelTexPrefix + "track_embedded.png"));
             modelLargeLeftCurvedTrack.renderAll();
-            fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(ballastTexture[0],  "textures/blocks/" + ballastTexture[1] +".png"));
+            fexcraft.tmt.slim.Tessellator.bindTexture(train.client.core.helpers.SpriteHelper.blockTexture(ballastTexture[0], ballastTexture[1]));
 
             float r = (float)(ballastColour >> 16 & 255) / 255.0F;
             float g = (float)(ballastColour >> 8 & 255) / 255.0F;
@@ -72,7 +72,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
         if (type.equals("verylarge")) {
             fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(Info.resourceLocation, Info.modelTexPrefix + "track_normal.png"));
             modelVeryLargeLeftCurvedTrack.renderAll();
-            fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(ballastTexture[0],  "textures/blocks/" + ballastTexture[1] +".png"));
+            fexcraft.tmt.slim.Tessellator.bindTexture(train.client.core.helpers.SpriteHelper.blockTexture(ballastTexture[0], ballastTexture[1]));
 
             float r = (float)(ballastColour >> 16 & 255) / 255.0F;
             float g = (float)(ballastColour >> 8 & 255) / 255.0F;
@@ -85,7 +85,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
         if (type.equals("embedded_verylarge")) {
             fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(Info.resourceLocation, Info.modelTexPrefix + "track_embedded.png"));
             modelVeryLargeLeftCurvedTrack.renderAll();
-            fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(ballastTexture[0],  "textures/blocks/" + ballastTexture[1] +".png"));
+            fexcraft.tmt.slim.Tessellator.bindTexture(train.client.core.helpers.SpriteHelper.blockTexture(ballastTexture[0], ballastTexture[1]));
 
             float r = (float)(ballastColour >> 16 & 255) / 255.0F;
             float g = (float)(ballastColour >> 8 & 255) / 255.0F;
@@ -97,7 +97,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
         if (type.equals("superlarge")) {
             fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(Info.resourceLocation, Info.modelTexPrefix + "track_normal.png"));
             modelSuperLargeLeftCurvedTrack.renderAll();
-            fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(ballastTexture[0],  "textures/blocks/" + ballastTexture[1] +".png"));
+            fexcraft.tmt.slim.Tessellator.bindTexture(train.client.core.helpers.SpriteHelper.blockTexture(ballastTexture[0], ballastTexture[1]));
 
             float r = (float)(ballastColour >> 16 & 255) / 255.0F;
             float g = (float)(ballastColour >> 8 & 255) / 255.0F;
@@ -110,7 +110,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
         if (type.equals("embedded_superlarge")) {
             fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(Info.resourceLocation, Info.modelTexPrefix + "track_embedded.png"));
             modelSuperLargeLeftCurvedTrack.renderAll();
-            fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(ballastTexture[0],  "textures/blocks/" + ballastTexture[1] +".png"));
+            fexcraft.tmt.slim.Tessellator.bindTexture(train.client.core.helpers.SpriteHelper.blockTexture(ballastTexture[0], ballastTexture[1]));
 
             float r = (float)(ballastColour >> 16 & 255) / 255.0F;
             float g = (float)(ballastColour >> 8 & 255) / 255.0F;

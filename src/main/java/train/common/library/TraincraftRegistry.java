@@ -395,6 +395,7 @@ public class TraincraftRegistry {
             DebugUtil.println("Item missing lang entry: " + itm.getTranslationKey());
         }
         if (Traincraft.proxy.isClient() && itemRender != null) {
+            Traincraft.proxy.registerItemRenderer(itm, itemRender);
             // MinecraftForgeClient.registerItemRenderer(itm, (TCItemRenderer) itemRender);
             // if (ClientProxy.preRenderModels) {
             //     ebf.tim.render.CustomItemModel.instance.renderItem(TCItemRenderer.ItemRenderType.INVENTORY, new ItemStack(itm));
@@ -474,12 +475,14 @@ public class TraincraftRegistry {
             }
         }
         if (TESR != null) {
-            net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(tile, (TileEntitySpecialRenderer) TESR);
+            net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(tile, train.client.render.gl.TCSafeTESR.wrap((TileEntitySpecialRenderer) TESR));
             // MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block), CustomItemModel.instance);
+            Traincraft.proxy.registerBlockItemRenderer(block, ((ITileEntityProvider) block).createNewTileEntity(null, 0));
             // CustomItemModel.registerBlockTextures(Item.getItemFromBlock(block), ((ITileEntityProvider) block).createNewTileEntity(null, 0));
         } else {
-            net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(tile, (TileEntitySpecialRenderer) Traincraft.proxy.getTESR());
+            net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(tile, train.client.render.gl.TCSafeTESR.wrap((TileEntitySpecialRenderer) Traincraft.proxy.getTESR()));
             // MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block), CustomItemModel.instance);
+            Traincraft.proxy.registerBlockItemRenderer(block, ((ITileEntityProvider) block).createNewTileEntity(null, 0));
             // CustomItemModel.registerBlockTextures(Item.getItemFromBlock(block), ((ITileEntityProvider) block).createNewTileEntity(null, 0));
         }
     }

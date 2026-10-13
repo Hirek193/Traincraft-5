@@ -167,7 +167,10 @@ public class CustomItemModel extends TCItemRenderer /*ICustomModelLoader*/ {
             }
             switch (type){
                 case EQUIPPED_FIRST_PERSON:{break;}
-                case INVENTORY:{break;}
+                case INVENTORY:{
+                    // the TESR draws the block from 0..1, the 1.12 item origin is the middle of the slot
+                    GL11.glTranslatef(-0.5f,-0.5f,-0.5f);
+                    break;}
                 case EQUIPPED:{break;}
                 case FIRST_PERSON_MAP:{break;}
                 case ENTITY:{

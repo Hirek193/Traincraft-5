@@ -73,10 +73,17 @@ public abstract class TCItemRenderer extends TileEntityItemStackRenderer {
         if (!handleRenderType(stack, type)) {
             return;
         }
+        // The 1.7.10 renderers change GL state directly (GL11.*), behind GlStateManager's back.
+        // Saving/restoring it keeps GlStateManager's cache truthful for the items drawn after this one.
+        train.client.render.gl.GLStateHelper.begin();
         GlStateManager.pushMatrix();
         // TileEntityItemStackRenderer draws in a 0..1 cube; the 1.7.10 renderers expect the origin in the middle
         GlStateManager.translate(0.5F, 0.5F, 0.5F);
-        renderItem(type, stack);
-        GlStateManager.popMatrix();
+        try {
+            renderItem(type, stack);
+        } finally {
+            GlStateManager.popMatrix();
+            train.client.render.gl.GLStateHelper.end();
+        }
     }
 }

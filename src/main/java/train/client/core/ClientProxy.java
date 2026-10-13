@@ -188,87 +188,87 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void registerRenderInformation() {
         FMLCommonHandler.instance().bus().register(new ClientTickHandler());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileStopper.class, new RenderStopper());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileStopper.class, train.client.render.gl.TCSafeTESR.wrap(new RenderStopper()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.stopper.block), new ItemRenderStopper());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEmbeddedStopper.class, new RenderEmbeddedStopper());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEmbeddedStopper.class, train.client.render.gl.TCSafeTESR.wrap(new RenderEmbeddedStopper()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.embeddedStopper.block), new ItemRenderEmbeddedStopper());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileAmericanStopper.class, new RenderAmericanStopper());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileAmericanStopper.class, train.client.render.gl.TCSafeTESR.wrap(new RenderAmericanStopper()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.americanstopper.block), new ItemRenderAmericanStopper());
 
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileBook.class, new RenderTCBook());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileBook.class, train.client.render.gl.TCSafeTESR.wrap(new RenderTCBook()));
         //TCItemRenderRegistry.register(BlockIDs.book.blockID, new ItemRenderBook());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileSignal.class, new RenderSignal());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileSignal.class, train.client.render.gl.TCSafeTESR.wrap(new RenderSignal()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.signal.block), new ItemRenderSignal());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileLantern.class, new RenderLantern());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileLantern.class, train.client.render.gl.TCSafeTESR.wrap(new RenderLantern()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(TCBlocks.lantern), new ItemRenderLantern());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileMFPBWigWag.class, new RenderMFPBWigWag());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileMFPBWigWag.class, train.client.render.gl.TCSafeTESR.wrap(new RenderMFPBWigWag()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(TCBlocks.MFPBWigWag), new ItemRenderMFPBWigWag());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileWaterWheel.class, new RenderWaterWheel());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileWaterWheel.class, train.client.render.gl.TCSafeTESR.wrap(new RenderWaterWheel()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.waterWheel.block), new ItemRenderWaterWheel());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileWindMill.class, new RenderWindMill());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileWindMill.class, train.client.render.gl.TCSafeTESR.wrap(new RenderWindMill()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.windMill.block), new ItemRenderWindMill());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileGeneratorDiesel.class, new RenderGeneratorDiesel());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileGeneratorDiesel.class, train.client.render.gl.TCSafeTESR.wrap(new RenderGeneratorDiesel()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.generatorDiesel.block), new ItemRenderGeneratorDiesel());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileTCRail.class, new RenderTCRail());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileTCRail.class, train.client.render.gl.TCSafeTESR.wrap(new RenderTCRail()));
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileMetroMadridPole.class, new RenderMetroMadridPole());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileMetroMadridPole.class, train.client.render.gl.TCSafeTESR.wrap(new RenderMetroMadridPole()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.metroMadridPole.block), new ItemRenderModelMetroMadridPole());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileSwitchStand.class, new RenderSwitchStand());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileSwitchStand.class, train.client.render.gl.TCSafeTESR.wrap(new RenderSwitchStand()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(TCBlocks.switchStand), new ItemRenderSwitchStand());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileOWOYardSwitchStand.class, new RenderowoYardSwtichStand());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileOWOYardSwitchStand.class, train.client.render.gl.TCSafeTESR.wrap(new RenderowoYardSwtichStand()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(TCBlocks.owoYardSwitchStand), new ItemRenderowoYardSwitchStand());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileMILWSwitchStand.class, new RenderMILWSwitchStand());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileMILWSwitchStand.class, train.client.render.gl.TCSafeTESR.wrap(new RenderMILWSwitchStand()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(TCBlocks.MILWSwitchStand), new ItemRenderMILWSwitchStand());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileCircleSwitchStand.class, new RendercircleSwitchStand());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileCircleSwitchStand.class, train.client.render.gl.TCSafeTESR.wrap(new RendercircleSwitchStand()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(TCBlocks.circleSwitchStand), new ItemRendercircleSwitchStand());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileOWOSwitchStand.class, new RenderowoSwitchStand());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileOWOSwitchStand.class, train.client.render.gl.TCSafeTESR.wrap(new RenderowoSwitchStand()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(TCBlocks.owoSwitchStand), new ItemRenderowoSwitchStand());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileAutoSwitchStand.class, new RenderautoSwitchStand());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileAutoSwitchStand.class, train.client.render.gl.TCSafeTESR.wrap(new RenderautoSwitchStand()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(TCBlocks.autoSwtichStand), new ItemRenderautoSwitchStand());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileoverheadWire.class, new RenderoverheadWire());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileoverheadWire.class, train.client.render.gl.TCSafeTESR.wrap(new RenderoverheadWire()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.overheadWire.block), new ItemRenderoverheadWire());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileoverheadWireDouble.class, new RenderoverheadWireDouble());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileoverheadWireDouble.class, train.client.render.gl.TCSafeTESR.wrap(new RenderoverheadWireDouble()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.overheadWireDouble.block), new ItemRenderoverheadWireDouble());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TilesignalSpanish.class, new RendersignalSpanish());
+        ClientRegistry.bindTileEntitySpecialRenderer(TilesignalSpanish.class, train.client.render.gl.TCSafeTESR.wrap(new RendersignalSpanish()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.signalSpanish.block), new ItemRendersignalSpanish());
 
-        //ClientRegistry.bindTileEntitySpecialRenderer(TiletrackConcrete.class, new RendertrackEmbeddedSmallStraight());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TiletrackConcrete.class, train.client.render.gl.TCSafeTESR.wrap(new RendertrackEmbeddedSmallStraight()));
         //TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.trackConcrete.block), new ItemRendertrackEmbeddedSmallStraight());
 
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TilekSignal.class, new RenderkSignal());
+        ClientRegistry.bindTileEntitySpecialRenderer(TilekSignal.class, train.client.render.gl.TCSafeTESR.wrap(new RenderkSignal()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.kSignal.block), new ItemRenderkSignal());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileSpeedSign.class, new RenderSpeedSign());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileSpeedSign.class, train.client.render.gl.TCSafeTESR.wrap(new RenderSpeedSign()));
         TCItemRenderRegistry.register(Item.getItemFromBlock(TCBlocks.speedSign), new ItemRenderSpeedSign());
 
 
 
 		/*
-		ClientRegistry.bindTileEntitySpecialRenderer(TileFortyFootContainer.class, new FortyFootContainerRender());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileFortyFootContainer.class, train.client.render.gl.TCSafeTESR.wrap(new FortyFootContainerRender()));
 		TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.FortyFootContainer.block), new ItemRenderFortyFootContainer());
 		*/
 
 		/*
-		ClientRegistry.bindTileEntitySpecialRenderer(TileFortyFootContainer.class, new FortyFootContainerRender());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileFortyFootContainer.class, train.client.render.gl.TCSafeTESR.wrap(new FortyFootContainerRender()));
 		TCItemRenderRegistry.register(Item.getItemFromBlock(BlockIDs.FortyFootContainer.block), new ItemRenderFortyFootContainer());*/
     }
 
@@ -278,6 +278,22 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public Object getCustomItemModel(){return ebf.tim.render.CustomItemModel.instance;}
+
+    @Override
+    public void registerItemRenderer(net.minecraft.item.Item item, Object renderer){
+        if (renderer instanceof train.client.render.item.TCItemRenderer) {
+            train.client.render.item.TCItemRenderRegistry.register(item, (train.client.render.item.TCItemRenderer) renderer);
+        }
+    }
+
+    @Override
+    public void registerBlockItemRenderer(net.minecraft.block.Block block, net.minecraft.tileentity.TileEntity template){
+        net.minecraft.item.Item item = net.minecraft.item.Item.getItemFromBlock(block);
+        if (item != net.minecraft.init.Items.AIR) {
+            train.client.render.item.TCItemRenderRegistry.register(item, ebf.tim.render.CustomItemModel.instance);
+            ebf.tim.render.CustomItemModel.registerBlockTextures(item, template);
+        }
+    }
 
     @Override
     public Object newBlockTESR(){return new ebf.tim.render.BlockTESR();}

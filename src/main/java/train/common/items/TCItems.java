@@ -222,6 +222,7 @@ public class TCItems {
 	
 	/** 1.7.10 {@code GameRegistry.registerItem(item, name)}. Items already registered elsewhere are skipped. */
 	private static void register(net.minecraft.item.Item item, String name) {
+		item.setTranslationKey(Info.modID + ":" + name);
 		if (item.getRegistryName() == null) {
 			item.setRegistryName(Info.modID, name);
 			net.minecraftforge.fml.common.registry.ForgeRegistries.ITEMS.register(item);

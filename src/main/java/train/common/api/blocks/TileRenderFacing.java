@@ -147,7 +147,7 @@ public class TileRenderFacing extends TileEntity implements ITickable {
             }
             //be sure to re-enable the texture biding, because the UI wont
             org.lwjgl.opengl.GL11.glEnable( org.lwjgl.opengl.GL11.GL_TEXTURE_2D);
-            org.lwjgl.opengl.GL11.glBindTexture( org.lwjgl.opengl.GL11.GL_TEXTURE_2D,uiTexture);
+            net.minecraft.client.renderer.GlStateManager.bindTexture(uiTexture);
         } else{
             super.addInfoToCrashReport(r);
         }
@@ -200,6 +200,12 @@ public class TileRenderFacing extends TileEntity implements ITickable {
             org.lwjgl.opengl.GL11.glDeleteLists(blockGLID, 1);
             blockGLID = null;
         }
+    }
+
+    /** 1.12 sends this with the chunk data (1.7.10 sent the description packet instead). */
+    @Override
+    public NBTTagCompound getUpdateTag() {
+    	return this.writeToNBT(new NBTTagCompound());
     }
 
     @Override

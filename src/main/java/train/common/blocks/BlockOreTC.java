@@ -52,7 +52,8 @@ public class BlockOreTC extends BlockFalling {
 	/** only the oil sands fall */
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
-		if (state.getValue(TYPE) == 1) {
+		// stairs built on this block forward their ticks here, so check the block really is ours
+		if (state.getValue(TYPE) == 1 && world.getBlockState(pos).getBlock() == this) {
 			super.updateTick(world, pos, state, rand);
 		}
 	}
@@ -77,13 +78,19 @@ public class BlockOreTC extends BlockFalling {
 	@Override
     public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
     	int x = pos.getX(), y = pos.getY(), z = pos.getZ();
-		if (world.getBlockState(pos).getValue(TYPE) == 1) world.scheduleUpdate(pos, this, this.tickRate(world));
+		if (isOilSands(world, pos)) world.scheduleUpdate(pos, this, this.tickRate(world));
     }
+
+	/** True only for a real oil sands block; BlockStairs calls this block's methods with the stairs' position too. */
+	private boolean isOilSands(World world, BlockPos pos) {
+		IBlockState here = world.getBlockState(pos);
+		return here.getBlock() == this && here.getValue(TYPE) == 1;
+	}
 
 	@Override
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
     	int x = pos.getX(), y = pos.getY(), z = pos.getZ();
-		if (world.getBlockState(pos).getValue(TYPE) == 1) world.scheduleUpdate(pos, this, this.tickRate(world));
+		if (isOilSands(world, pos)) world.scheduleUpdate(pos, this, this.tickRate(world));
     }
 
 	@Override

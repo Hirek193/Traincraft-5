@@ -53,7 +53,7 @@ public class TextureManager {
      */
     public static int bindTexture(ResourceLocation textureURI) {
         if (textureURI == null){
-            GL11.glBindTexture(GL_TEXTURE_2D, TextureUtil.MISSING_TEXTURE.getGlTextureId());
+            net.minecraft.client.renderer.GlStateManager.bindTexture(TextureUtil.MISSING_TEXTURE.getGlTextureId());
             return 0;
         }
         //clean out the texture bind map when texturepacks are reloaded.
@@ -68,7 +68,7 @@ public class TextureManager {
                 object = new SimpleTexture(textureURI);
                 Minecraft.getMinecraft().getTextureManager().loadTexture(textureURI, object);
             }
-            GL11.glBindTexture(GL_TEXTURE_2D, object.getGlTextureId());
+            net.minecraft.client.renderer.GlStateManager.bindTexture(object.getGlTextureId());
             return object.getGlTextureId();
         } else {
             id= tmtMap.get(textureURI);
@@ -81,9 +81,7 @@ public class TextureManager {
                 id=object.getGlTextureId();
                 tmtMap.put(textureURI, id);
             }
-            if(GL11.glGetInteger(GL_TEXTURE_2D) !=id) {
-                GL11.glBindTexture(GL_TEXTURE_2D, id);
-            }
+            net.minecraft.client.renderer.GlStateManager.bindTexture(id);
         }
         return -1;
     }
@@ -182,7 +180,8 @@ public class TextureManager {
 
 
     public static TextureAtlasSprite bindBlockTextureFromSide(int side, ItemStack b){
-        return train.client.core.helpers.SpriteHelper.getSprite(Block.getBlockFromItem(b.getItem()), b.getItemDamage(), net.minecraft.util.EnumFacing.byIndex(side));
+        TextureAtlasSprite sprite = train.client.core.helpers.SpriteHelper.getSprite(Block.getBlockFromItem(b.getItem()), b.getItemDamage(), net.minecraft.util.EnumFacing.byIndex(side));
+        return sprite != null ? sprite : net.minecraft.client.Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
         //1.8.9+ version:
         //IBlockState state = Block.getBlockFromItem(b.getItem()).getDefaultState();
         //Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(state).getQuads(state,side,0l).get(0).getSprite()
@@ -261,9 +260,7 @@ public class TextureManager {
             if (currentKey == null) {
                 bindTexture(textureURI);
             } else {
-                if (GL11.glGetInteger(GL_TEXTURE_2D) != currentKey) {
-                    GL11.glBindTexture(GL_TEXTURE_2D, currentKey);
-                }
+                net.minecraft.client.renderer.GlStateManager.bindTexture(currentKey);
             }
 
     }

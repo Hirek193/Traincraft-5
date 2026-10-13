@@ -107,7 +107,7 @@ public class TCBlocks {
 		BlockIDs.asphaltDoubleSlab.block = new BlockAsphaltSlab(true);
 
 
-		BlockIDs.ballastStairs.block = TCBlockUtil.sound(new BlockBaseStairs(BlockIDs.oreTC.block).setHardness(2.0F), SoundType.STONE).setTranslationKey("ballast stairs").setCreativeTab(Traincraft.tcTab).setLightOpacity(0);
+		BlockIDs.ballastStairs.block = TCBlockUtil.sound(new BlockBaseStairs(BlockIDs.oreTC.block.getDefaultState().withProperty(BlockOreTC.TYPE, 3)).setHardness(2.0F), SoundType.STONE).setTranslationKey("ballast stairs").setCreativeTab(Traincraft.tcTab).setLightOpacity(0);
 		BlockIDs.dirtyBallastStairs.block = TCBlockUtil.sound(new BlockBaseStairs(BlockIDs.dirtyBallast.block).setHardness(2.0F), SoundType.STONE).setTranslationKey("dirty ballast stairs").setCreativeTab(Traincraft.tcTab).setLightOpacity(0);
 		BlockIDs.dirtierBallastStairs.block = TCBlockUtil.sound(new BlockBaseStairs(BlockIDs.dirtierBallast.block).setHardness(2.0F), SoundType.STONE).setTranslationKey("dirtier ballast stairs").setCreativeTab(Traincraft.tcTab).setLightOpacity(0);
 		BlockIDs.highSpeedBallastStairs.block = TCBlockUtil.sound(new BlockBaseStairs(BlockIDs.highSpeedBallast.block).setHardness(2.0F), SoundType.STONE).setTranslationKey("high speed ballast stairs").setCreativeTab(Traincraft.tcTab).setLightOpacity(0);

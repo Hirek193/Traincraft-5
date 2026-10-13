@@ -36,6 +36,12 @@ public class TileLantern extends TileEntity implements ITickable {
 		return nbt;
 	}
 
+	/** 1.12 sends this with the chunk data (1.7.10 sent the description packet instead). */
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return this.writeToNBT(new NBTTagCompound());
+	}
+
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
 

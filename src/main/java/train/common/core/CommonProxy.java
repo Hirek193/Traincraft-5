@@ -329,6 +329,12 @@ public class CommonProxy implements IGuiHandler {
     /** Client: the shared item renderer for TiM blocks ({@code CustomItemModel.instance}); null on a server. */
     public Object getCustomItemModel(){return null;}
 
+    /** client: attaches a 1.7.10-style item renderer (TCItemRenderer) to the item. */
+    public void registerItemRenderer(net.minecraft.item.Item item, Object renderer){}
+
+    /** client: lets {@code CustomItemModel} draw a TESR block's item from a template tile entity. */
+    public void registerBlockItemRenderer(net.minecraft.block.Block block, net.minecraft.tileentity.TileEntity template){}
+
     /** Client: a new {@code BlockTESR}; null on a server. */
     public Object newBlockTESR(){return null;}
     public Object getEntityRender(){return null;}
