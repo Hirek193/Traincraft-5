@@ -162,6 +162,11 @@ public class LiquidTank extends EntityRollingStock implements ISidedInventory {
         }
     }
 
+    /** lava/molten tanks; the check only knew the 1.7.10 class, so the registered lava tank refused lava */
+    protected boolean isHotFluidTank() {
+        return this instanceof EntityTankLava || this instanceof train.common.entity.stock.tanker.EntityTankLava;
+    }
+
     public ItemStack checkInvent(ItemStack itemstack) {
         ItemStack result = null;
         if (world.isRemote) {
@@ -179,12 +184,12 @@ public class LiquidTank extends EntityRollingStock implements ISidedInventory {
                         if (LiquidManager.getInstance().containsFluid(itemstack,
                                 FluidRegistry.getFluidStack(FluidRegistry.getFluidName(fluid), 0))) {
                             if (fluid.getTemperature() < 1000) {
-                                if (!(this instanceof EntityTankLava)) {// Input fluid from itemstack (not lava or molten liquids).
+                                if (!isHotFluidTank()) {// Input fluid from itemstack (not lava or molten liquids).
                                     result = LiquidManager.getInstance().processContainer(this, 0, this, itemstack);
                                     break;
                                 }
                             } else {
-                                if (this instanceof EntityTankLava) {// Input fluid from itemstack (lava or molten liquids).
+                                if (isHotFluidTank()) {// Input fluid from itemstack (lava or molten liquids).
                                     result = LiquidManager.getInstance().processContainer(this, 0, this, itemstack);
                                     break;
                                 }
@@ -208,6 +213,9 @@ public class LiquidTank extends EntityRollingStock implements ISidedInventory {
                 }
             }
 
+            if (result != null && result.isEmpty()) {
+                result = null; // 1.12: containers without a container item give EMPTY
+            }
             if (result != null) {
                 if (cargoItems[1] == null) {
                     cargoItems[1] = result;

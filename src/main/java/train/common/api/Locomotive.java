@@ -641,7 +641,20 @@ public abstract class Locomotive extends Freight implements WirelessTransmitter,
                             y=s.getPassenger().rotationYaw;
                         }
                     }
-                    appendMovement(0.0075*(forwardPressed?-accelerate:accelerate));
+                    // W drives the way the driver looks, S the other way (it brakes first if the train is
+                    // already rolling the other way). appendMovement() took a speed whose sign is relative to the
+                    // current motion, so the keys meant different directions depending on how the train moved.
+                    double axisX = bogieFront.posX - bogieBack.posX, axisZ = bogieFront.posZ - bogieBack.posZ;
+                    double axisLength = Math.sqrt(axisX * axisX + axisZ * axisZ);
+                    if (axisLength > 1.0E-4) {
+                        double lookX = -MathHelper.sin(y * 0.017453292F), lookZ = MathHelper.cos(y * 0.017453292F);
+                        double facing = (lookX * axisX + lookZ * axisZ) / axisLength;
+                        double push = 0.0075 * Math.abs(accelerate) * (forwardPressed ? 1 : -1) * (facing >= 0 ? 1 : -1) / axisLength;
+                        bogieFront.addVelocityVector(axisX * push, axisZ * push);
+                        bogieBack.addVelocityVector(axisX * push, axisZ * push);
+                    } else {
+                        appendMovement(0.0075*(forwardPressed?-accelerate:accelerate));
+                    }
                 }
             } else if (brakePressed) {
                 multiplyVelocity(brake);

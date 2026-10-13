@@ -169,8 +169,11 @@ public class CommonUtil {
     public static List<TileEntity> getTiles(World w, int x, int y, int z){
         List<TileEntity> tiles = new ArrayList<>();
         TileTCRailGag gag;
-        for (Object t : w.loadedTileEntityList){
-            if(((TileEntity)t).getPos().getX()==x && ((TileEntity)t).getPos().getY()==y && ((TileEntity)t).getPos().getZ()==z){
+        // there is only one tile entity per position: look it up instead of scanning every loaded tile entity
+        // (this ran for every bogie on every gag rail, every tick)
+        TileEntity found = w.getTileEntity(new BlockPos(x, y, z));
+        for (Object t : found == null ? java.util.Collections.emptyList() : java.util.Collections.singletonList(found)){
+            {
                 if(t instanceof TileTCRailGag){
                     gag=(TileTCRailGag)t;
                     for(int i=0;i<gag.originX.size();i++){

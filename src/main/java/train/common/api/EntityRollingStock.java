@@ -1016,14 +1016,53 @@ public class EntityRollingStock extends AbstractTrains implements ILinkableCart 
         bogieFront.addLinking(this, velocity);
     }
 
+    /**
+     * Coupled cars move together: equalise their speed along the coupling (mass weighted). Without it only the
+     * position was corrected, so momentum stayed in whichever car got it: a pushed rake kept going after the loco
+     * braked, and a car pushed by a player was pulled back to its stationary neighbour.
+     */
+    private void shareMomentum(EntityRollingStock other, double vecX, double vecZ, double length) {
+        if (length < 1.0E-4) {
+            return;
+        }
+        double ux = vecX / length, uz = vecZ / length;
+        double sThis = bogieSpeedAlong(this, ux, uz), sOther = bogieSpeedAlong(other, ux, uz);
+        double shared;
+        if (this.isLocoTurnedOn != other.isLocoTurnedOn) {
+            // a running loco sets the pace: how many cars it can pull is handled by HandleMaxAttachedCarts,
+            // letting the cars' mass soak up its (tiny, per-tick) traction made starting a train a crawl
+            shared = this.isLocoTurnedOn ? sThis : sOther;
+        } else {
+            // many locos have weightKg 0 in their class: give everything a sensible minimum
+            double mThis = Math.max(500D, this.mass), mOther = Math.max(500D, other.mass);
+            shared = (mThis * sThis + mOther * sOther) / (mThis + mOther);
+        }
+        addAlong(this, (shared - sThis) * ux, (shared - sThis) * uz);
+        addAlong(other, (shared - sOther) * ux, (shared - sOther) * uz);
+    }
+
+    private static double bogieSpeedAlong(EntityRollingStock stock, double ux, double uz) {
+        return ((stock.bogieFront.velocity[0] + stock.bogieBack.velocity[0]) * ux
+                + (stock.bogieFront.velocity[1] + stock.bogieBack.velocity[1]) * uz) * 0.5D;
+    }
+
+    private static void addAlong(EntityRollingStock stock, double x, double z) {
+        stock.bogieFront.addVelocityVector(x, z);
+        stock.bogieBack.addVelocityVector(x, z);
+    }
+
     public void manageLink(EntityRollingStock other) {
-        if(isLocoTurnedOn || other.bogieBack ==null || other.bogieFront ==null || bogieBack ==null || bogieFront ==null) {
+        if(other.bogieBack ==null || other.bogieFront ==null || bogieBack ==null || bogieFront ==null) {
             return;
         }
 
-        double vecX = other.posX - posX;
-        double vecZ = other.posZ - posZ;
+        // measure between the middles of the cars (between their bogies). posX/posZ sit at the back bogie +
+        // rotationPoints[1], which for 72 classes with asymmetric bogies (e.g. VL10 {0,-2.3}) is the front
+        // bogie, so the coupling gap was off by up to a couple of blocks
+        double vecX = (other.bogieFront.posX + other.bogieBack.posX - bogieFront.posX - bogieBack.posX) * 0.5D;
+        double vecZ = (other.bogieFront.posZ + other.bogieBack.posZ - bogieFront.posZ - bogieBack.posZ) * 0.5D;
         double length = MathHelper.sqrt(vecX * vecX + vecZ * vecZ);
+        shareMomentum(other, vecX, vecZ, length);
         double dist = length - (getOptimalDistance(other)+other.getOptimalDistance(this));
         // Correct half of the gap error, straight towards (or away from) the linked car. addLinking() takes a
         // signed speed that means "towards the front bogie" only while the bogie stands still; once it moves the
@@ -1031,14 +1070,42 @@ public class EntityRollingStock extends AbstractTrains implements ILinkableCart 
         // the error grew every tick: pushed consists shot off in one direction.
         if (Math.abs(dist) > 0.01 && length > 0.0001) {
             double k = dist * 0.5 / length;
-            bogieFront.addLinkingVector(vecX * k, vecZ * k);
-            bogieBack.addLinkingVector(vecX * k, vecZ * k);
+            if (isLocoTurnedOn && !other.isLocoTurnedOn) {
+                // a running loco isn't dragged into place: the car moves towards it instead (next tick)
+                other.bogieFront.addLinkingVector(-vecX * k, -vecZ * k);
+                other.bogieBack.addLinkingVector(-vecX * k, -vecZ * k);
+            } else {
+                bogieFront.addLinkingVector(vecX * k, vecZ * k);
+                bogieBack.addLinkingVector(vecX * k, vecZ * k);
+            }
         }
     }
 
     /**
      * if X or Z is null, the bogie's existing motion velocity will be used
      */
+    /**
+     * Each bogie follows the rails on its own and nothing kept them at the wheelbase of the car. Through
+     * switches and curves the distance drifted (or one bogie took the other route), the yaw computed from the
+     * two bogies went wrong and the car was drawn turned and beside the track. Pull them back to the
+     * wheelbase along the line between them; the rail code re-centres them on the track next tick.
+     */
+    private static void keepBogieSpacing(EntityRollingStock stock) {
+        if (stock.bogieFront == null || stock.bogieBack == null || stock.rotationPoints() == null || stock.rotationPoints().length < 2) {
+            return;
+        }
+        double wanted = Math.abs(stock.rotationPoints()[0] - stock.rotationPoints()[1]);
+        double dx = stock.bogieFront.posX - stock.bogieBack.posX;
+        double dz = stock.bogieFront.posZ - stock.bogieBack.posZ;
+        double actual = Math.sqrt(dx * dx + dz * dz);
+        if (wanted <= 0 || actual < 1.0E-4 || Math.abs(actual - wanted) < 0.005) {
+            return;
+        }
+        double k = (actual - wanted) * 0.5 / actual;
+        stock.bogieFront.setPosition(stock.bogieFront.posX - dx * k, stock.bogieFront.posY, stock.bogieFront.posZ - dz * k);
+        stock.bogieBack.setPosition(stock.bogieBack.posX + dx * k, stock.bogieBack.posY, stock.bogieBack.posZ + dz * k);
+    }
+
     public void finalMove(EntityRollingStock stock) {
         if(stock.frontLink instanceof EntityRollingStock &&stock.frontLink.hasMoved) {
             stock.manageLink((EntityRollingStock) stock.frontLink);
@@ -1049,6 +1116,7 @@ public class EntityRollingStock extends AbstractTrains implements ILinkableCart 
         stock.applyDrag();
         stock.bogieFront.minecartMove(stock);
         stock.bogieBack.minecartMove(stock);
+        keepBogieSpacing(stock);
         stock.cachedVectors[1] = new Vec3f(stock.rotationPoints()[1], 0, 0).rotatePoint(0, stock.rotationYaw, 0)
                 .addVector(stock.bogieBack.posX,0,stock.bogieBack.posZ);
         stock.setPosition(stock.cachedVectors[1].xCoord, (stock.bogieBack.posY+stock.bogieFront.posY)*0.5,stock.cachedVectors[1].zCoord);
@@ -1305,23 +1373,12 @@ public class EntityRollingStock extends AbstractTrains implements ILinkableCart 
     public void applyEntityCollision(Entity par1Entity) {}
 
     public void multiplyVelocity(double vel) {
-        EntityRollingStock last = this;
+        // bogie velocities are world-space vectors, so every car gets the same factor. The old code negated it
+        // for cars coupled back-to-back, which reversed them on every brake tick: a pushed rake could not stop.
         for(AbstractTrains train : consist) {
             if (train == null || train.bogieBack == null || train.bogieFront == null) { continue; } //This method can fire before the stock fully initializes, so we need to make sure bogies exist.
-            if (train.backLink != null && last.backLink != null
-                    && last == train.backLink
-                    && train == last.backLink) {
-                train.bogieBack.multiplyVelocity(-vel);
-                train.bogieFront.multiplyVelocity(-vel);
-            } else if (train.frontLink != null && last.frontLink != null
-                    && last == train.frontLink
-                    && train == last.frontLink) {
-                train.bogieBack.multiplyVelocity(-vel);
-                train.bogieFront.multiplyVelocity(-vel);
-            } else {
-                train.bogieBack.multiplyVelocity(vel);
-                train.bogieFront.multiplyVelocity(vel);
-            }
+            train.bogieBack.multiplyVelocity(vel);
+            train.bogieFront.multiplyVelocity(vel);
         }
     }
 

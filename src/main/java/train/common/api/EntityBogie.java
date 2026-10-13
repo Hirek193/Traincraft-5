@@ -50,6 +50,9 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 	public int meta,oldBlockX,oldBlockZ;
 	public EntityRollingStock entityMainTrain;
 	public TileTCRail lastTrack=null;
+	/** switch this bogie is on and the leg it chose (null = not decided yet), see moveOnTCRail */
+	private TileTCRail switchTile = null;
+	private Boolean switchTurn = null;
 	public Block l,oldL;
 
 
@@ -272,8 +275,32 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 					break;
 			}
 
-			if (goStraight) {
-				moveOnTCStraight(j, Math.abs(vx)>Math.abs(vz)?1:2);
+			// The state/direction rule above is only meaningful at the points. On the rest of the switch the
+			// bogie has to follow the leg it is physically on: the rule flipped when the velocity turned during
+			// the curve (vz/vx changing sign or crossing 0), the bogie got snapped onto the straight axis half a
+			// block sideways, and cars ended up turned beside the track. Pick the leg by geometry, use the rule
+			// only where both legs overlap, and keep the choice per bogie until it leaves the switch.
+			int switchMeta = lastTrack.getBlockMetadata();
+			boolean zAxis = switchMeta == 0 || switchMeta == 2;
+			double dStraight = zAxis ? Math.abs(posX - (lastTrack.getPos().getX() + 0.5D)) : Math.abs(posZ - (lastTrack.getPos().getZ() + 0.5D));
+			double dCurve = Math.abs(Math.sqrt((posX - lastTrack.cx) * (posX - lastTrack.cx) + (posZ - lastTrack.cz) * (posZ - lastTrack.cz)) - lastTrack.r);
+			if (switchTile != lastTrack) {
+				switchTile = lastTrack;
+				switchTurn = null;
+			}
+			boolean turn;
+			if (dStraight < 0.25D && dCurve < 0.25D) {
+				if (switchTurn == null) {
+					switchTurn = !goStraight;
+				}
+				turn = switchTurn;
+			} else {
+				turn = dCurve < dStraight;
+				switchTurn = turn;
+			}
+
+			if (!turn) {
+				moveOnTCStraight(j, zAxis ? 0 : 1);
 			} else {
 				moveOnTC90TurnRail(j, lastTrack.r, lastTrack.cx, lastTrack.cz);
 			}
@@ -496,6 +523,12 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		velocity[1] += bogieRotation.zCoord;
 	}
 
+	/** adds momentum as a world-space vector (blocks/tick); the rail code turns it along the track */
+	public void addVelocityVector(double x, double z) {
+		velocity[0] += x;
+		velocity[1] += z;
+	}
+
 	/** linking correction as a world-space vector (blocks/tick), see EntityRollingStock#manageLink */
 	public void addLinkingVector(double x, double z) {
 		velocity[2] += x;
@@ -650,13 +683,16 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 			// Fold the one-tick linking correction (velocity[2..3]) into the motion before moving. The rail code
 			// re-points every velocity component along the direction of the *total* motion and moves by the sum of
 			// magnitudes, so a correction pointing against the motion was added instead of subtracted and coupled
-			// cars accelerated each other until they shot off. It is taken out again after the move.
+			// cars accelerated each other until they shot off. Afterwards the car keeps exactly its own momentum
+			// (signed, along the new direction), so neither the linking nor the rail code's rounding (L1 norms,
+			// diagonal centring) can create speed: that made pushed wagons drive themselves and ignore the brakes.
+			limitSpeed(host, Math.sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]));
+			double mainX = velocity[0], mainZ = velocity[1];
 			double totalX = velocity[0] + velocity[2], totalZ = velocity[1] + velocity[3];
 			double totalNorm = Math.sqrt(totalX * totalX + totalZ * totalZ);
-			double linkingAlong = totalNorm > 1.0E-9 ? (velocity[2] * totalX + velocity[3] * totalZ) / totalNorm : 0D;
+			double mainAlong = totalNorm > 1.0E-9 ? (mainX * totalX + mainZ * totalZ) / totalNorm : 0D;
 			velocity[0] = totalX; velocity[1] = totalZ; velocity[2] = 0; velocity[3] = 0;
-			limitSpeed(host, totalNorm);
-			double speedMagnitude = Math.sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]);
+			double speedMagnitude = totalNorm;
 			if (l instanceof BlockRailBase) {
 				this.yOffsetLegacy = 0.3425f;
 				loopVanilla(host, speedMagnitude, (BlockRailBase) l);
@@ -669,12 +705,14 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 				posZ+=(velocity[3]+velocity[1])*0.5;
 				isOnRail = false;
 			}
-			// remove the linking part again so it doesn't turn into momentum (it may reverse the car)
-			double mainNorm = Math.sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]);
-			if (mainNorm > 1.0E-9 && linkingAlong != 0D) {
-				double f = Math.max(-1D, (mainNorm - linkingAlong) / mainNorm);
-				velocity[0] *= f;
-				velocity[1] *= f;
+			// back to the car's own momentum, pointing along the rail direction it ended up in
+			double afterNorm = Math.sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]);
+			if (totalNorm > 1.0E-9 && afterNorm > 1.0E-9) {
+				velocity[0] = velocity[0] / afterNorm * mainAlong;
+				velocity[1] = velocity[1] / afterNorm * mainAlong;
+			} else {
+				velocity[0] = mainX;
+				velocity[1] = mainZ;
 			}
 			velocity[2]=0;velocity[3]=0;
 		}
