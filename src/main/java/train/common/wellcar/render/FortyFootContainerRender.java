@@ -25,14 +25,14 @@ public class FortyFootContainerRender extends TileEntitySpecialRenderer {
                /* int skyLight = tileEntity.getWorldObj().getSkyBlockTypeBrightness(EnumSkyBlock.Block, (int)x,(int)y,(int)z);
 
                // skyLight= tileEntity.world.getSkyBlockTypeBrightness(EnumSkyBlock.Sky, (int)x, (int)y, (int)z) << 20 | (skyLight<0?0:skyLight) << 4; OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,  skyLight % 65536,  skyLight * 0.00001525878f);
-                GL11.glColor4f(1,1,1,1);
+                net.minecraft.client.renderer.GlStateManager.color(1,1,1,1);
                 tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
                 skyLight=tileEntity.world.getSkyBlockTypeBrightness(EnumSkyBlock.Sky, (int)x, (int)y, (int)z) << 20 | (Math.max(skyLight, 0)) << 4;
                 OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,  skyLight % 65536,  skyLight * 0.00001525878f);*/
-      //  GL11.glColor4f(1,1,1,1);
+      //  net.minecraft.client.renderer.GlStateManager.color(1,1,1,1);
 
         fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation("tc:textures/trains/container40_" + theTileEntity.getAvailableColors().get(theTileEntity.currentColor) + ".png"));
-       // GL11.glColor4f(1,1,1,1);
+       // net.minecraft.client.renderer.GlStateManager.color(1,1,1,1);
        // tessellator.setBrightness(theBlock.getMixedBrightnessForBlock(tileEntity.getWorld(), (int)x, (int)y, (int)z));
        // tessellator.setBrightness(15);
        // fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation("tc:textures/trains/test.png"));

@@ -398,7 +398,7 @@ public class ItemRollingStock extends ItemMinecart implements train.common.items
 
 
 		if (rollingStock != null) {
-			rollingStock.setPosition( i + 0.5D , j+ 0.3D, k + 0.5D);
+			rollingStock.setPosition( i + 0.5D , j + train.common.api.EntityBogie.RAIL_HEIGHT, k + 0.5D);
 			if (SkinRegistry.get(rollingStock).size()>0) {
 				rollingStock.setColor(rollingStock.getDefaultSkin());
 			}

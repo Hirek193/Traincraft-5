@@ -87,7 +87,7 @@ return 2;
     @Override
     public ModelBase[] getModel(){return new ModelBase[]{new Model1225Tender()};}
     @Override
-    public float[][] modelOffsets(){return new float[][]{{2.75f, 0.14999998f, 0.0625f}};}
+    public float[][] modelOffsets(){return new float[][]{{2.75f, -0.65f, 0.0625f}};}
     @Override
     public float[][] modelRotations(){return new float[][]{{0.0f, 0.0f, 180.0f}};}
     @Override

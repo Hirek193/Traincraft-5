@@ -57,7 +57,7 @@ class GuiButtonDynamicOverlay extends GuiButton {
     @Override
     public void drawButton(Minecraft mc, int par2, int par3, float partialTicks) {
         if (this.visible && showButton) {
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             RenderHelper.enableGUIStandardItemLighting();
             GL11.glPushMatrix();
             GL11.glTranslatef(0, 0, 10);

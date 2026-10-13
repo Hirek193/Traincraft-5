@@ -95,7 +95,13 @@ public class PacketSetTrainLockedToClient implements IMessage {
     public static class Handler implements IMessageHandler<PacketSetTrainLockedToClient, IMessage> {
 
         @Override
-        public IMessage onMessage(PacketSetTrainLockedToClient message, MessageContext context) {
+        public IMessage onMessage(final PacketSetTrainLockedToClient message, final MessageContext context) {
+            // 1.12 handles packets on the netty thread; touching the world/GUIs there races with the game thread
+            net.minecraftforge.fml.common.FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> handleOnMainThread(message, context));
+            return null;
+        }
+
+        private IMessage handleOnMainThread(PacketSetTrainLockedToClient message, MessageContext context) {
             if (context.side.isServer()) {
                 Entity TrainEntity = context.getServerHandler().player.world.getEntityByID(message.entityID);
                 if (!message.requestPacket) {

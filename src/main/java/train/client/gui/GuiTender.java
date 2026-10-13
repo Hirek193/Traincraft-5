@@ -209,7 +209,7 @@ public class GuiTender extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float f, int t, int g) {
         String i = Info.guiPrefix + "gui_tender.png";
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation, i));
 
         int j = (width - xSize) / 2;

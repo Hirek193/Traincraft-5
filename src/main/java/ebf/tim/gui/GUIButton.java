@@ -74,9 +74,9 @@ public abstract class GUIButton extends GuiButton {
         GL11.glPushMatrix();
         TextureManager.bindTexture(BUTTON_TEXTURES);
         if(getColor()!=null){
-            GL11.glColor4f(getColor()[0]*0.00392156862f, getColor()[1]*0.00392156862f, getColor()[2]*0.00392156862f, 1.0F);
+            net.minecraft.client.renderer.GlStateManager.color(getColor()[0]*0.00392156862f, getColor()[1]*0.00392156862f, getColor()[2]*0.00392156862f, 1.0F);
         } else{
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         }
         this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
         int k = hovered?2:1;
@@ -86,7 +86,7 @@ public abstract class GUIButton extends GuiButton {
         ClientUtil.drawTexturedRect(this.x, this.y, 0, 46 + k * 20, this.width / 2, this.height);
         ClientUtil.drawTexturedRect(this.x + this.width *0.5f, this.y, 200 - this.width / 2, 46 + k * 20, this.width / 2, this.height);
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         if(getIcon()!=null) {
             TextureManager.bindTexture(getIcon());
             if(getIconUV()==null){
@@ -110,7 +110,7 @@ public abstract class GUIButton extends GuiButton {
         this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, this.displayString, this.x + this.width / 2, this.y + (this.height - 8) / 2, l);
 
         RenderHelper.disableStandardItemLighting();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
     }
 
@@ -162,7 +162,7 @@ public abstract class GUIButton extends GuiButton {
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             RenderHelper.enableStandardItemLighting();
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 

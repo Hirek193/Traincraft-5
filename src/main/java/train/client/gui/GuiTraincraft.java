@@ -109,7 +109,7 @@ public abstract class GuiTraincraft extends GuiContainer {
         mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation, guiTexture));
 
         GL11.glEnable(GL11.GL_BLEND);
-        GL11.glColor4f(1.0F, 1.F, 1.0F, 0.3F);
+        net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.F, 1.0F, 0.3F);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         drawTexturedModalRect(j + x, k + y, 240, 0, 16, 16);
         GL11.glDisable(GL11.GL_BLEND);
@@ -153,7 +153,7 @@ public abstract class GuiTraincraft extends GuiContainer {
             }
 
             String guiTexture = tier.getGUITexture();
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
+            net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 0.9F);
 
             mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation, guiTexture));
 
@@ -164,14 +164,14 @@ public abstract class GuiTraincraft extends GuiContainer {
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
             if (states[l] == 1) {
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.4F);
+                net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 0.4F);
                 drawTexturedModalRect(j + x - 7, k + y - 7, 209, 1, 30, 30);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 drawTexturedModalRect(j + x - 7, k + y - 7, 209, 60, 30, 30);
             } else if (states[l] == 2) {
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.4F);
+                net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 0.4F);
                 drawTexturedModalRect(j + x - 7, k + y - 7, 178, 1, 30, 30);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 drawTexturedModalRect(j + x - 7, k + y - 7, 178, 60, 30, 30);
             }
             GL11.glDisable(GL11.GL_BLEND);
@@ -230,7 +230,7 @@ public abstract class GuiTraincraft extends GuiContainer {
         }
 
         String guiTexture = tier.getGUITexture();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.3F);
+        net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 0.3F);
 
         mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation, guiTexture));
 

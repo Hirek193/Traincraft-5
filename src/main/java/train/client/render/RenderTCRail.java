@@ -47,6 +47,16 @@ public class RenderTCRail extends TileEntitySpecialRenderer {
     public RenderTCRail() {
     }
 
+    /**
+     * Non-global TESRs are only drawn while the 16x16x16 chunk section holding the tile is visible, so a big
+     * curve disappeared when its first block's section was culled/occluded although the rest of it was in view.
+     * Global renderers are frustum-checked against TileTCRail#getRenderBoundingBox instead.
+     */
+    @Override
+    public boolean isGlobalRenderer(TileEntity te) {
+        return te instanceof TileTCRail && ((TileTCRail) te).hasModel;
+    }
+
     public static RailShapeCore trackRoute;
     @Override
     public void render(TileEntity var1, double x, double y, double z, float var8, int destroyStage, float alpha) {

@@ -56,7 +56,7 @@ public class SideTabRecipes extends SideTab {
         drawRect(x - 59, y + 30, -40, 85, 0xff293240);
         drawRect(x - 58, y + 29, -41, 86, 0xff293240);
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         gui.drawTexturedModalRect(x - 76, y + 34, 0, 64, 16, 16);
         gui.drawTexturedModalRect(x - 16, y + 34, 16, 64, 16, 16);
 

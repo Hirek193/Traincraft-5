@@ -46,7 +46,7 @@ public class GuiCustomButton extends GuiButton {
             FontRenderer var4 = mc.fontRenderer;
             mc.getTextureManager().bindTexture(new ResourceLocation(Info.resourceLocation, this.texture));
             //GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureInt);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             boolean var5 = par2 >= this.x && par3 >= this.y && par2 < this.x + this.width && par3 < this.y + this.height;
             this.drawTexturedModalRect(this.x, this.y, textureX, textureY, this.width, this.height);
             this.mouseDragged(mc, par2, par3);

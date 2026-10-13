@@ -86,7 +86,7 @@ public class GuiCrafterTier extends GuiTraincraft {
         int k = (height - ySize) / 2;
 
         mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation, tier1.getGUITexture()));
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         drawTexturedModalRect(j, k, 0, 0, this.xSize, this.ySize);
 
         borderSlots(recipeList, states);
@@ -116,7 +116,7 @@ public class GuiCrafterTier extends GuiTraincraft {
             }
             if (currentRenderTabY == 120) {
                 GL11.glPushMatrix();
-                GL11.glColor3f(1, 1, 1);
+                net.minecraft.client.renderer.GlStateManager.color(1, 1, 1);
                 GL11.glTranslatef(guiLeft - 70, this.guiTop + 170, 100);
 
                 RenderHelper.enableGUIStandardItemLighting();

@@ -55,7 +55,7 @@ public class SideTabSlots extends SideTab {
         drawRect(x - 91, y + 30, -4, 135, 0xff02142d);
         drawRect(x - 90, y + 29, -5, 136, 0xff02142d);
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         for (int i = 0; i < 4; i++) {
             if (array[i] == 0) {

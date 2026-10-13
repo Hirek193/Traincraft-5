@@ -87,7 +87,7 @@ return 2;
     @Override
     public ModelBase[] getModel(){return new ModelBase[]{new ModelKClassRailBox()};}
     @Override
-    public float[][] modelOffsets(){return new float[][]{{-1.5f, -0.6f, 0.125f}};}
+    public float[][] modelOffsets(){return new float[][]{{-1.5f, 0.1f, 0.125f}};}
     @Override
     public float[][] modelRotations(){return new float[][]{{0.0f, 180.0f, 180.0f}};}
     @Override

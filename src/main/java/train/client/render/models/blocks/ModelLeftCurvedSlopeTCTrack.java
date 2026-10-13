@@ -51,7 +51,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
             float r = (float)(ballastColour >> 16 & 255) / 255.0F;
             float g = (float)(ballastColour >> 8 & 255) / 255.0F;
             float b = (float)(ballastColour & 255) / 255.0F;
-            GL11.glColor4f(r,g,b,1);
+            net.minecraft.client.renderer.GlStateManager.color(r,g,b,1);
             modelLargeLeftCurvedBallast.renderAll();
 
         }
@@ -64,7 +64,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
             float r = (float)(ballastColour >> 16 & 255) / 255.0F;
             float g = (float)(ballastColour >> 8 & 255) / 255.0F;
             float b = (float)(ballastColour & 255) / 255.0F;
-            GL11.glColor4f(r,g,b,1);
+            net.minecraft.client.renderer.GlStateManager.color(r,g,b,1);
             modelLargeLeftCurvedBallast.renderAll();
 
         }
@@ -77,7 +77,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
             float r = (float)(ballastColour >> 16 & 255) / 255.0F;
             float g = (float)(ballastColour >> 8 & 255) / 255.0F;
             float b = (float)(ballastColour & 255) / 255.0F;
-            GL11.glColor4f(r,g,b,1);
+            net.minecraft.client.renderer.GlStateManager.color(r,g,b,1);
             modelVeryLargeLeftCurvedBallast.renderAll();
 
         }
@@ -90,7 +90,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
             float r = (float)(ballastColour >> 16 & 255) / 255.0F;
             float g = (float)(ballastColour >> 8 & 255) / 255.0F;
             float b = (float)(ballastColour & 255) / 255.0F;
-            GL11.glColor4f(r,g,b,1);
+            net.minecraft.client.renderer.GlStateManager.color(r,g,b,1);
             modelVeryLargeLeftCurvedBallast.renderAll();
 
         }
@@ -102,7 +102,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
             float r = (float)(ballastColour >> 16 & 255) / 255.0F;
             float g = (float)(ballastColour >> 8 & 255) / 255.0F;
             float b = (float)(ballastColour & 255) / 255.0F;
-            GL11.glColor4f(r,g,b,1);
+            net.minecraft.client.renderer.GlStateManager.color(r,g,b,1);
             modelSuperLargeLeftCurvedBallast.renderAll();
 
         }
@@ -115,7 +115,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
             float r = (float)(ballastColour >> 16 & 255) / 255.0F;
             float g = (float)(ballastColour >> 8 & 255) / 255.0F;
             float b = (float)(ballastColour & 255) / 255.0F;
-            GL11.glColor4f(r,g,b,1);
+            net.minecraft.client.renderer.GlStateManager.color(r,g,b,1);
             modelSuperLargeLeftCurvedBallast.renderAll();
 
         }
@@ -149,7 +149,7 @@ public class ModelLeftCurvedSlopeTCTrack extends ModelBase {
         // center of the object)
         GL11.glTranslatef((float) x , (float) y, (float) z);
 
-        GL11.glColor4f(r, g, b, a);
+        net.minecraft.client.renderer.GlStateManager.color(r, g, b, a);
         // GL11.glScalef(0.5f, 0.5f, 0.5f);
         if (facing == 2) {
             GL11.glTranslatef((float) 0, (float) 0, (float) +1);

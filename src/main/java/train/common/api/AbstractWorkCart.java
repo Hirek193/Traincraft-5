@@ -326,7 +326,7 @@ public abstract class AbstractWorkCart extends EntityRollingStock{
 		setDamage(getDamage() + i * 10);
 		if (getDamage() > 40) {
 			if (ebf.tim.utility.CommonUtil.rider(this) != null) {
-				ebf.tim.utility.CommonUtil.rider(this).startRiding(this);
+				this.removePassengers(); // 1.7.10 mountEntity(this) dismounted, 1.12 startRiding would mount
 			}
 			this.setDead();
 			ServerLogger.deleteWagon(this);

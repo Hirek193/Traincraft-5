@@ -51,7 +51,13 @@ public class PacketSeatUpdate implements IMessage {
     }
 
     public static class Handler implements IMessageHandler<PacketSeatUpdate,IMessage> {
-        @Override public IMessage onMessage(PacketSeatUpdate message, MessageContext ctx) {
+        @Override public IMessage onMessage(final PacketSeatUpdate message, final MessageContext ctx) {
+            // 1.12 handles packets on the netty thread; touching the world/GUIs there races with the game thread
+            net.minecraftforge.fml.common.FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handleOnMainThread(message, ctx));
+            return null;
+        }
+
+        private IMessage handleOnMainThread(PacketSeatUpdate message, MessageContext ctx) {
             EntityRollingStock rollingStockEntity;
             EntityPlayer playerEntity;
             EntitySeat oldSeat;

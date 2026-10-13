@@ -34,7 +34,7 @@ public class ModelMediumStraightTCTrack extends ModelBase {
 
 		// Move the object into the correct position on the block (because the OBJ's origin is the center of the object)
 		GL11.glTranslatef((float) x + 0.5f, (float) y, (float) z + 0.5f);
-		GL11.glColor4f(1, 1, 1, 1);
+		net.minecraft.client.renderer.GlStateManager.color(1, 1, 1, 1);
 		//GL11.glScalef(0.5f, 0.5f, 0.5f);
 		int facing = CommonUtil.getBlockFacing(tcRail.getWorld(), tcRail.getPos().getX(), tcRail.getPos().getY(), tcRail.getPos().getZ());
 

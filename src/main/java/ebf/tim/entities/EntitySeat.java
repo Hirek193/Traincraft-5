@@ -185,7 +185,10 @@ public class EntitySeat extends Entity implements IEntityAdditionalSpawnData {
     @Override
     public void updatePassenger(Entity passenger) {
         if (this.getPassenger() != null) {
-            this.getPassenger().setPosition(this.posX, this.posY+1+(world.isRemote?(this.getPassenger()==Minecraft.getMinecraft().player?-0.4:-1.3):-1.5), this.posZ);
+            // 1.7.10 positioned the player by its eye height on the local client (posY was the eye there) and by
+            // its feet everywhere else. In 1.12 posY is always the feet, so the old +0.6 put the driver on the
+            // roof. Use what the local player saw in 1.7.10 (feet = seat - 1.02, eyes = seat + 0.6) on both sides.
+            this.getPassenger().setPosition(this.posX, this.posY - 1.02D, this.posZ);
         }
     }
 

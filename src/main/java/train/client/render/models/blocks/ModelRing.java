@@ -28,7 +28,7 @@ private TCObjModel ring;
 	public void render(int color) {
 		//GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPushMatrix();
-		GL11.glColor4f(1, 1, 1, 1);
+		net.minecraft.client.renderer.GlStateManager.color(1, 1, 1, 1);
 		fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(Info.resourceLocation, Info.modelTexPrefix + "ring.png"));
 		render();
 		GL11.glPopMatrix();

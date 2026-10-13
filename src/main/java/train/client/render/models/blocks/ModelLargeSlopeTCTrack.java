@@ -75,7 +75,7 @@ public class ModelLargeSlopeTCTrack extends ModelBase {
 			float r = (float)(ballastColour >> 16 & 255) / 255.0F;
 			float g = (float)(ballastColour >> 8 & 255) / 255.0F;
 			float b = (float)(ballastColour & 255) / 255.0F;
-			GL11.glColor4f(r,g,b,1);
+			net.minecraft.client.renderer.GlStateManager.color(r,g,b,1);
 			modelLargeSlopeBallast.renderAll();
 		}
 		if (type.equals("embedded_dynamic")) {
@@ -85,7 +85,7 @@ public class ModelLargeSlopeTCTrack extends ModelBase {
 			float r = (float)(ballastColour >> 16 & 255) / 255.0F;
 			float g = (float)(ballastColour >> 8 & 255) / 255.0F;
 			float b = (float)(ballastColour & 255) / 255.0F;
-			GL11.glColor4f(r,g,b,1);
+			net.minecraft.client.renderer.GlStateManager.color(r,g,b,1);
 			modelLargeSlopeBallast.renderAll();
 		}
 	}
@@ -114,7 +114,7 @@ public class ModelLargeSlopeTCTrack extends ModelBase {
 		// Move the object into the correct position on the block (because the OBJ's origin is the center of the object)
 		GL11.glTranslatef((float) x + 0.5f, (float) y, (float) z + 0.5f);
 
-		GL11.glColor4f(r, g, b, a);
+		net.minecraft.client.renderer.GlStateManager.color(r, g, b, a);
 		//GL11.glScalef(0.5f, 0.5f, 0.5f);
 
 		if (facing == 3) {

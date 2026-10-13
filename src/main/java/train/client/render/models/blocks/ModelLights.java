@@ -36,10 +36,10 @@ public class ModelLights extends ModelBase {
 		GL11.glEnable(GL11.GL_BLEND);
 		fexcraft.tmt.slim.Tessellator.bindTexture(new ResourceLocation(Info.resourceLocation,Info.modelTexPrefix + "lights.png"));
 		render("Bulb_1");
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.3f);
+		net.minecraft.client.renderer.GlStateManager.color(1.0f, 1.0f, 1.0f, 0.3f);
 		render("Plane_1");
 		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		net.minecraft.client.renderer.GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 		Minecraft.getMinecraft().entityRenderer.enableLightmap();
 		GL11.glPopMatrix();
 	}

@@ -53,7 +53,13 @@ public class PacketKeyPress implements IMessage {
 
     public static class Handler implements IMessageHandler<PacketKeyPress, IMessage> {
     @Override
-    public IMessage onMessage(PacketKeyPress message, MessageContext context) {
+    public IMessage onMessage(final PacketKeyPress message, final MessageContext context) {
+        // 1.12 handles packets on the netty thread; touching the world/GUIs there races with the game thread
+        net.minecraftforge.fml.common.FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> handleOnMainThread(message, context));
+        return null;
+    }
+
+    private IMessage handleOnMainThread(PacketKeyPress message, MessageContext context) {
         Entity ridingEntity = context.getServerHandler().player.getRidingEntity();
 
         if (ridingEntity instanceof EntitySeat) {

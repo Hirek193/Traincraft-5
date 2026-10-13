@@ -86,7 +86,7 @@ return 1;
     @Override
     public ModelBase[] getModel(){return new ModelBase[]{new ModelPassenger7()};}
     @Override
-    public float[][] modelOffsets(){return new float[][]{{0.0f, -0.060000002f, 0.0f}};}
+    public float[][] modelOffsets(){return new float[][]{{0f, -0.44f, 0f}};}
     @Override
     public float[][] modelRotations(){return new float[][]{{0.0f, 90.0f, 0.0f}};}
     @Override

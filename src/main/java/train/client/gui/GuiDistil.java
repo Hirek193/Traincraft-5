@@ -85,7 +85,7 @@ public class GuiDistil extends GuiContainer {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float f, int t, int g) {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation, Info.guiPrefix + "gui_distillation_tower2.png"));
         int j = (width - xSize) / 2;
         int k = (height - ySize) / 2;

@@ -246,7 +246,7 @@ public class GuiDynamicOverlay extends GuiScreen {
                 int colorColumn = color.ordinal() % 5;
                 int colorRow = color.ordinal() / 5;
                 GL11.glPushMatrix();
-                GL11.glColor4f(1, 1, 1, 1);
+                net.minecraft.client.renderer.GlStateManager.color(1, 1, 1, 1);
                 GL11.glTranslatef(0, 0, 100);
                 mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation, Info.guiPrefix + "gui_dynamic_overlay.png"));
                 this.drawTexturedModalRect((colorColumn * 28) + COLORGRID_ANCHOR_X_TOPLEFT, (colorRow * 28) + COLORGRID_ANCHOR_Y_TOPLEFT, 0, 112, 28, 28);

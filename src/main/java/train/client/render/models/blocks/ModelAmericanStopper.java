@@ -46,7 +46,7 @@ public class ModelAmericanStopper extends ModelBase {
         GL11.glRotatef(90, 0, 1, 0);
         fexcraft.tmt.slim.Tessellator
                 .bindTexture(new ResourceLocation(Info.resourceLocation, Info.modelTexPrefix + "american_stopper.png"));
-        GL11.glColor4f(1, 1, 1, 1);
+        net.minecraft.client.renderer.GlStateManager.color(1, 1, 1, 1);
         track.renderAll();
         GL11.glPopMatrix();
     }
@@ -57,7 +57,7 @@ public class ModelAmericanStopper extends ModelBase {
         GL11.glRotatef(90, 0, 1, 0);
         fexcraft.tmt.slim.Tessellator
                 .bindTexture(new ResourceLocation(Info.resourceLocation, Info.modelTexPrefix + "american_stopper.png"));
-        GL11.glColor4f(1, 1, 1, 1);
+        net.minecraft.client.renderer.GlStateManager.color(1, 1, 1, 1);
         track.renderAll();
     }
 }

@@ -60,7 +60,7 @@ public class HUDloco extends GuiScreen {
     public void renderSkillHUD(RenderGameOverlayEvent event, Locomotive rcCar) {
         windowWidth = event.getResolution().getScaledWidth();
         windowHeight = event.getResolution().getScaledHeight() - 100;
-        GL11.glColor4f(255, 255, 255, 255);
+        net.minecraft.client.renderer.GlStateManager.color(255, 255, 255, 255);
         renderBG(rcCar);
 
         // Render Water Bar because the steam train has water.

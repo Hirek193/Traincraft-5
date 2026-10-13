@@ -255,7 +255,7 @@ public class GuiControlCar extends GuiContainer
     protected void drawGuiContainerBackgroundLayer(float f, int t, int g) {
         String controlCarGUIFilePath = Info.guiPrefix + "gui_loco.png";
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation, controlCarGUIFilePath));
         int j = (width - xSize) / 2;
         int k = (height - ySize) / 2;

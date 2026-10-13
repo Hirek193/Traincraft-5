@@ -86,7 +86,7 @@ return 3;
     @Override
     public ModelBase[] getModel(){return new ModelBase[]{new ModelMILWTender()};}
     @Override
-    public float[][] modelOffsets(){return new float[][]{{0.15f, -0.555f, 0.025f}};}
+    public float[][] modelOffsets(){return new float[][]{{0.15f, 0.055f, 0.025f}};}
     @Override
     public float[][] modelRotations(){return new float[][]{{0.0f, 180.0f, 180.0f}};}
     @Override

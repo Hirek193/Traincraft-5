@@ -548,7 +548,7 @@ public class GuiRecipeBook extends GuiScreen {
 		int SEARCH_BOX_TEXT_MAX_WIDTH = 136;
 
 		if (this.currPage > 0) {
-			//GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			//net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation,Info.bookPrefix + "bookright.png"));
 			this.drawTexturedModalRect(var5, var6, 0, 0, this.bookImageWidth, this.bookImageHeight + 20);
 			mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation,Info.bookPrefix + "searchbar.png"));
@@ -563,6 +563,7 @@ public class GuiRecipeBook extends GuiScreen {
 			this.drawTexturedModalRect(var5 - 55, var6 - 15, 0, 0, 256, 256);
 		}
 
+        train.client.render.gl.GLStateHelper.resync();
         pageIndic = String.format(CommonUtil.translate("book.pageIndicator"), new Object[]{this.currPage + 1, this.bookTotalPages});
 
 		var9 = this.fontRenderer.getStringWidth(pageIndic);
@@ -572,6 +573,9 @@ public class GuiRecipeBook extends GuiScreen {
 		}
 		super.drawScreen(par1, par2, par3);
 
+        // item renderers set the GL colour behind GlStateManager's back; the font renderer then skips
+        // "set black" because the cache already says black, and the page text came out white
+        train.client.render.gl.GLStateHelper.resync();
         if (this.currPage < rightPage.size()) {
             this.fontRenderer.drawSplitString(leftPage.get(this.currPage), var5 + 36, var6 + 16 + 16, 140, 0);
 
@@ -632,7 +636,7 @@ public class GuiRecipeBook extends GuiScreen {
 
     private void drawWorkBenchBackground(List<ShapedTrainRecipes> recipeListWB, int var5, int var6, int page, int var9, String side) {
         //int var4 = this.mc.renderEngine.getTexture("/gui/crafting.png");
-        //GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        //net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation, Info.guiPrefix + "crafting_table.png"));
         if (side.equals("left")) this.drawTexturedModalRect(var5 + 20, var6 + 50, 0, 0, 177, 80);
         if (side.equals("right")) this.drawTexturedModalRect(var5 + 215, var6 + 50, 0, 0, 177, 80);

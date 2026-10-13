@@ -64,7 +64,7 @@ public class ModelSmallStraightTCTrack extends ModelBase {
 		// center of the object)
 		GL11.glTranslatef((float) x + 0.5f, (float) y, (float) z + 0.5f);
 
-		GL11.glColor4f(r, g, b, a);
+		net.minecraft.client.renderer.GlStateManager.color(r, g, b, a);
 		// GL11.glScalef(0.5f, 0.5f, 0.5f);
 
 		if (facing == 3) {
@@ -132,7 +132,7 @@ public class ModelSmallStraightTCTrack extends ModelBase {
 			float r =  (float)(colour >> 16 & 255) / 255.0F;
 			float g = (float)(colour >> 8 & 255) / 255.0F;
 			float b = (float)(colour & 255) / 255.0F;
-			GL11.glColor4f(r,g,b,1);
+			net.minecraft.client.renderer.GlStateManager.color(r,g,b,1);
 			modelRoadCrossingDynamic.renderAll();
 
 

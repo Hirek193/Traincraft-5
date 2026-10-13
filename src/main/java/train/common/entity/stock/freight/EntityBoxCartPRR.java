@@ -86,7 +86,7 @@ return 2;
     @Override
     public ModelBase[] getModel(){return new ModelBase[]{new ModelPRRX31Wagon()};}
     @Override
-    public float[][] modelOffsets(){return new float[][]{{0.0f, -0.120000005f, 0.0f}};}
+    public float[][] modelOffsets(){return new float[][]{{0f, -0.38f, 0f}};}
     @Override
     public float[][] modelRotations(){return new float[][]{{0.0f, 180.0f, 180.0f}};}
     @Override

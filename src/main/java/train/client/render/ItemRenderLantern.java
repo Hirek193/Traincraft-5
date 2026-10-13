@@ -57,7 +57,7 @@ public class ItemRenderLantern extends TCItemRenderer {
         float f2 = (float) (0x4f4e4a >> 16 & 255) / 255.0F;
         float f3 = (float) (0x4f4e4a >> 8 & 255) / 255.0F;
         float f4 = (float) (0x4f4e4a & 255) / 255.0F;
-        GL11.glColor3f(f2, f3, f4);
+        net.minecraft.client.renderer.GlStateManager.color(f2, f3, f4);
 
         modelLantern.render();
 

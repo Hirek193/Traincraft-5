@@ -139,7 +139,13 @@ public class ItemAdminBook extends Item implements train.common.items.ILegacyIco
 
         public static class Handler implements IMessageHandler<PacketAdminBookClient, IMessage> {
             @Override
-            public IMessage onMessage(PacketAdminBookClient message, MessageContext context) {
+            public IMessage onMessage(final PacketAdminBookClient message, final MessageContext context) {
+                // 1.12 handles packets on the netty thread; touching the world/GUIs there races with the game thread
+                net.minecraftforge.fml.common.FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> handleOnMainThread(message, context));
+                return null;
+            }
+
+            private IMessage handleOnMainThread(PacketAdminBookClient message, MessageContext context) {
                 int event = 0;
                 if (message.id.length() > 2 && message.id.startsWith("0:")) {
                     message.id = message.id.substring(2);

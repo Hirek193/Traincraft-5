@@ -237,7 +237,7 @@ public class ModelTies {
 
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         for (Vec5f p: points) {
-            GL11.glColor4f(
+            net.minecraft.client.renderer.GlStateManager.color(
                     (color[0]-125)* 0.00392156863f,
                     (color[1]-138)* 0.00392156863f,
                     (color[2]-155)* 0.00392156863f, 1);

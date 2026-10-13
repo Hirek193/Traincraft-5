@@ -87,7 +87,7 @@ return 2;
     @Override
     public ModelBase[] getModel(){return new ModelBase[]{new ModelFreightCarL()};}
     @Override
-    public float[][] modelOffsets(){return new float[][]{{0.0f, -0.7f, 0.825f}};}
+    public float[][] modelOffsets(){return new float[][]{{0f, 0.2f, 0.825f}};}
     @Override
     public float[][] modelRotations(){return new float[][]{{0.0f, 180.0f, 180.0f}};}
     @Override

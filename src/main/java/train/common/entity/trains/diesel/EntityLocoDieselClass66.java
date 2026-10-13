@@ -88,14 +88,14 @@ return 2;
     @Override
     public ModelBase[] getModel(){return new ModelBase[]{new ModelEWSClass66()};}
     @Override
-    public float[][] modelOffsets(){return new float[][]{{-3.0f, -1.15f, 0.0f}};}
+    public float[][] modelOffsets(){return new float[][]{{-3f, 0.65f, 0f}};}
     @Override
     public float[][] modelRotations(){return new float[][]{{0.0f, 90.0f, 180.0f}};}
     @Override
     public float[][] getRenderScale(){return new float[][]{null};}
     //these are separated for being fiddly.
     @Override
-    public float[][] getRiderOffsets(){return new float[][]{{0,1.2f, 0f}};}
+    public float[][] getRiderOffsets(){return new float[][]{{-3,1.25f,0.2f},{2.9f,1.25f,-0.15f}};}  // from the 1.7.10 class
     @Override
     public float[] getHitboxSize(){return new float[]{7.5f,2.1f,1.1f};}
     public TrainParticle[] getEffects(){

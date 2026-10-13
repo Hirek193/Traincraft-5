@@ -92,7 +92,7 @@ public class GuiJukebox extends GuiScreen {
         int var8 = (this.height) / 2 + gui_height / 2;
 
         drawRect(var5 + 2, var6 + 2, var7 + 2, var8 + 2, 0xffc6c6c6);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation, Info.guiPrefix + "gui_jukebox.png"));
 
         drawSquareCorners(2, 2, var5, var6, var7, var8, 0, 0);

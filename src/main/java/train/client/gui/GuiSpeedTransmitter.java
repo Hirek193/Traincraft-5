@@ -70,7 +70,7 @@ public class GuiSpeedTransmitter extends GuiScreen {
         drawDefaultBackground();
 
         this.drawCenteredString(this.fontRenderer, "Speed Transmitter Setup", this.width / 2, 40, 0xFFFFFFFF);
-        glColor3f(1, 1, 1);
+        net.minecraft.client.renderer.GlStateManager.color(1, 1, 1);
         this.drawString(this.fontRenderer, "Speed Limit: ", this.width / 2 - 90, 70, 0xFFFFFFFF);
         speedLimitTextField.drawTextBox();
         this.drawString(this.fontRenderer, "Speed Next Limit: ", this.width / 2 - 90, 90, 0xFFFFFFFF);

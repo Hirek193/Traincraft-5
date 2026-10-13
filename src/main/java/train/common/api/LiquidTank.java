@@ -48,6 +48,9 @@ public class LiquidTank extends EntityRollingStock implements ISidedInventory {
         super(world);
         this.capacity = getTankCapacity()[0];
         this.theTank = new FluidTank(liquid, capacity);
+        // slot 0: container to fill/empty, slot 1: output. The 1.7.10 subclasses allocated this themselves; the
+        // generated ones don't, and the tank GUI crashed the server (NPE in getStackInSlot)
+        this.cargoItems = new ItemStack[2];
         getDataWatcher().addObject(4, 0);
         getDataWatcher().addObject(22, "");
 
@@ -73,12 +76,31 @@ public class LiquidTank extends EntityRollingStock implements ISidedInventory {
     protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
         this.theTank.writeToNBT(nbttagcompound);
+        net.minecraft.nbt.NBTTagList items = new net.minecraft.nbt.NBTTagList();
+        for (int i = 0; i < cargoItems.length; i++) {
+            if (cargoItems[i] != null && !cargoItems[i].isEmpty()) {
+                NBTTagCompound slot = new NBTTagCompound();
+                slot.setByte("Slot", (byte) i);
+                cargoItems[i].writeToNBT(slot);
+                items.appendTag(slot);
+            }
+        }
+        nbttagcompound.setTag("Items", items);
     }
 
     @Override
     protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
         this.theTank.readFromNBT(nbttagcompound);
+        net.minecraft.nbt.NBTTagList items = nbttagcompound.getTagList("Items", net.minecraftforge.common.util.Constants.NBT.TAG_COMPOUND);
+        for (int i = 0; i < items.tagCount(); i++) {
+            NBTTagCompound slot = items.getCompoundTagAt(i);
+            int j = slot.getByte("Slot") & 0xff;
+            if (j < cargoItems.length) {
+                ItemStack stack = new ItemStack(slot);
+                cargoItems[j] = stack.isEmpty() ? null : stack;
+            }
+        }
     }
 
     @Override
@@ -87,6 +109,7 @@ public class LiquidTank extends EntityRollingStock implements ISidedInventory {
         if (world.isRemote) {
             return;
         }
+        checkInvent(cargoItems[0]); // was in every 1.7.10 tank subclass
 
         if (ticksExisted % 5 == 0 && fill(new FluidStack(FluidRegistry.WATER, 100), false) == 100) {
             FluidStack drain = null;
@@ -147,6 +170,9 @@ public class LiquidTank extends EntityRollingStock implements ISidedInventory {
         this.update += 1;
         if (this.update % 8 == 0 && itemstack != null) {
             ItemStack emptyItem = itemstack.getItem().getContainerItem(itemstack);
+            if (emptyItem != null && emptyItem.isEmpty()) {
+                emptyItem = null; // 1.12 returns EMPTY instead of null
+            }
             if (cargoItems[1] == null) {// If the output slot is empty...
                 if (theTank.getFluidAmount() == 0) {// Adding the first fluid to the tank...
                     for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
@@ -371,7 +397,7 @@ public class LiquidTank extends EntityRollingStock implements ISidedInventory {
         setDamage(getDamage() + i * 10);
         if (getDamage() > 40) {
             if (ebf.tim.utility.CommonUtil.rider(this) != null) {
-                ebf.tim.utility.CommonUtil.rider(this).startRiding(this);
+                this.removePassengers(); // 1.7.10 mountEntity(this) dismounted, 1.12 startRiding would mount
             }
             this.setDead();
             ServerLogger.deleteWagon(this);

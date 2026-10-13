@@ -95,7 +95,7 @@ return 2;
     @Override
     public ModelBase[] getModel(){return new ModelBase[]{new ModelTankWagonUS()};}
     @Override
-    public float[][] modelOffsets(){return new float[][]{{0.0f, -0.030000001f, 0.0f}};}
+    public float[][] modelOffsets(){return new float[][]{{0f, -0.47f, 0f}};}
 @Override
     public float[][] modelRotations(){return new float[][]{{0f,0f,0f}};}  // 1.7.10 RenderEnum: no rotation (was {0,180,180}: rendered upside down)
     @Override

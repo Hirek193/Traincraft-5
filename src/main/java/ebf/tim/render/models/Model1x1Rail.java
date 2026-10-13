@@ -111,7 +111,7 @@ public class Model1x1Rail {
         //GL11.glEnable(GL11.GL_NORMALIZE);
         GL11.glPushMatrix();
         GL11.glDisable(GL_TEXTURE_2D);
-        GL11.glColor4f(1,1,1,1);
+        net.minecraft.client.renderer.GlStateManager.color(1,1,1,1);
         switch (ClientProxy.railSkin){
             case 0:{
                 ModelRail.modelPotatoRail(shape, shape.renderScale, colors); break;}
@@ -123,7 +123,7 @@ public class Model1x1Rail {
                 ModelRail.modelHDRail(shape, shape.renderScale, colors); break;}
         }
         GL11.glEnable(GL_TEXTURE_2D);
-        GL11.glColor4f(1.0f,1.0f,1.0f, 1.0f);
+        net.minecraft.client.renderer.GlStateManager.color(1.0f,1.0f,1.0f, 1.0f);
         GL11.glPopMatrix();
 
         fexcraft.tmt.slim.Tessellator.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);

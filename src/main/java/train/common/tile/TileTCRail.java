@@ -125,7 +125,7 @@ public class TileTCRail extends TileEntity implements ITickable {
 		Block type = getBlockType();
 		if (type == BlockIDs.tcRail.block )
 		{
-			bb = CommonUtil.createAABB(getPos().getX() - 32, getPos().getY(), getPos().getZ() - 32, getPos().getX() + 32, getPos().getY() , getPos().getZ() + 32);
+			bb = CommonUtil.createAABB(getPos().getX() - 32, getPos().getY() - 2, getPos().getZ() - 32, getPos().getX() + 33, getPos().getY() + 6, getPos().getZ() + 33); // slopes climb, the box was flat
 		}
 
 		return bb;

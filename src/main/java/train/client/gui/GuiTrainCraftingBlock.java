@@ -24,7 +24,7 @@ public class GuiTrainCraftingBlock extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
         String guiTexture = Info.guiPrefix + "crafting_table.png";
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation, guiTexture));
 

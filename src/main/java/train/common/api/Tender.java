@@ -9,6 +9,7 @@ import net.minecraft.util.math.MathHelper;
 import ebf.tim.utility.CommonUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.util.EnumFacing;
@@ -38,8 +39,13 @@ public abstract class Tender extends Freight implements IFluidHandler {
         this(new FluidStack(fluid, quantity), world, null);
     }
     public Tender(World world){
-        super(world);
+        // the generated tender classes only call this one: it left the tank, the tank data watchers (4, 27) and
+        // the item slots uninitialised, so the GUI/HUD and saving the world crashed. Same setup as the 1.7.10 tenders.
+        this((FluidStack) null, world, LiquidManager.WATER_FILTER);
     }
+
+    /** fuel slot + 15 cargo slots, as InventoryTender lays them out */
+    public static final int TENDER_SLOTS = 16;
 
     public Tender(World world, Fluid fluid, int quantity, FluidStack filter) {
         this(new FluidStack(fluid, quantity), world, filter);
@@ -56,23 +62,43 @@ public abstract class Tender extends Freight implements IFluidHandler {
         tankArray[0] = theTank;
         getDataWatcher().addObject(4, 0);
         getDataWatcher().addObject(27, 0);
+        this.tenderItems = new ItemStack[TENDER_SLOTS];
     }
 
     @Override
     public int getSizeInventory(){
-        return super.getSizeInventory()+2;
+        return this.tenderItems == null ? TENDER_SLOTS : this.tenderItems.length;
     }
 
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
         this.theTank.writeToNBT(nbttagcompound);
+        NBTTagList items = new NBTTagList();
+        for (int i = 0; i < tenderItems.length; i++) {
+            if (tenderItems[i] != null && !tenderItems[i].isEmpty()) {
+                NBTTagCompound slot = new NBTTagCompound();
+                slot.setByte("Slot", (byte) i);
+                tenderItems[i].writeToNBT(slot);
+                items.appendTag(slot);
+            }
+        }
+        nbttagcompound.setTag("TenderItems", items);
     }
 
     @Override
     protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
         this.theTank.readFromNBT(nbttagcompound);
+        NBTTagList items = nbttagcompound.getTagList("TenderItems", net.minecraftforge.common.util.Constants.NBT.TAG_COMPOUND);
+        for (int i = 0; i < items.tagCount(); i++) {
+            NBTTagCompound slot = items.getCompoundTagAt(i);
+            int j = slot.getByte("Slot") & 0xff;
+            if (j < tenderItems.length) {
+                ItemStack stack = new ItemStack(slot);
+                tenderItems[j] = stack.isEmpty() ? null : stack;
+            }
+        }
     }
 
     @Override
@@ -80,6 +106,7 @@ public abstract class Tender extends Freight implements IFluidHandler {
         super.onUpdate();
         if (world.isRemote)
             return;
+        checkInvent(tenderItems[0], this); // was in every 1.7.10 tender subclass
         if (theTank != null && theTank.getFluid() != null) {
             getDataWatcher().updateObject(27, theTank.getFluid().amount);
             getDataWatcher().updateObject(4, LiquidManager.fluidId(theTank.getFluid().getFluid()));

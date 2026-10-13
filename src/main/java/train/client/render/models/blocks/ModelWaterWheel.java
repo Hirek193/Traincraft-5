@@ -42,7 +42,7 @@ public class ModelWaterWheel extends ModelBase {
 		float f2 = (float) (j >> 16 & 255) / 255.0F;
 		float f3 = (float) (j >> 8 & 255) / 255.0F;
 		float f4 = (float) (j & 255) / 255.0F;
-		GL11.glColor4f(f1 * f2, f1 * f3, f1 * f4, 1);
+		net.minecraft.client.renderer.GlStateManager.color(f1 * f2, f1 * f3, f1 * f4, 1);
 		// Render the object, using modelTutBox.renderAll();
 		int facing = CommonUtil.getBlockFacing(waterWheel.getWorld(), (int) waterWheel.getPos().getX(), (int) waterWheel.getPos().getY(), (int) waterWheel.getPos().getZ());
 		if (facing == 3) {
@@ -75,7 +75,7 @@ public class ModelWaterWheel extends ModelBase {
 			}
 		}
 		this.render();
-		//GL11.glColor3f(1, 1, 1);
+		//net.minecraft.client.renderer.GlStateManager.color(1, 1, 1);
 
 		// Pop this matrix from the stack.
 		GL11.glPopMatrix();

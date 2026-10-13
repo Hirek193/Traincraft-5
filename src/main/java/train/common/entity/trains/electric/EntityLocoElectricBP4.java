@@ -87,14 +87,14 @@ return 3;
     @Override
     public ModelBase[] getModel(){return new ModelBase[]{new ModelBP4()};}
     @Override
-    public float[][] modelOffsets(){return new float[][]{{-2.2f, -0.65f, 0.0f}};}
+    public float[][] modelOffsets(){return new float[][]{{-2.2f, 0.15f, 0f}};}
     @Override
     public float[][] modelRotations(){return new float[][]{{0.0f, 180.0f, 180.0f}};}
     @Override
     public float[][] getRenderScale(){return new float[][]{null};}
     //these are separated for being fiddly.
     @Override
-    public float[][] getRiderOffsets(){return new float[][]{{0,1.2f, 0f}};}
+    public float[][] getRiderOffsets(){return new float[][]{{-1.7f,1.35f,0.25f}};}  // from the 1.7.10 class
     @Override
     public float[] getHitboxSize(){return new float[]{5.649999976158142f,2.1f,1.1f};}
     public TrainParticle[] getEffects(){

@@ -54,7 +54,7 @@ class GuiButtonRecipeSearch extends GuiButton {
                 else
                     this.setType(Type.SEARCH, Texture.INACTIVE);
             }
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            net.minecraft.client.renderer.GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             mc.renderEngine.bindTexture(new ResourceLocation(Info.resourceLocation, Info.bookPrefix + "searchbar.png"));
             this.drawTexturedModalRect(this.x, this.y, u, v, 10, 10);
         }

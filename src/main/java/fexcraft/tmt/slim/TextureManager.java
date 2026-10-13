@@ -100,7 +100,7 @@ public class TextureManager {
     public static void adjustLightFixture(World world, int i, int j, int k) {
         skyLight = world.getCombinedLight(new net.minecraft.util.math.BlockPos(i, j, k), 0);
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,  skyLight % 65536,  skyLight * 0.00001525878f);
-        GL11.glColor4f(1, 1, 1, 1);//fixes alpha layering bugs with other mods that don't clear their GL cache
+        net.minecraft.client.renderer.GlStateManager.color(1, 1, 1, 1);//fixes alpha layering bugs with other mods that don't clear their GL cache
     }
 
     private static FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);
@@ -427,10 +427,10 @@ public class TextureManager {
         GL11.glTranslatef(0,(Minecraft.getMinecraft().displayHeight*0.5f)-(scale*0.5f),500);
 
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glColor4f(0.75f,0.75f,0.75f,1);
+        net.minecraft.client.renderer.GlStateManager.color(0.75f,0.75f,0.75f,1);
         ClientUtil.drawTexturedRect(0,0,0,0,scale,scale);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glColor4f(1,1,1,1);
+        net.minecraft.client.renderer.GlStateManager.color(1,1,1,1);
 
         GL11.glScalef(scale/32f,scale/32f,scale/32f);
         RenderHelper.enableGUIStandardItemLighting();
@@ -479,7 +479,7 @@ public class TextureManager {
         GL11.glTranslatef(0,(Minecraft.getMinecraft().displayHeight*0.5f)-(scale*0.5f),500);
 
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glColor4f(1,1,1,1);
+        net.minecraft.client.renderer.GlStateManager.color(1,1,1,1);
         ClientUtil.drawTexturedRect(0,0,0,0,scale,scale);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 

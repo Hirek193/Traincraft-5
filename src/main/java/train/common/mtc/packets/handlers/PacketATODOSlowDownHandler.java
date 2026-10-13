@@ -53,7 +53,13 @@ public class PacketATODOSlowDownHandler implements IMessageHandler<PacketATODoSl
 
 
    @Override
-   public IMessage onMessage(PacketATODoSlowDown message, MessageContext ctx) {
+   public IMessage onMessage(final PacketATODoSlowDown message, final MessageContext ctx) {
+       // 1.12 handles packets on the netty thread; touching the world/GUIs there races with the game thread
+       net.minecraftforge.fml.common.FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handleOnMainThread(message, ctx));
+       return null;
+   }
+
+   private IMessage handleOnMainThread(PacketATODoSlowDown message, MessageContext ctx) {
 
 
          Entity trainEntity = ctx.getServerHandler().player.getEntityWorld().getEntityByID(message.entity);

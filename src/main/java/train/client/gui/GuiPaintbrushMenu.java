@@ -328,7 +328,7 @@ public class GuiPaintbrushMenu extends GuiScreen {
                 }
                 //DebugUtil.println(loopRenderColor);
                 renderEntity.setColor(loopRenderColor);
-                GL11.glColor4f(1, 1, 1, 1);
+                net.minecraft.client.renderer.GlStateManager.color(1, 1, 1, 1);
                 GL11.glPushMatrix();
                 GL11.glTranslated(offsetX + 205 + (i * 95), offsetY + 82, 400);
                 float scale = Math.max(renderEntity.getHitboxSize()[1],renderEntity.getHitboxSize()[0]);

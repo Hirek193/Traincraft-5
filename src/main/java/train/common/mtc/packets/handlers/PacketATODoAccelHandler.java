@@ -11,7 +11,13 @@ import train.common.mtc.packets.PacketDoAccel;
 
 public class PacketATODoAccelHandler implements IMessageHandler<PacketDoAccel, IMessage> {
 
-   public IMessage onMessage(PacketDoAccel message, MessageContext ctx) {
+   public IMessage onMessage(final PacketDoAccel message, final MessageContext ctx) {
+       // 1.12 handles packets on the netty thread; touching the world/GUIs there races with the game thread
+       net.minecraftforge.fml.common.FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handleOnMainThread(message, ctx));
+       return null;
+   }
+
+   private IMessage handleOnMainThread(PacketDoAccel message, MessageContext ctx) {
       Entity trainEntity = ctx.getServerHandler().player.getEntityWorld().getEntityByID(message.entity);
       if(trainEntity != null) {
          this.accel(trainEntity);

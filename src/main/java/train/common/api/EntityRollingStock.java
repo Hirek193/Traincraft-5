@@ -525,6 +525,23 @@ public class EntityRollingStock extends AbstractTrains implements ILinkableCart 
         }
         return false;
     }
+    /** the inventory GUI opened by right-clicking this car, -1 to ride it instead */
+    protected int getStorageGuiId() {
+        if (this instanceof Locomotive) {
+            return -1;
+        }
+        if (this instanceof Tender) {
+            return GuiIDs.TENDER;
+        }
+        if (this instanceof LiquidTank) {
+            return GuiIDs.LIQUID;
+        }
+        if (this instanceof Freight && this.getSizeInventory() > 0) {
+            return GuiIDs.FREIGHT;
+        }
+        return -1;
+    }
+
     public void keyHandlerFromPacket(int i, int player) {
         if (this.getTrainLockedFromPacket()) {
             if (isLockedAndNotOwner(player)) {
@@ -1006,16 +1023,16 @@ public class EntityRollingStock extends AbstractTrains implements ILinkableCart 
 
         double vecX = other.posX - posX;
         double vecZ = other.posZ - posZ;
-        double dist= MathHelper.sqrt(vecX * vecX + vecZ * vecZ) - (getOptimalDistance(other)+other.getOptimalDistance(this));
-        if (frontLink!=null && frontLink.getEntityId()==other.getEntityId()) {
-            dist *= 0.5;
-        }
-        else {
-            dist *= -0.5;
-        }
-
-        if(Math.abs(dist)>0.01) {
-            addLinkingMove(dist);
+        double length = MathHelper.sqrt(vecX * vecX + vecZ * vecZ);
+        double dist = length - (getOptimalDistance(other)+other.getOptimalDistance(this));
+        // Correct half of the gap error, straight towards (or away from) the linked car. addLinking() takes a
+        // signed speed that means "towards the front bogie" only while the bogie stands still; once it moves the
+        // sign is relative to its own motion, so a stretched coupling sped one car up and braked the other and
+        // the error grew every tick: pushed consists shot off in one direction.
+        if (Math.abs(dist) > 0.01 && length > 0.0001) {
+            double k = dist * 0.5 / length;
+            bogieFront.addLinkingVector(vecX * k, vecZ * k);
+            bogieBack.addLinkingVector(vecX * k, vecZ * k);
         }
     }
 
@@ -1235,6 +1252,16 @@ public class EntityRollingStock extends AbstractTrains implements ILinkableCart 
             }
         }
 
+
+        // freight cars, tanks and tenders open their inventory like the 1.7.10 classes did; the generated TiM
+        // classes all got a default seat ({0,1.2,0}) instead, so a tank wagon behaved like a passenger car
+        int storageGui = getStorageGuiId();
+        if (storageGui >= 0 && !entityplayer.isSneaking()) {
+            if (!world.isRemote) {
+                entityplayer.openGui(Traincraft.instance, storageGui, world, this.getEntityId(), -1, (int) this.posZ);
+            }
+            return true;
+        }
 
         //be sure the player has permission to enter the transport, and that the transport has the main seat open.
         if (getRiderOffsets() != null && getPermissions(playerEntity, false) && !entityplayer.isSneaking()) {

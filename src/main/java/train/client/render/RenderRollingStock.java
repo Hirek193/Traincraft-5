@@ -77,9 +77,10 @@ public class RenderRollingStock extends Render {
         int j = CommonUtil.floorDouble(cart.posY);
         int k = CommonUtil.floorDouble(cart.posZ);
 
-        if (cart.world != null && (CommonUtil.getBlockAt(cart.world,i,j,k) instanceof BlockTCRail || CommonUtil.getBlockAt(cart.world,i,j,k) instanceof BlockTCRailGag)) {
-            GL11.glTranslatef(0f, 0.15f, 0f);
-        }
+        // bogies keep posY at rail level + 0.625 on every kind of track (EntityBogie.RAIL_HEIGHT), so the model
+        // base is constant; the old "+0.15 only when the block under the centre is a TC rail" made long cars
+        // drop 0.15 whenever their centre was over a non-rail block (curves, gag-less spots, vanilla rails)
+        GL11.glTranslatef(0f, 0.15f, 0f);
 
         GL11.glRotatef(180-cart.rotationYaw, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(cart.rotationPitch, 0.0F, 0.0F, 1.0F);

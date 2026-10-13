@@ -87,7 +87,7 @@ return 3;
     @Override
     public ModelBase[] getModel(){return new ModelBase[]{new ModelHeavyweightBaggage()};}
     @Override
-    public float[][] modelOffsets(){return new float[][]{{0.0f, -0.6f, -0.05f}};}
+    public float[][] modelOffsets(){return new float[][]{{0f, 0.1f, -0.05f}};}
     @Override
     public float[][] modelRotations(){return new float[][]{{0.0f, 180.0f, 180.0f}};}
     @Override

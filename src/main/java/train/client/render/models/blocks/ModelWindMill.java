@@ -43,7 +43,7 @@ public class ModelWindMill extends ModelBase {
 		float f2 = (float) (j >> 16 & 255) / 255.0F;
 		float f3 = (float) (j >> 8 & 255) / 255.0F;
 		float f4 = (float) (j & 255) / 255.0F;
-		GL11.glColor4f(f1 * f2, f1 * f3, f1 * f4, 1);
+		net.minecraft.client.renderer.GlStateManager.color(f1 * f2, f1 * f3, f1 * f4, 1);
 		GL11.glScalef(0.5f, 0.5f, 0.5f);
 		int facing = CommonUtil.getBlockFacing(windMill.getWorld(), (int) windMill.getPos().getX(), (int) windMill.getPos().getY(), (int) windMill.getPos().getZ());
 		if (facing == 3) {

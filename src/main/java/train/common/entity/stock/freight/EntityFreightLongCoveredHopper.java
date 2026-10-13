@@ -92,7 +92,7 @@ return 2;
     @Override
     public ModelBase[] getModel(){return new ModelBase[]{new ModelLongCoveredHopper()};}
     @Override
-    public float[][] modelOffsets(){return new float[][]{{-1.0f, -0.25f, 0.65f}};}
+    public float[][] modelOffsets(){return new float[][]{{-1f, -0.25f, 0.65f}};}
     @Override
     public float[][] modelRotations(){return new float[][]{{0.0f, 180.0f, 180.0f}};}
     @Override

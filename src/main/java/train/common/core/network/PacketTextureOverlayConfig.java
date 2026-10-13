@@ -93,7 +93,13 @@ public class PacketTextureOverlayConfig implements IMessage {
 
     public static class Handler implements IMessageHandler<PacketTextureOverlayConfig, IMessage> {
         @Override
-        public IMessage onMessage(PacketTextureOverlayConfig message, MessageContext context) {
+        public IMessage onMessage(final PacketTextureOverlayConfig message, final MessageContext context) {
+            // 1.12 handles packets on the netty thread; touching the world/GUIs there races with the game thread
+            net.minecraftforge.fml.common.FMLCommonHandler.instance().getWorldThread(context.netHandler).addScheduledTask(() -> handleOnMainThread(message, context));
+            return null;
+        }
+
+        private IMessage handleOnMainThread(PacketTextureOverlayConfig message, MessageContext context) {
             Entity rollingStockEntity;
             // If on the server side, distribute the packet to clients before updating local changes.
             if (context.side == Side.SERVER) { // I think it is necessary to grab the world through the server handler if the context side is server. Don't quote me on that, but it doesn't work without it.

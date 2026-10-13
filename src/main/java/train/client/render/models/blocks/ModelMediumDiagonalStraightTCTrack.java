@@ -42,7 +42,7 @@ public class ModelMediumDiagonalStraightTCTrack extends ModelBase {
 
         // Move the object into the correct position on the block (because the OBJ's origin is the center of the object)
         GL11.glTranslatef((float) x + 0f, (float) y, (float) z + 0f);
-        GL11.glColor4f(r, g, b, a);
+        net.minecraft.client.renderer.GlStateManager.color(r, g, b, a);
 
 
         if (facing == 4) {
