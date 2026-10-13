@@ -1,5 +1,7 @@
 package train.common.wellcar;
 
+import train.common.core.util.StackUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -73,12 +75,12 @@ public class ContainerStorage extends Container
             {
                 if (!mergeItemStack(stackInSlot, 3 * 9, inventorySlots.size(), true))
                 {
-                    return null;
+                    return ItemStack.EMPTY;
                 }
             }
             else if (!mergeItemStack(stackInSlot, 0, 3 * 9, false))
             {
-                return null;
+                return ItemStack.EMPTY;
             }
 
             if (stackInSlot.getCount() == 0)
@@ -90,7 +92,7 @@ public class ContainerStorage extends Container
                 slot.onSlotChanged();
             }
         }
-        return stack;
+        return StackUtil.nn(stack);
     }
 
     @Override

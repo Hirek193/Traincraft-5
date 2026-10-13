@@ -96,7 +96,7 @@ public final class TCModels {
                     @SuppressWarnings("deprecation")
                     IBlockState state = block.getStateFromMeta(meta);
                     ModelLoader.setCustomModelResourceLocation(item, meta,
-                            new ModelResourceLocation(block.getRegistryName(), VARIANTS.getPropertyString(state.getProperties())));
+                            new ModelResourceLocation(block.getRegistryName(), variantOf(state)));
                 }
             } else {
                 // 1.12 items only get a model if one is assigned explicitly, otherwise they render as the
@@ -125,6 +125,11 @@ public final class TCModels {
                 ModelLoader.setCustomStateMapper(block, new net.minecraft.client.renderer.block.statemap.StateMap.Builder()
                         .ignore(net.minecraftforge.fluids.BlockFluidBase.LEVEL).build());
             }
+            else if (name != null && Info.modID.equals(name.getNamespace()) && block.getBlockState().getProperties().contains(train.common.api.blocks.LegacyMeta.META)) {
+                // the legacy metadata only carries facing/variant for TESRs and logic, the json models don't know it
+                ModelLoader.setCustomStateMapper(block, new net.minecraft.client.renderer.block.statemap.StateMap.Builder()
+                        .ignore(train.common.api.blocks.LegacyMeta.META).build());
+            }
         }
     }
 
@@ -139,11 +144,18 @@ public final class TCModels {
             ResourceLocation blockName = block.getRegistryName();
             String blockstate = readResource(new ResourceLocation(blockName.getNamespace(), "blockstates/" + blockName.getPath() + ".json"));
             if (blockstate != null && !blockstate.contains("\"inventory\"")) {
-                return new ModelResourceLocation(blockName, VARIANTS.getPropertyString(block.getDefaultState().getProperties()));
+                return new ModelResourceLocation(blockName, variantOf(block.getDefaultState()));
             }
             return new ModelResourceLocation(blockName, "inventory");
         }
         return inventory;
+    }
+
+    /** blockstate variant name, without the legacy "meta" property (ignored by the state mapper) */
+    private static String variantOf(IBlockState state) {
+        java.util.Map<net.minecraft.block.properties.IProperty<?>, Comparable<?>> props = new java.util.LinkedHashMap<>(state.getProperties());
+        props.remove(train.common.api.blocks.LegacyMeta.META);
+        return VARIANTS.getPropertyString(props);
     }
 
     private static boolean resourceExists(ResourceLocation location) {

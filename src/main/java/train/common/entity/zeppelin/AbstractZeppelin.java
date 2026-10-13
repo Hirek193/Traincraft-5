@@ -1,5 +1,7 @@
 package train.common.entity.zeppelin;
 
+import train.common.core.util.StackUtil;
+
 import train.common.core.util.LegacyDataWatcher;
 
 import net.minecraft.util.EnumParticleTypes;
@@ -592,7 +594,7 @@ public abstract class AbstractZeppelin extends Entity implements IInventory {
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		return zeppInvent[i];
+		return StackUtil.nn(zeppInvent[i]);
 	}
 
 	/**
@@ -603,10 +605,10 @@ public abstract class AbstractZeppelin extends Entity implements IInventory {
 		if (this.zeppInvent[par1] != null) {
 			ItemStack var2 = this.zeppInvent[par1];
 			this.zeppInvent[par1] = null;
-			return var2;
+			return StackUtil.nn(var2);
 		}
 		else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
@@ -616,21 +618,21 @@ public abstract class AbstractZeppelin extends Entity implements IInventory {
 			if (zeppInvent[i].getCount() <= j) {
 				ItemStack itemstack = zeppInvent[i];
 				zeppInvent[i] = null;
-				return itemstack;
+				return StackUtil.nn(itemstack);
 			}
 			ItemStack itemstack1 = zeppInvent[i].splitStack(j);
 			if (zeppInvent[i].getCount() == 0) {
 				zeppInvent[i] = null;
 			}
-			return itemstack1;
+			return StackUtil.nn(itemstack1);
 		}
 		else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
+	public void setInventorySlotContents(int i, ItemStack itemstack) { if (itemstack != null && itemstack.isEmpty()) itemstack = null;
 		zeppInvent[i] = itemstack;
 		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()) {
 			itemstack.setCount(getInventoryStackLimit());

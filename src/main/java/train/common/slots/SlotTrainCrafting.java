@@ -7,6 +7,8 @@
 
 package train.common.slots;
 
+import train.common.core.util.StackUtil;
+
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -49,7 +51,7 @@ public class SlotTrainCrafting extends Slot {
 		if (this.getHasStack()) {
 			this.amountCrafted += Math.min(par1, this.getStack().getCount());
 		}
-		return super.decrStackSize(par1);
+		return StackUtil.nn(super.decrStackSize(par1));
 	}
 	@Override
 	public ItemStack onTake(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack) {
@@ -57,7 +59,7 @@ public class SlotTrainCrafting extends Slot {
 		this.onCrafting(par2ItemStack);
 		for (int var3 = 0; var3 < this.craftMatrix.getSizeInventory(); ++var3) {
 			ItemStack var4 = this.craftMatrix.getStackInSlot(var3);
-			if (var4 != null) {
+			if (!StackUtil.isEmpty(var4)) {
 				this.craftMatrix.decrStackSize(var3, 1);
 				if (var4.getItem().hasContainerItem()) {
 					ItemStack var5 = var4.getItem().getContainerItem(var4);
@@ -66,7 +68,7 @@ public class SlotTrainCrafting extends Slot {
 						var5 = null;
 					}
 					if (var5 != null && !this.thePlayer.inventory.addItemStackToInventory(var5)) {
-						if (this.craftMatrix.getStackInSlot(var3) == null) {
+						if (StackUtil.isEmpty(this.craftMatrix.getStackInSlot(var3))) {
 							this.craftMatrix.setInventorySlotContents(var3, var5);
 						}
 						else {

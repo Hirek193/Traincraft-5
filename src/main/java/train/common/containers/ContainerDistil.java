@@ -1,5 +1,7 @@
 package train.common.containers;
 
+import train.common.core.util.StackUtil;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -97,19 +99,19 @@ public class ContainerDistil extends Container {
 			itemstack = itemstack1.copy();
 			if (i < 4) {
 				if (!mergeItemStack(itemstack1, 4, inventorySlots.size(), true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			}
 			else if (!mergeItemStack(itemstack1, 0, 3, false)) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 			if (itemstack1.getCount() == 0) {
-				slot.putStack(null);
+				slot.putStack(ItemStack.EMPTY);
 			}
 			else {
 				slot.onSlotChanged();
 			}
 		}
-		return itemstack;
+		return StackUtil.nn(itemstack);
 	}
 }

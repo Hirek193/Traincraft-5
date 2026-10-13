@@ -31,6 +31,8 @@ public class TCItems {
 				}
 				else if (items.className.equals("ItemRollingStock")) {
 					items.item = new ItemRollingStock(Info.modID.toLowerCase() + ":trains/" + items.iconName);
+					// legacy duplicate of a registered transport item (same train, spawns the same entity): keep it for old saves/recipes, hide it from the creative tabs
+					items.item.setCreativeTab(null);
 				}
 				else if (items.className.equals("ItemRotativeDigger")) {
 					items.item = new ItemRotativeDigger();

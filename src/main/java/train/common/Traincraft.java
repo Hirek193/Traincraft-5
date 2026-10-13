@@ -208,6 +208,8 @@ public class Traincraft {
         TraincraftRegistry.registerTransports("", liststeam());
         TraincraftRegistry.registerTransports("", listdiesel());
         TraincraftRegistry.registerTransports("", listelectric());
+        // was never called (also on 1.7.10): these 8 carts were unregistered and showed up as vanilla minecarts on the client
+        TraincraftRegistry.registerTransports("", listwork());
 
 
 

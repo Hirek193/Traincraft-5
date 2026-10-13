@@ -1,5 +1,7 @@
 package train.common.api;
 
+import train.common.core.util.StackUtil;
+
 import train.common.core.util.FluidContainers;
 
 import net.minecraft.util.math.MathHelper;
@@ -219,7 +221,7 @@ public abstract class Tender extends Freight implements IFluidHandler {
     /*IInventory implements*/
     @Override
     public ItemStack getStackInSlot(int i) {
-        return tenderItems[i];
+        return StackUtil.nn(tenderItems[i]);
     }
 
     @Override
@@ -227,9 +229,9 @@ public abstract class Tender extends Freight implements IFluidHandler {
         if (this.tenderItems[par1] != null) {
             ItemStack var2 = this.tenderItems[par1];
             this.tenderItems[par1] = null;
-            return var2;
+            return StackUtil.nn(var2);
         } else {
-            return null;
+            return ItemStack.EMPTY;
         }
     }
 
@@ -239,20 +241,20 @@ public abstract class Tender extends Freight implements IFluidHandler {
             if (tenderItems[i].getCount() <= j) {
                 ItemStack itemstack = tenderItems[i];
                 tenderItems[i] = null;
-                return itemstack;
+                return StackUtil.nn(itemstack);
             }
             ItemStack itemstack1 = tenderItems[i].splitStack(j);
             if (tenderItems[i].getCount() == 0) {
                 tenderItems[i] = null;
             }
-            return itemstack1;
+            return StackUtil.nn(itemstack1);
         } else {
-            return null;
+            return ItemStack.EMPTY;
         }
     }
 
     @Override
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
+    public void setInventorySlotContents(int i, ItemStack itemstack) { if (itemstack != null && itemstack.isEmpty()) itemstack = null;
         tenderItems[i] = itemstack;
         if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()) {
             itemstack.setCount(getInventoryStackLimit());

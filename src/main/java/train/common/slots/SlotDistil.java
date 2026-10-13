@@ -1,5 +1,7 @@
 package train.common.slots;
 
+import train.common.core.util.StackUtil;
+
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,7 +35,7 @@ public class SlotDistil extends Slot {
 			this.amount += Math.min(par1, this.getStack().getCount());
 		}
 
-		return super.decrStackSize(par1);
+		return StackUtil.nn(super.decrStackSize(par1));
 	}
 
 	@Override

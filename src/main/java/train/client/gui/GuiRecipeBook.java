@@ -946,7 +946,7 @@ public class GuiRecipeBook extends GuiScreen {
 		assert recipeList != null;
 		String name;
 		for (int i = 0; i < recipeListWB.size(); i++) {
-			name = ((ShapedTrainRecipes) recipeListWB.get(i)).getRecipeOutput().getDisplayName().toLowerCase();
+			name = ((train.common.core.interfaces.ITCRecipe) recipeListWB.get(i)).getRecipeOutput().getDisplayName().toLowerCase();
 			addToRecipeSearchMap(name, i);
 		}
 		for (int i = 0; i < recipeList.size(); i++) {

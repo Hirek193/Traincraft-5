@@ -20,6 +20,13 @@ import java.util.List;
 
 public class TileATOTransmitterStopPoint extends TileEntity implements ITickable, IPeripheral {
 
+	// 1.12: modded tile entities are dropped on any block state change by default; only drop them when the block changes
+	@Override
+	public boolean shouldRefresh(net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos, net.minecraft.block.state.IBlockState oldState, net.minecraft.block.state.IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
+	}
+
+
    public Boolean isActivated = Boolean.valueOf(false);
    public double stopX = 0.0;
    public double stopY = 0.0D;

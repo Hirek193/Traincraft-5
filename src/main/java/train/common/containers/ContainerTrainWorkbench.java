@@ -1,5 +1,7 @@
 package train.common.containers;
 
+import train.common.core.util.StackUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -76,36 +78,36 @@ public class ContainerTrainWorkbench extends Container {
 
 			if (par1 == 0) {
 				if (!this.mergeItemStack(var4, 10, 46, true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 				var3.onSlotChange(var4, var2);
 			}
 			else if (par1 >= 10 && par1 < 37) {
 				if (!this.mergeItemStack(var4, 37, 46, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			}
 			else if (par1 >= 37 && par1 < 46) {
 				if (!this.mergeItemStack(var4, 10, 37, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			}
 			else if (!this.mergeItemStack(var4, 10, 46, false)) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 
 			if (var4.getCount() == 0) {
-				var3.putStack(null);
+				var3.putStack(ItemStack.EMPTY);
 			}
 			else {
 				var3.onSlotChanged();
 			}
 
 			if (var4.getCount() == var2.getCount()) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 			var3.onTake(player, var4);
 		}
-		return var2;
+		return StackUtil.nn(var2);
 	}
 }

@@ -701,7 +701,8 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		}
 		posZ+=((int)(z*10000))*0.0001;
 		float f = this.width / 2.0F;
-		setEntityBoundingBox(new AxisAlignedBB(x - (double)f, y - (double)getYOffset() + (double)0.0F, z - (double)f, x + (double)f, y - (double)getYOffset() + (double)0.0F + (double)this.height, z + (double)f));
+		// 1.12: the box must follow the absolute position (x/y/z here are deltas), like Entity.setPosition does
+		setEntityBoundingBox(new AxisAlignedBB(posX - (double)f, posY, posZ - (double)f, posX + (double)f, posY + (double)this.height, posZ + (double)f));
 
 	}
 }

@@ -55,6 +55,12 @@ public class ItemRollingStock extends ItemMinecart implements train.common.items
 		if(entity==null){
 			train.common.api.TrainRecord record = Traincraft.instance.traincraftRegistry.findTrainRecordByItem(this);
 			entity = record == null ? null : record.getEntity(null);
+			if (entity != null && net.minecraftforge.fml.common.registry.EntityRegistry.getEntry(entity.getClass()) == null) {
+				AbstractTrains registered = train.common.library.TraincraftRegistry.findRegisteredTransport(record.getInternalName());
+				if (registered != null) {
+					entity = registered;
+				}
+			}
 		}
 		return entity;
 	}

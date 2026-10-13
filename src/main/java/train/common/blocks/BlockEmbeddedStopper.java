@@ -31,6 +31,23 @@ import static net.minecraft.util.EnumFacing.UP;
 
 public class BlockEmbeddedStopper extends BlockContainer {
 
+	// 1.12: keep the 1.7.10 metadata (facing/variant) in the block state, see LegacyMeta
+	@Override
+	protected net.minecraft.block.state.BlockStateContainer createBlockState() {
+		return new net.minecraft.block.state.BlockStateContainer(this, train.common.api.blocks.LegacyMeta.META);
+	}
+
+	@Override
+	public net.minecraft.block.state.IBlockState getStateFromMeta(int meta) {
+		return this.getDefaultState().withProperty(train.common.api.blocks.LegacyMeta.META, meta & 15);
+	}
+
+	@Override
+	public int getMetaFromState(net.minecraft.block.state.IBlockState state) {
+		return state.getValue(train.common.api.blocks.LegacyMeta.META);
+	}
+
+
 
     public BlockEmbeddedStopper() {
         super(Material.IRON);

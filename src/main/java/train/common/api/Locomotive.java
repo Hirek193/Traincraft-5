@@ -1,4 +1,6 @@
 package train.common.api;
+
+import train.common.core.util.StackUtil;
 import train.common.entity.ai.EntityAIFearHorn;
 
 import net.minecraft.util.math.Vec3d;
@@ -1198,9 +1200,9 @@ public abstract class Locomotive extends Freight implements WirelessTransmitter,
         if (this.cargoItems[par1] != null) {
             ItemStack var2 = this.cargoItems[par1];
             this.cargoItems[par1] = null;
-            return var2;
+            return StackUtil.nn(var2);
         } else {
-            return null;
+            return ItemStack.EMPTY;
         }
     }
 
@@ -1210,7 +1212,7 @@ public abstract class Locomotive extends Freight implements WirelessTransmitter,
             if (cargoItems[i].getCount() <= j) {
                 ItemStack itemstack = cargoItems[i];
                 cargoItems[i] = null;
-                return itemstack;
+                return StackUtil.nn(itemstack);
             }
 
             ItemStack itemstack1 = cargoItems[i].splitStack(j);
@@ -1218,15 +1220,15 @@ public abstract class Locomotive extends Freight implements WirelessTransmitter,
             if (cargoItems[i].getCount() == 0) {
                 cargoItems[i] = null;
             }
-            return itemstack1;
+            return StackUtil.nn(itemstack1);
 
         } else {
-            return null;
+            return ItemStack.EMPTY;
         }
     }
 
     @Override
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
+    public void setInventorySlotContents(int i, ItemStack itemstack) { if (itemstack != null && itemstack.isEmpty()) itemstack = null;
         cargoItems[i] = itemstack;
         if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()) {
             itemstack.setCount(getInventoryStackLimit());

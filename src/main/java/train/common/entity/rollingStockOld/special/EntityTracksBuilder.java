@@ -1,5 +1,7 @@
 package train.common.entity.rollingStockOld.special;
 
+import train.common.core.util.StackUtil;
+
 import net.minecraft.util.EnumFacing;
 
 import net.minecraft.util.math.BlockPos;
@@ -281,7 +283,7 @@ public class EntityTracksBuilder extends EntityRollingStock implements IInventor
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		return BuilderInvent[i];
+		return StackUtil.nn(BuilderInvent[i]);
 	}
 
 	@Override
@@ -289,10 +291,10 @@ public class EntityTracksBuilder extends EntityRollingStock implements IInventor
 		if (this.BuilderInvent[par1] != null) {
 			ItemStack var2 = this.BuilderInvent[par1];
 			this.BuilderInvent[par1] = null;
-			return var2;
+			return StackUtil.nn(var2);
 		}
 		else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
@@ -302,20 +304,20 @@ public class EntityTracksBuilder extends EntityRollingStock implements IInventor
 			if (BuilderInvent[i].getCount() <= j) {
 				ItemStack itemstack = BuilderInvent[i];
 				BuilderInvent[i] = null;
-				return itemstack;
+				return StackUtil.nn(itemstack);
 			}
 			ItemStack itemstack1 = BuilderInvent[i].splitStack(j);
 			if (BuilderInvent[i].getCount() == 0) {
 				BuilderInvent[i] = null;
 			}
-			return itemstack1;
+			return StackUtil.nn(itemstack1);
 		} else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
+	public void setInventorySlotContents(int i, ItemStack itemstack) { if (itemstack != null && itemstack.isEmpty()) itemstack = null;
 		BuilderInvent[i] = itemstack;
 		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()) {
 			itemstack.setCount(getInventoryStackLimit());

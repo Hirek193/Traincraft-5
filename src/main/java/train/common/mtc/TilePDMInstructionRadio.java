@@ -14,6 +14,13 @@ import train.common.api.WirelessTransmitter;
 import java.util.*;
 
 public class TilePDMInstructionRadio extends TileEntity implements IPeripheral, WirelessTransmitter {
+
+	// 1.12: modded tile entities are dropped on any block state change by default; only drop them when the block changes
+	@Override
+	public boolean shouldRefresh(net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos, net.minecraft.block.state.IBlockState oldState, net.minecraft.block.state.IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
+	}
+
     public Boolean isActivated = false;
     public ArrayList<IComputerAccess> computers = new ArrayList<IComputerAccess>();
     public int system = 0;

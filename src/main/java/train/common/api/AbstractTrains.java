@@ -1225,14 +1225,14 @@ public abstract class AbstractTrains extends EntityMinecart implements IMinecart
     public int getSizeInventory() {return 0;}
 
     @Override
-    public ItemStack getStackInSlot(int p_70301_1_) {return null;}
+    public ItemStack getStackInSlot(int p_70301_1_) {return ItemStack.EMPTY;}
 
     @Override
-    public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_) {return null;}
+    public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_) {return ItemStack.EMPTY;}
 
 
     @Override
-    public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_) {}
+    public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_) { if (p_70299_2_ != null && p_70299_2_.isEmpty()) p_70299_2_ = null;}
 
 
     @Override

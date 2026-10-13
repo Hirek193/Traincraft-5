@@ -7,6 +7,8 @@
 
 package train.common.tile;
 
+import train.common.core.util.StackUtil;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -59,7 +61,7 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 	@Override
 	public ItemStack getStackInSlot(int i) {
 
-		return this.workbenchItemStacks[i];
+		return StackUtil.nn(this.workbenchItemStacks[i]);
 	}
 
 	@Override
@@ -72,7 +74,7 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 				ItemStack itemstack = workbenchItemStacks[i];
 				workbenchItemStacks[i] = null;
 
-				return itemstack;
+				return StackUtil.nn(itemstack);
 			}
 
 			ItemStack itemstack1 = workbenchItemStacks[i].splitStack(j);
@@ -82,11 +84,11 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 				workbenchItemStacks[i] = null;
 			}
 
-			return itemstack1;
+			return StackUtil.nn(itemstack1);
 		}
 		else {
 
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
@@ -98,16 +100,16 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 			ItemStack stack = this.workbenchItemStacks[i];
 			this.workbenchItemStacks[i] = null;
 
-			return stack;
+			return StackUtil.nn(stack);
 		}
 		else {
 
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack stack) {
+	public void setInventorySlotContents(int i, ItemStack stack) { if (stack != null && stack.isEmpty()) stack = null;
 
 		workbenchItemStacks[i] = stack;
 

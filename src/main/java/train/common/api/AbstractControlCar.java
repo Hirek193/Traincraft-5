@@ -1,5 +1,7 @@
 package train.common.api;
 
+import train.common.core.util.StackUtil;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -539,7 +541,7 @@ public abstract class AbstractControlCar extends EntityRollingStock implements I
 
     @Override
     public ItemStack getStackInSlot(int i) {
-        return controlCarInventory[i];
+        return StackUtil.nn(controlCarInventory[i]);
     }
 
     @Override
@@ -547,9 +549,9 @@ public abstract class AbstractControlCar extends EntityRollingStock implements I
         if (this.controlCarInventory[par1] != null) {
             ItemStack var2 = this.controlCarInventory[par1];
             this.controlCarInventory[par1] = null;
-            return var2;
+            return StackUtil.nn(var2);
         } else {
-            return null;
+            return ItemStack.EMPTY;
         }
     }
 
@@ -559,21 +561,21 @@ public abstract class AbstractControlCar extends EntityRollingStock implements I
             if (controlCarInventory[i].getCount() <= j) {
                 ItemStack itemstack = controlCarInventory[i];
                 controlCarInventory[i] = null;
-                return itemstack;
+                return StackUtil.nn(itemstack);
             }
             ItemStack itemstack1 = controlCarInventory[i].splitStack(j);
             if (controlCarInventory[i].getCount() == 0) {
                 controlCarInventory[i] = null;
             }
-            return itemstack1;
+            return StackUtil.nn(itemstack1);
 
         } else {
-            return null;
+            return ItemStack.EMPTY;
         }
     }
 
     @Override
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
+    public void setInventorySlotContents(int i, ItemStack itemstack) { if (itemstack != null && itemstack.isEmpty()) itemstack = null;
         controlCarInventory[i] = itemstack;
         if (itemstack != null && itemstack.getCount() > getInventoryStackLimit())
         {

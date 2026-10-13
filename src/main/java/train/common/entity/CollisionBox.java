@@ -1,5 +1,7 @@
 package train.common.entity;
 
+import train.common.core.util.StackUtil;
+
 import net.minecraft.util.math.AxisAlignedBB;
 
 import net.minecraft.util.EnumHand;
@@ -138,21 +140,21 @@ public class CollisionBox extends MultiPartEntityPart implements IInventory, IFl
 
     @Override
     public ItemStack getStackInSlot(int p_70301_1_) {
-        return host.getStackInSlot(p_70301_1_);
+        return StackUtil.nn(host.getStackInSlot(p_70301_1_));
     }
 
     @Override
     public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_) {
-        return host.decrStackSize(p_70298_1_, p_70298_2_);
+        return StackUtil.nn(host.decrStackSize(p_70298_1_, p_70298_2_));
     }
 
     @Override
     public ItemStack removeStackFromSlot(int p_70304_1_) {
-        return host.removeStackFromSlot(p_70304_1_);
+        return StackUtil.nn(host.removeStackFromSlot(p_70304_1_));
     }
 
     @Override
-    public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_) {
+    public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_) { if (p_70299_2_ != null && p_70299_2_.isEmpty()) p_70299_2_ = null;
         host.setInventorySlotContents(p_70299_1_, p_70299_2_);
     }
 

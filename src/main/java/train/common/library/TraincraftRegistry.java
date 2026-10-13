@@ -204,8 +204,22 @@ public class TraincraftRegistry {
         return name.trim().toLowerCase(java.util.Locale.ROOT).replaceAll("[^a-z0-9_./-]+", "_");
     }
 
+    /** registered (TiM-style) transports by registry path, see {@link #findRegisteredTransport} */
+    private static final Map<String, AbstractTrains> registeredTransports = new HashMap<>();
+
+    /**
+     * The legacy EnumTrains records point at the old train.common.entity.rollingStockOld classes, which are
+     * not registered as entities (the loop above is commented out upstream). Spawning one on the server
+     * made vanilla send it to the client as a plain minecart. Every legacy record has a registered
+     * replacement with the same name, so legacy items spawn that instead.
+     */
+    public static AbstractTrains findRegisteredTransport(String name) {
+        return name == null ? null : registeredTransports.get(registryPath(name));
+    }
+
     public static void registerTransports(String MODID, AbstractTrains[] entities) {
         for(final AbstractTrains trains : entities){
+            registeredTransports.put(registryPath(trains.transportName()), trains);
             EntityRegistry.registerModEntity(new ResourceLocation(Info.modID, registryPath(trains.transportName())), trains.getClass(), trains.transportName(), trainID, Traincraft.instance, 512, 1, true);
             trains.registerSkins();
             trains.getItem().setRegistryName(Info.modID, registryPath(trains.transportName()));

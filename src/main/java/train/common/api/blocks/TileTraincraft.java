@@ -7,6 +7,8 @@
 
 package train.common.api.blocks;
 
+import train.common.core.util.StackUtil;
+
 import net.minecraft.util.EnumFacing;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,7 +66,7 @@ public class TileTraincraft extends TileRenderFacing implements ISidedInventory{
 
     @Override
     public ItemStack getStackInSlot(int slot){
-        return this.slots.length >= slot ? this.slots[slot] : null;
+        return StackUtil.nn(this.slots.length >= slot ? this.slots[slot] : null);
     }
 
     @Override
@@ -73,16 +75,16 @@ public class TileTraincraft extends TileRenderFacing implements ISidedInventory{
             if (this.slots[i].getCount() <= j) {
                 ItemStack itemstack = this.slots[i];
                 this.slots[i] = null;
-                return itemstack;
+                return StackUtil.nn(itemstack);
             }
             ItemStack itemstack1 = this.slots[i].splitStack(j);
             if (this.slots[i].getCount() == 0) {
                 this.slots[i] = null;
             }
-            return itemstack1;
+            return StackUtil.nn(itemstack1);
         }
         else {
-            return null;
+            return ItemStack.EMPTY;
         }
     }
 
@@ -91,13 +93,13 @@ public class TileTraincraft extends TileRenderFacing implements ISidedInventory{
         if (this.slots[slot] != null) {
             ItemStack var2 = this.slots[slot];
             this.slots[slot] = null;
-            return var2;
+            return StackUtil.nn(var2);
         }
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
-    public void setInventorySlotContents(int slot, ItemStack stack){
+    public void setInventorySlotContents(int slot, ItemStack stack){ if (stack != null && stack.isEmpty()) stack = null;
         this.slots[slot] = stack;
         if (stack != null && stack.getCount() > getInventoryStackLimit()) {
             stack.setCount(getInventoryStackLimit());

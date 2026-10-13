@@ -1,5 +1,7 @@
 package train.common.wellcar;
 
+import train.common.core.util.StackUtil;
+
 import ebf.tim.utility.CommonUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +15,13 @@ import net.minecraftforge.common.util.Constants;
 import java.util.ArrayList;
 
 public class TileFiftyThreeFootContainer extends TileEntity implements IInventory {
+
+	// 1.12: modded tile entities are dropped on any block state change by default; only drop them when the block changes
+	@Override
+	public boolean shouldRefresh(net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos, net.minecraft.block.state.IBlockState oldState, net.minecraft.block.state.IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
+	}
+
     public ItemStack[] inventory;
     public int directionPlaced;
     public int currentColor = 0;
@@ -36,8 +45,8 @@ public class TileFiftyThreeFootContainer extends TileEntity implements IInventor
     @Override
     public ItemStack getStackInSlot(int index) {
         if (index < 0 || index >= this.getSizeInventory())
-            return null;
-        return this.inventory[index];
+            return ItemStack.EMPTY;
+        return StackUtil.nn(this.inventory[index]);
     }
 
     @Override
@@ -47,36 +56,36 @@ public class TileFiftyThreeFootContainer extends TileEntity implements IInventor
 
             if (this.getStackInSlot(index).getCount() <= count) {
                 itemstack = this.getStackInSlot(index);
-                this.setInventorySlotContents(index, null);
+                this.setInventorySlotContents(index, ItemStack.EMPTY);
                 this.markDirty();
-                return itemstack;
+                return StackUtil.nn(itemstack);
             } else {
                 itemstack = this.getStackInSlot(index).splitStack(count);
 
                 if (this.getStackInSlot(index).getCount() <= 0) {
-                    this.setInventorySlotContents(index, null);
+                    this.setInventorySlotContents(index, ItemStack.EMPTY);
                 } else {
                     //Just to show that changes happened
                     this.setInventorySlotContents(index, this.getStackInSlot(index));
                 }
 
                 this.markDirty();
-                return itemstack;
+                return StackUtil.nn(itemstack);
             }
         } else {
-            return null;
+            return ItemStack.EMPTY;
         }
     }
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
         ItemStack stack = this.getStackInSlot(index);
-        this.setInventorySlotContents(index, null);
-        return stack;
+        this.setInventorySlotContents(index, ItemStack.EMPTY);
+        return StackUtil.nn(stack);
     }
 
     @Override
-    public void setInventorySlotContents(int index, ItemStack stack) {
+    public void setInventorySlotContents(int index, ItemStack stack) { if (stack != null && stack.isEmpty()) stack = null;
         if (index < 0 || index >= this.getSizeInventory())
             return;
 

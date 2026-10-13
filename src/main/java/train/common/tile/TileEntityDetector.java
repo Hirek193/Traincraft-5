@@ -4,6 +4,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityDetector extends TileEntity {
+
+	// 1.12: modded tile entities are dropped on any block state change by default; only drop them when the block changes
+	@Override
+	public boolean shouldRefresh(net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos, net.minecraft.block.state.IBlockState oldState, net.minecraft.block.state.IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
+	}
+
 	public int meta = 6;
 
 	public TileEntityDetector() {}

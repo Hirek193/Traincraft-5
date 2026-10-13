@@ -1,5 +1,7 @@
 package train.common.api;
 
+import train.common.core.util.StackUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -56,7 +58,7 @@ public abstract class Freight extends EntityRollingStock {
     /* IInventory implements */
     @Override
     public ItemStack getStackInSlot(int i) {
-        return cargoItems[i];
+        return StackUtil.nn(cargoItems[i]);
     }
 
     @Override
@@ -73,9 +75,9 @@ public abstract class Freight extends EntityRollingStock {
         if (this.cargoItems[par1] != null) {
             ItemStack var2 = this.cargoItems[par1];
             this.cargoItems[par1] = null;
-            return var2;
+            return StackUtil.nn(var2);
         } else {
-            return null;
+            return ItemStack.EMPTY;
         }
     }
 
@@ -85,20 +87,20 @@ public abstract class Freight extends EntityRollingStock {
             if (cargoItems[i].getCount() <= j) {
                 ItemStack itemstack = cargoItems[i];
                 cargoItems[i] = null;
-                return itemstack;
+                return StackUtil.nn(itemstack);
             }
             ItemStack itemstack1 = cargoItems[i].splitStack(j);
             if (cargoItems[i].getCount() == 0) {
                 cargoItems[i] = null;
             }
-            return itemstack1;
+            return StackUtil.nn(itemstack1);
         } else {
-            return null;
+            return ItemStack.EMPTY;
         }
     }
 
     @Override
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
+    public void setInventorySlotContents(int i, ItemStack itemstack) { if (itemstack != null && itemstack.isEmpty()) itemstack = null;
         cargoItems[i] = itemstack;
         if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()) {
             itemstack.setCount(getInventoryStackLimit());

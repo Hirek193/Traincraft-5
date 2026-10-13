@@ -35,6 +35,13 @@ import java.util.List;
 
 public class TileTCRail extends TileEntity implements ITickable {
 
+	// 1.12: modded tile entities are dropped on any block state change by default; only drop them when the block changes
+	@Override
+	public boolean shouldRefresh(net.minecraft.world.World world, net.minecraft.util.math.BlockPos pos, net.minecraft.block.state.IBlockState oldState, net.minecraft.block.state.IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
+	}
+
+
 	public double r;
 	public double cx;
 	public double cy;

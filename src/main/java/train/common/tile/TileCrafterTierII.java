@@ -1,5 +1,7 @@
 package train.common.tile;
 
+import train.common.core.util.StackUtil;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -43,7 +45,7 @@ public class TileCrafterTierII extends TileRenderFacing implements IInventory, I
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		return crafterInventory[i];
+		return StackUtil.nn(crafterInventory[i]);
 	}
 
 	@Override
@@ -57,16 +59,16 @@ public class TileCrafterTierII extends TileRenderFacing implements IInventory, I
 			if (crafterInventory[i].getCount() <= j) {
 				ItemStack itemstack = crafterInventory[i];
 				crafterInventory[i] = null;
-				return itemstack;
+				return StackUtil.nn(itemstack);
 			}
 			ItemStack itemstack1 = crafterInventory[i].splitStack(j);
 			if (crafterInventory[i].getCount() == 0) {
 				crafterInventory[i] = null;
 			}
-			return itemstack1;
+			return StackUtil.nn(itemstack1);
 		}
 		else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
@@ -75,15 +77,15 @@ public class TileCrafterTierII extends TileRenderFacing implements IInventory, I
 		if (crafterInventory[par1] != null) {
 			ItemStack var2 = crafterInventory[par1];
 			crafterInventory[par1] = null;
-			return var2;
+			return StackUtil.nn(var2);
 		}
 		else {
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
+	public void setInventorySlotContents(int i, ItemStack itemstack) { if (itemstack != null && itemstack.isEmpty()) itemstack = null;
 		crafterInventory[i] = itemstack;
 		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()) {
 			itemstack.setCount(getInventoryStackLimit());
