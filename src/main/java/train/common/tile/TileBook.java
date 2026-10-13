@@ -7,6 +7,8 @@
 
 package train.common.tile;
 
+import net.minecraft.util.ITickable;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -18,7 +20,7 @@ public class TileBook extends TileEntity {
 	
 	public TileBook() {
 		
-		facingMeta = this.blockMetadata;
+		facingMeta = this.getBlockMetadata();
 	}
 	
 	public int getFacing() {
@@ -40,15 +42,16 @@ public class TileBook extends TileEntity {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbtTag) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbtTag) {
 		
 		super.writeToNBT(nbtTag);
 		
 		nbtTag.setByte("Orientation", (byte) facingMeta);
+		return nbtTag;
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
+	public SPacketUpdateTileEntity getUpdatePacket() {
 
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
@@ -58,8 +61,8 @@ public class TileBook extends TileEntity {
 	
 	/*
 	@Override // Why would you even do this..?
-	public void updateEntity() {
+	public void update() {
 		
-		super.updateEntity();
+		// (TileEntity has no update() in 1.12)
 	}*/
 }

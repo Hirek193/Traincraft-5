@@ -1,5 +1,7 @@
 package train.common.api;
 
+import ebf.tim.utility.CommonUtil;
+
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -206,7 +208,7 @@ public abstract class AbstractWorkCart extends EntityRollingStock{
 					return 150;
 				}
 
-				if (CommonUtil.getMaterial(var3) == Material.wood) {
+				if (CommonUtil.getMaterial(var3) == Material.WOOD) {
 					return 300;
 				}
 			}
@@ -321,8 +323,8 @@ public abstract class AbstractWorkCart extends EntityRollingStock{
 		setRollingAmplitude(10);
 		setDamage(getDamage() + i * 10);
 		if (getDamage() > 40) {
-			if (getPassengers().get(0) != null) {
-				getPassengers().get(0).startRiding(this);
+			if (ebf.tim.utility.CommonUtil.rider(this) != null) {
+				ebf.tim.utility.CommonUtil.rider(this).startRiding(this);
 			}
 			this.setDead();
 			ServerLogger.deleteWagon(this);

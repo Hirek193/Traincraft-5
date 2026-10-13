@@ -1,4 +1,5 @@
 package train.common.entity.trains.steam;
+import train.client.render.models.ModelLocoCherepanov;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -83,7 +84,7 @@ return 1;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelLocoCherepanov()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelLocoCherepanov()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{-0.875f, -0.030000001f, 0.0f}};}
     @Override

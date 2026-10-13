@@ -1,5 +1,11 @@
 package train.common.api;
 
+import net.minecraft.util.math.BlockPos;
+
+import net.minecraft.block.state.IBlockState;
+
+import net.minecraft.util.EnumHand;
+
 import com.mojang.authlib.GameProfile;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -9,8 +15,8 @@ import ebf.tim.utility.DebugUtil;
 import fexcraft.tmt.slim.Vec3f;
 import mods.railcraft.api.carts.IMinecart;
 import mods.railcraft.api.carts.IRoutableCart;
-import mods.railcraft.api.tracks.ITrackSwitch;
-import mods.railcraft.api.tracks.ITrackTile;
+import mods.railcraft.api.tracks.ITrackKitSwitch;
+import mods.railcraft.api.tracks.IOutfittedTrackTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockRailBase;
@@ -19,7 +25,7 @@ import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import train.common.blocks.BlockTCRail;
@@ -30,6 +36,15 @@ import train.common.tile.TileTCRailGag;
 
 
 public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableCart {
+
+	/** 1.7.10 Entity.yOffset (removed in 1.9; Minecraft now asks getYOffset()) */
+	protected double yOffsetLegacy = 0;
+
+	@Override
+	public double getYOffset() {
+		return this.yOffsetLegacy;
+	}
+
 
 	public boolean isOnRail;
 	public int meta,oldBlockX,oldBlockZ;
@@ -67,13 +82,13 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		super(world);
 
 		this.isOnRail = false;
-		this.worldObj = world;
+		this.world = world;
 
 		setSize(0.5f, 0.25f);
 
 		//this.boundingBox.offset(0, 0.5, 0);
 		setCollisionHandler(null);
-		this.yOffset = 0.65f;
+		this.yOffsetLegacy = 0.65f;
 		//this.setSize(0.1F, 1.98F);
 		isImmuneToFire = true;
 		noClip=true;
@@ -90,7 +105,7 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		this.prevPosX = d;
 		this.prevPosY = d1;
 		this.prevPosZ = d2;
-		this.setPosition(d, d1 + this.yOffset, d2);
+		this.setPosition(d, d1 + getYOffset(), d2);
 		isImmuneToFire = true;
 		setSize(0.5f, 1.25f);
 		noClip=true;
@@ -132,7 +147,6 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 	}
 
 	private boolean isDerail = false;
-	@Override
 	@SideOnly(Side.CLIENT)
 	public float getShadowSize() {
 
@@ -140,20 +154,24 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 	}
 
 	@Override
-	public boolean interactFirst(EntityPlayer entityplayer) {
+	public boolean processInitialInteract(EntityPlayer entityplayer, EnumHand hand) {
 
 		if (this.entityMainTrain != null) {
 
-			this.entityMainTrain.interactFirst(entityplayer);
+			this.entityMainTrain.processInitialInteract(entityplayer, net.minecraft.util.EnumHand.MAIN_HAND);
 		}
 
 		return true;
 	}
 
-	@Override
-	public int getMinecartType() {
+	public int getMinecartTypeLegacy() {
 
 		return -1;
+	}
+
+	@Override
+	public net.minecraft.entity.item.EntityMinecart.Type getType() {
+		return net.minecraft.entity.item.EntityMinecart.Type.getById(getMinecartTypeLegacy());
 	}
 
 	@Override
@@ -210,8 +228,8 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 	}
 
 	@Override
-	protected void func_145821_a(int x, int y, int z, double maxSpeed, double slopeAdjustment, Block block, int railMeta) {
-		super.func_145821_a(x, y, z, this.getMaxCartSpeedOnRail(), slopeAdjustment, block, railMeta);
+	protected void moveAlongTrack(BlockPos pos, IBlockState state) {
+		super.moveAlongTrack(pos, state);
 	}
 
 	private void moveOnTCRail(int i, int j, int k, Block l) {
@@ -221,13 +239,13 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		prevPosZ=posZ;
 
 		if(l instanceof BlockTCRail) {
-			if(!TCRailTypes.isCrossingTrack((TileTCRail) CommonUtil.getTileEntity(worldObj, i, j, k)) && !TCRailTypes.isDiagonalCrossingTrack((TileTCRail) CommonUtil.getTileEntity(worldObj, i, j, k))) {
-				lastTrack = (TileTCRail) CommonUtil.getTileEntity(worldObj, i, j, k);
+			if(!TCRailTypes.isCrossingTrack((TileTCRail) CommonUtil.getTileEntity(world, i, j, k)) && !TCRailTypes.isDiagonalCrossingTrack((TileTCRail) CommonUtil.getTileEntity(world, i, j, k))) {
+				lastTrack = (TileTCRail) CommonUtil.getTileEntity(world, i, j, k);
 			}
-		} else if(l instanceof BlockTCRailGag && (lastTrack==null || !CommonUtil.getTiles(worldObj,i,j,k).contains(lastTrack))){
-			TileTCRailGag tileGag = (TileTCRailGag) CommonUtil.getTileEntity(worldObj, i, j, k);
-			if(tileGag.originX.size()>0 && CommonUtil.getTileEntity(worldObj, tileGag.originX.get(0), tileGag.originY.get(0), tileGag.originZ.get(0)) != null) {
-				lastTrack = (TileTCRail) CommonUtil.getTileEntity(worldObj, tileGag.originX.get(0), tileGag.originY.get(0), tileGag.originZ.get(0));
+		} else if(l instanceof BlockTCRailGag && (lastTrack==null || !CommonUtil.getTiles(world,i,j,k).contains(lastTrack))){
+			TileTCRailGag tileGag = (TileTCRailGag) CommonUtil.getTileEntity(world, i, j, k);
+			if(tileGag.originX.size()>0 && CommonUtil.getTileEntity(world, tileGag.originX.get(0), tileGag.originY.get(0), tileGag.originZ.get(0)) != null) {
+				lastTrack = (TileTCRail) CommonUtil.getTileEntity(world, tileGag.originX.get(0), tileGag.originY.get(0), tileGag.originZ.get(0));
 			}
 		}
 
@@ -267,9 +285,9 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		} else if (TCRailTypes.isCrossingTrack(lastTrack)) {
 			moveOnTCTwoWaysCrossing();
 		} else if (TCRailTypes.isSlopeTrack(lastTrack)) {
-			moveOnTCSlope(j, lastTrack.xCoord, lastTrack.zCoord, lastTrack.slopeAngle, lastTrack.getBlockMetadata());
+			moveOnTCSlope(j, lastTrack.getPos().getX(), lastTrack.getPos().getZ(), lastTrack.slopeAngle, lastTrack.getBlockMetadata());
 		} else if (TCRailTypes.isCurvedSlopeTrack(lastTrack)) {
-			moveOnTCCurvedSlope(j, lastTrack.r, lastTrack.cx, lastTrack.cz, lastTrack.xCoord, lastTrack.zCoord, lastTrack.getBlockMetadata(), lastTrack.slopeAngle);
+			moveOnTCCurvedSlope(j, lastTrack.r, lastTrack.cx, lastTrack.cz, lastTrack.getPos().getX(), lastTrack.getPos().getZ(), lastTrack.getBlockMetadata(), lastTrack.slopeAngle);
 		} else if (TCRailTypes.isDiagonalTrack(lastTrack) || TCRailTypes.isDiagonalCrossingTrack(lastTrack)){
 			moveOnTCDiagonal(j);
 		}
@@ -307,7 +325,7 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		centerDiagonal(posX-xFloor,posZ-zFloor);
 
 		motionSqrt = Math.abs(velocity[0])+Math.abs(velocity[1])+Math.abs(velocity[2])+Math.abs(velocity[3]);
-		posY = j + 0.2+ yOffset;
+		posY = j + 0.2+ getYOffset();
 		setPositionRelative(railPathX*motionSqrt,0,railPathZ*motionSqrt);
 	}
 
@@ -346,7 +364,7 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		}
 
 		motionSqrt = Math.abs(velocity[0])+Math.abs(velocity[1])+Math.abs(velocity[2])+Math.abs(velocity[3]);
-		posY = j + 0.2+ yOffset-ySize;
+		posY = j + 0.2+ getYOffset()-0.0F;
 		setPositionRelative(railPathX*motionSqrt,0,railPathZ*motionSqrt);
 
 	}
@@ -361,7 +379,7 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		railPathX = startX + ((railPathX2 / motionSqrt) * radius);
 		railPathZ = startZ + ((railPathZ2 / motionSqrt) * radius);
 
-		setPosition(railPathX, j + 0.2 + yOffset, railPathZ);
+		setPosition(railPathX, j + 0.2 + getYOffset(), railPathZ);
 
 		railPathX = tilex - posX;
 		railPathZ = tilez - posZ;
@@ -376,13 +394,13 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		} else if (meta == 3) {
 			railPathZ += 0.5;
 		}
-		posY = Math.abs(j+ Math.min(1, (slopeAngle * Math.abs(Math.sqrt(railPathX * railPathX + railPathZ * railPathZ)))) +0.2+ yOffset -ySize);
+		posY = Math.abs(j+ Math.min(1, (slopeAngle * Math.abs(Math.sqrt(railPathX * railPathX + railPathZ * railPathZ)))) +0.2+ getYOffset() -0.0F);
 	}
 
 	private void moveOnTCTwoWaysCrossing() {
 		double norm = Math.abs(velocity[0])+Math.abs(velocity[1])+Math.abs(velocity[2])+Math.abs(velocity[3]);
 
-		if (lastTrack.blockMetadata==0||lastTrack.blockMetadata==2) {
+		if (lastTrack.getBlockMetadata()==0||lastTrack.getBlockMetadata()==2) {
 			setPositionRelative(0.0D, 0.0D, Math.copySign(norm, Math.abs(velocity[1])+ Math.abs(velocity[3])));
 		}
 		else {
@@ -407,8 +425,8 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		} else if (meta == 3) {
 			railPathZ += 0.5;
 		}
-		double newYPos = Math.abs(j+ Math.min(1, (slopeAngle * Math.abs(Math.sqrt(railPathX * railPathX + railPathZ * railPathZ)))) + yOffset + 0.34f);
-		setPositionRelative(0, newYPos-(j + 0.2 + yOffset), 0);
+		double newYPos = Math.abs(j+ Math.min(1, (slopeAngle * Math.abs(Math.sqrt(railPathX * railPathX + railPathZ * railPathZ)))) + getYOffset() + 0.34f);
+		setPositionRelative(0, newYPos-(j + 0.2 + getYOffset()), 0);
 	}
 
 	private void moveOnTC90TurnRail(int j,double radius, double startX, double startZ){
@@ -504,7 +522,7 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		velocity[1] = bogieRotation.zCoord;
 	}
 
-	public World getWorld(){return worldObj;}
+	public World getWorld(){return world;}
 
 	public void minecartMove(AbstractTrains host) {
 		//server only
@@ -554,13 +572,13 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 			double speedMagnitude = Math.sqrt(Math.pow(velocity[0],2)+Math.pow(velocity[1],2))+Math.sqrt(Math.pow(velocity[2],2)+Math.pow(velocity[3],2));
 			limitSpeed(host, speedMagnitude);
 			if (l instanceof BlockRailBase) {
-				this.yOffset=0.3425f;
+				this.yOffsetLegacy = 0.3425f;
 				loopVanilla(host, speedMagnitude, (BlockRailBase) l);
 			} else if (l instanceof BlockTCRail || l instanceof BlockTCRailGag){
-				this.yOffset=0.425f;
+				this.yOffsetLegacy = 0.425f;
 				moveOnTCRail(xFloor, yFloor, zFloor, l);
 			} else {
-				this.yOffset=1.3f;
+				this.yOffsetLegacy = 1.3f;
 				posX+=(velocity[2]+velocity[0])*0.5;
 				posZ+=(velocity[3]+velocity[1])*0.5;
 				isOnRail = false;
@@ -617,13 +635,13 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 					block = (BlockRailBase) l;
 					//do the rail functions.
 					if(shouldDoRailFunctions()) {
-						block.onMinecartPass(getWorld(), this, xFloor, yFloor, zFloor);
+						block.onMinecartPass(getWorld(), this, new BlockPos(xFloor, yFloor, zFloor));
 					}
 					//get the direction of the rail from it's metadata
 					railMetadata = CommonUtil.getRailMeta(getWorld(), this, xFloor, yFloor, zFloor);
 				}
 				//get the direction of the rail from it's metadata
-				else if (CommonUtil.getTileEntity(getWorld(), xFloor, yFloor, zFloor) instanceof ITrackTile && (((ITrackTile)CommonUtil.getTileEntity(getWorld(), xFloor, yFloor, zFloor)).getTrackInstance() instanceof ITrackSwitch)){
+				else if (CommonUtil.getTileEntity(getWorld(), xFloor, yFloor, zFloor) instanceof IOutfittedTrackTile && (((IOutfittedTrackTile)CommonUtil.getTileEntity(getWorld(), xFloor, yFloor, zFloor)).getTrackKitInstance() instanceof ITrackKitSwitch)){
 					railMetadata = CommonUtil.getRailMeta(getWorld(),this,xFloor, yFloor, zFloor);//railcraft support
 				}
 			}
@@ -683,7 +701,7 @@ public class EntityBogie extends EntityMinecart implements IMinecart, IRoutableC
 		}
 		posZ+=((int)(z*10000))*0.0001;
 		float f = this.width / 2.0F;
-		this.boundingBox.setBounds(x - (double)f, y - (double)this.yOffset + (double)this.ySize, z - (double)f, x + (double)f, y - (double)this.yOffset + (double)this.ySize + (double)this.height, z + (double)f);
+		setEntityBoundingBox(new AxisAlignedBB(x - (double)f, y - (double)getYOffset() + (double)0.0F, z - (double)f, x + (double)f, y - (double)getYOffset() + (double)0.0F + (double)this.height, z + (double)f));
 
 	}
 }

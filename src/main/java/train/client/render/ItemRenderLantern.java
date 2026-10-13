@@ -1,13 +1,14 @@
 package train.client.render;
 
+import train.client.render.item.TCItemRenderer;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 import train.client.render.models.blocks.ModelLantern;
 import train.common.library.Info;
 
-public class ItemRenderLantern implements IItemRenderer {
+public class ItemRenderLantern extends TCItemRenderer {
     private static final ModelLantern modelLantern = new ModelLantern();
     private static final ResourceLocation texture = new ResourceLocation(Info.resourceLocation, Info.modelTexPrefix + "lantern_uv_draw_2.png");
 

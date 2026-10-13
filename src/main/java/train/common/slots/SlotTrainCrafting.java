@@ -47,13 +47,12 @@ public class SlotTrainCrafting extends Slot {
 	@Override
 	public ItemStack decrStackSize(int par1) {
 		if (this.getHasStack()) {
-			this.amountCrafted += Math.min(par1, this.getStack().stackSize);
+			this.amountCrafted += Math.min(par1, this.getStack().getCount());
 		}
 		return super.decrStackSize(par1);
 	}
 	@Override
-	public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack)
-	{
+	public ItemStack onTake(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack) {
 		FMLCommonHandler.instance().firePlayerCraftingEvent(par1EntityPlayer, par2ItemStack, craftMatrix);
 		this.onCrafting(par2ItemStack);
 		for (int var3 = 0; var3 < this.craftMatrix.getSizeInventory(); ++var3) {
@@ -63,10 +62,10 @@ public class SlotTrainCrafting extends Slot {
 				if (var4.getItem().hasContainerItem()) {
 					ItemStack var5 = var4.getItem().getContainerItem(var4);
 					if (var5.isItemStackDamageable() && var5.getItemDamage() > var5.getMaxDamage()) {
-						MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(thePlayer, var5));
+						MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(thePlayer, var5, net.minecraft.util.EnumHand.MAIN_HAND));
 						var5 = null;
 					}
-					if (var5 != null && (!var4.getItem().doesContainerItemLeaveCraftingGrid(var4) || !this.thePlayer.inventory.addItemStackToInventory(var5))) {
+					if (var5 != null && !this.thePlayer.inventory.addItemStackToInventory(var5)) {
 						if (this.craftMatrix.getStackInSlot(var3) == null) {
 							this.craftMatrix.setInventorySlotContents(var3, var5);
 						}
@@ -77,6 +76,7 @@ public class SlotTrainCrafting extends Slot {
 				}
 			}
 		}
+		return par2ItemStack;
 	}
 
 	@Override

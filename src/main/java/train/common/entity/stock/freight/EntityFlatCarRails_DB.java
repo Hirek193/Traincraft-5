@@ -1,4 +1,5 @@
 package train.common.entity.stock.freight;
+import train.client.render.models.ModelFlatCarRails_DB;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -70,7 +71,7 @@ null,
  null, 
 null, 
 null, 
-new ItemStack(Blocks.rail, 1),
+new ItemStack(Blocks.RAIL, 1),
 new ItemStack(thisItem)
         };
     }
@@ -84,7 +85,7 @@ return 3;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelFlatCarRails_DB()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelFlatCarRails_DB()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{0.0f, -0.060000002f, 0.0f}};}
 @Override

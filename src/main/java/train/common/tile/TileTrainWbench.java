@@ -20,7 +20,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraft.util.EnumFacing;
 import train.common.api.blocks.TileRenderFacing;
 import train.common.library.Info;
-import train.common.util.CommonUtil;
+import ebf.tim.utility.CommonUtil;
 
 public class TileTrainWbench extends TileRenderFacing implements IInventory {
 
@@ -42,7 +42,7 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 	}
 
 	@Override
-	public boolean hasCustomInventoryName() {
+	public boolean hasCustomName() {
 
 		return false;
 	}
@@ -67,7 +67,7 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 
 		if (workbenchItemStacks[i] != null) {
 
-			if (workbenchItemStacks[i].stackSize <= j) {
+			if (workbenchItemStacks[i].getCount() <= j) {
 
 				ItemStack itemstack = workbenchItemStacks[i];
 				workbenchItemStacks[i] = null;
@@ -77,7 +77,7 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 
 			ItemStack itemstack1 = workbenchItemStacks[i].splitStack(j);
 
-			if (workbenchItemStacks[i].stackSize == 0) {
+			if (workbenchItemStacks[i].getCount() == 0) {
 
 				workbenchItemStacks[i] = null;
 			}
@@ -111,9 +111,9 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 
 		workbenchItemStacks[i] = stack;
 
-		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
+		if (stack != null && stack.getCount() > getInventoryStackLimit()) {
 
-			stack.stackSize = getInventoryStackLimit();
+			stack.setCount(getInventoryStackLimit());
 		}
 	}
 
@@ -122,7 +122,7 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 
 		super.readFromNBT(nbtTag);
 
-		facing = CommonUtil.getOrientation(nbtTag.getByte("Orientation"));
+		facing = EnumFacing.byIndex(nbtTag.getByte("Orientation"));
 		NBTTagList tagList = nbtTag.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 		workbenchItemStacks = new ItemStack[getSizeInventory()];
 
@@ -139,7 +139,7 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbtTag) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbtTag) {
 
 		super.writeToNBT(nbtTag);
 
@@ -166,6 +166,7 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 		}
 
 		nbtTag.setTag("Items", tagList);
+		return nbtTag;
 	}
 
 	@Override
@@ -178,18 +179,18 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
 
-		if (worldObj == null || CommonUtil.getTileEntity(worldObj, xCoord, yCoord, zCoord) != this) {
+		if (world == null || CommonUtil.getTileEntity(world, getPos().getX(), getPos().getY(), getPos().getZ()) != this) {
 
 			return false;
 		}
 
-		return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
+		return player.getDistanceSq(getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D) <= 64.0D;
 	}
 
 
 
 	@Override
-	public SPacketUpdateTileEntity getDescriptionPacket() {
+	public SPacketUpdateTileEntity getUpdatePacket() {
 
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
@@ -212,4 +213,39 @@ public class TileTrainWbench extends TileRenderFacing implements IInventory {
 
 	static final ResourceLocation texture = new ResourceLocation(Info.modID, "textures/blocks/train_table.png");
 
+
+	/* 1.12 IInventory methods */
+	@Override
+	public void clear() {
+		for (int i = 0; i < getSizeInventory(); i++) {
+			setInventorySlotContents(i, ItemStack.EMPTY);
+		}
+	}
+
+	/* 1.12 IInventory methods */
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	/* 1.12 IInventory methods */
+	@Override
+	public void setField(int id, int value) {
+	}
+
+	/* 1.12 IInventory methods */
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	/* 1.12 IInventory methods */
+	@Override
+	public boolean isEmpty() {
+		for (int i = 0; i < getSizeInventory(); i++) {
+			ItemStack s = getStackInSlot(i);
+			if (s != null && !s.isEmpty()) return false;
+		}
+		return true;
+	}
 }

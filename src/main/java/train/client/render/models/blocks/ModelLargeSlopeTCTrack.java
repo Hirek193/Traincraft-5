@@ -1,33 +1,33 @@
 package train.client.render.models.blocks;
 
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import train.client.core.helpers.SpriteHelper;
+
+import train.client.render.obj.TCObjModel;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ebf.tim.utility.CommonUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import train.common.library.Info;
 import train.common.tile.TileTCRail;
 
 @SideOnly(Side.CLIENT)
 public class ModelLargeSlopeTCTrack extends ModelBase {
-	private IModelCustom modeltrack;
+	private TCObjModel modeltrack;
 
-	private IModelCustom modelLargeSlopeWood;
-	private IModelCustom modelLargeSlopeBallast;
+	private TCObjModel modelLargeSlopeWood;
+	private TCObjModel modelLargeSlopeBallast;
 	private String[] ballastTexture = new String[2];
 
 
 	public ModelLargeSlopeTCTrack() {
-		modeltrack = AdvancedModelLoader.loadModel(new ResourceLocation(Info.modelPrefix + "track_slope_long.obj"));
-		modelLargeSlopeWood = AdvancedModelLoader
-				.loadModel(new ResourceLocation(Info.modelPrefix + "supports_wood_long.obj"));
-		modelLargeSlopeBallast = AdvancedModelLoader
-				.loadModel(new ResourceLocation(Info.modelPrefix + "supports_ballast_long.obj"));
+		modeltrack = TCObjModel.load(new ResourceLocation(Info.modelPrefix + "track_slope_long.obj"));
+		modelLargeSlopeWood = TCObjModel.load(new ResourceLocation(Info.modelPrefix + "supports_wood_long.obj"));
+		modelLargeSlopeBallast = TCObjModel.load(new ResourceLocation(Info.modelPrefix + "supports_ballast_long.obj"));
 	}
 
 
@@ -93,8 +93,8 @@ public class ModelLargeSlopeTCTrack extends ModelBase {
 	public void render(String type, TileTCRail tcRail, double x, double y, double z) {
 		String iconName;
 		Block block = Block.getBlockById(tcRail.getBallastMaterial());
-		IIcon icon = block.getIcon(1, tcRail.ballastMetadata);
-		int colour = block.colorMultiplier(tcRail.getWorld(), tcRail.xCoord, tcRail.yCoord - 1, tcRail.zCoord);
+		TextureAtlasSprite icon = SpriteHelper.getTopSprite(block, tcRail.ballastMetadata);
+		int colour = ebf.tim.utility.ClientUtil.colorMultiplier(tcRail.getWorld(), tcRail.getPos().getX(), tcRail.getPos().getY() - 1, tcRail.getPos().getZ());
 		if (icon != null) {
 			iconName = icon.getIconName();
 		}
@@ -103,7 +103,7 @@ public class ModelLargeSlopeTCTrack extends ModelBase {
 			colour = 16777215;
 		}
 
-		render( type, CommonUtil.getBlockFacing(tcRail.getWorldObj(), tcRail.xCoord, tcRail.yCoord, tcRail.zCoord), x, y, z, 1, 1, 1, 1, iconName, colour);
+		render( type, CommonUtil.getBlockFacing(tcRail.getWorld(), tcRail.getPos().getX(), tcRail.getPos().getY(), tcRail.getPos().getZ()), x, y, z, 1, 1, 1, 1, iconName, colour);
 	}
 
 	public void render(String type, int facing, double x, double y, double z, float r, float g, float b, float a, String ballastTexture, int colour)

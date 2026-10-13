@@ -7,11 +7,11 @@
 
 package train.client.render.models.blocks;
 
+import train.client.render.obj.TCObjModel;
+
 import fexcraft.tmt.slim.ModelBase;
 import fexcraft.tmt.slim.ModelRendererTurbo;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import train.client.render.CustomModelRenderer;
 import train.common.library.Info;

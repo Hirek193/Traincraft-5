@@ -192,7 +192,7 @@ public class GuiControlCar extends GuiContainer
         return p;
     }
 
-    protected void drawCreativeTabHoveringText(String str, int t, int g) {
+    public void drawHoveringText(String str, int t, int g) {
 
         String state = "";
         int textWidth = fontRenderer.getStringWidth("the GUI, change speed, destroy it.");
@@ -241,7 +241,7 @@ public class GuiControlCar extends GuiContainer
         GL11.glEnable(GL11.GL_DEPTH_TEST);
 
         if (intersectsWith(i, j)) {
-            drawCreativeTabHoveringText("When a locomotive is locked,", i, j);
+            drawHoveringText("When a locomotive is locked,", i, j);
         }
     }
 

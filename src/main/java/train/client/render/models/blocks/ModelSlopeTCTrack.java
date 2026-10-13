@@ -1,14 +1,16 @@
 package train.client.render.models.blocks;
 
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import train.client.core.helpers.SpriteHelper;
+
+import train.client.render.obj.TCObjModel;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ebf.tim.utility.CommonUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import train.common.library.Info;
 import train.common.tile.TileTCRail;
@@ -16,15 +18,15 @@ import train.common.tile.TileTCRail;
 @SideOnly(Side.CLIENT)
 public class ModelSlopeTCTrack extends ModelBase {
 
-	private IModelCustom	modeltrack;
+	private TCObjModel	modeltrack;
 
-	private IModelCustom	modelSlopeWood;
-	private IModelCustom	modelSlopeBallast;
+	private TCObjModel	modelSlopeWood;
+	private TCObjModel	modelSlopeBallast;
 	
 	public ModelSlopeTCTrack() {
-		modeltrack = AdvancedModelLoader.loadModel(new ResourceLocation(Info.modelPrefix + "track_slope.obj"));
-		modelSlopeWood = AdvancedModelLoader.loadModel(new ResourceLocation(Info.modelPrefix + "supports_wood.obj"));
-		modelSlopeBallast = AdvancedModelLoader.loadModel(new ResourceLocation(Info.modelPrefix + "supports_ballast.obj"));
+		modeltrack = TCObjModel.load(new ResourceLocation(Info.modelPrefix + "track_slope.obj"));
+		modelSlopeWood = TCObjModel.load(new ResourceLocation(Info.modelPrefix + "supports_wood.obj"));
+		modelSlopeBallast = TCObjModel.load(new ResourceLocation(Info.modelPrefix + "supports_ballast.obj"));
 	}
 	
 	public void render(String type, String ballast, int ballastColour) {
@@ -108,8 +110,8 @@ public class ModelSlopeTCTrack extends ModelBase {
 
 		String iconName;
 		Block block = Block.getBlockById(tcRail.getBallastMaterial());
-		IIcon icon = block.getIcon(1, tcRail.ballastMetadata);
-		int colour = block.colorMultiplier(tcRail.getWorld(), tcRail.xCoord, tcRail.yCoord- 1, tcRail.zCoord);
+		TextureAtlasSprite icon = SpriteHelper.getTopSprite(block, tcRail.ballastMetadata);
+		int colour = ebf.tim.utility.ClientUtil.colorMultiplier(tcRail.getWorld(), tcRail.getPos().getX(), tcRail.getPos().getY()- 1, tcRail.getPos().getZ());
 		if (icon != null) {
 			iconName = icon.getIconName();
 		}
@@ -117,7 +119,7 @@ public class ModelSlopeTCTrack extends ModelBase {
 			iconName = "tc:ballast_test";
 			colour = 16777215;
 		}
-		render( type, CommonUtil.getBlockFacing(tcRail.getWorldObj(), tcRail.xCoord, tcRail.yCoord, tcRail.zCoord), x, y, z, 1, 1, 1, 1, iconName, colour);
+		render( type, CommonUtil.getBlockFacing(tcRail.getWorld(), tcRail.getPos().getX(), tcRail.getPos().getY(), tcRail.getPos().getZ()), x, y, z, 1, 1, 1, 1, iconName, colour);
 
 	}
 

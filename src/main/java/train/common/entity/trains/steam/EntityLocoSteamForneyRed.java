@@ -1,4 +1,5 @@
 package train.common.entity.trains.steam;
+import train.client.render.models.ModelLocoForney;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -88,7 +89,7 @@ return 1;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelLocoForney()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelLocoForney()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{-1.3f, -0.060000002f, 0.0f}};}
     @Override

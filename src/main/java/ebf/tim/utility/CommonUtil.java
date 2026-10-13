@@ -1,5 +1,7 @@
 package ebf.tim.utility;
 
+import javax.annotation.Nullable;
+
 
 import fexcraft.tmt.slim.Vec3d;
 import fexcraft.tmt.slim.Vec3f;
@@ -51,29 +53,40 @@ public class CommonUtil {
     public static final float degreesF = (float) (180.0d / Math.PI);
     private static List<String> loggedLangChecks = new ArrayList<>();
 
+    /** First passenger of an entity, or null (1.7.10 {@code riddenByEntity}). */
+    @Nullable
+    public static net.minecraft.entity.Entity rider(@Nullable net.minecraft.entity.Entity e) {
+        return e == null || e.getPassengers().isEmpty() ? null : e.getPassengers().get(0);
+    }
+
+    /** 1.7.10 {@code World.doesBlockHaveSolidTopSurface}. */
+    public static boolean hasSolidTop(net.minecraft.world.IBlockAccess world, BlockPos pos) {
+        return world.getBlockState(pos).isSideSolid(world, pos, EnumFacing.UP);
+    }
+
     /** Creates a bounding box using the version-specific construction API. */
     public static AxisAlignedBB createAABB(double minX, double minY, double minZ, double maxX, double maxY, double maxZ){
-        return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+        return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
     /** Returns whether a stack represents an empty inventory slot. */
     public static boolean isItemStackEmpty(ItemStack stack){
-        return stack == null || stack.stackSize <= 0;
+        return stack == null || stack.getCount() <= 0;
     }
 
     /** Sends a plain-text player message through the version-specific chat API. */
     public static void sendChat(EntityPlayer player, String message){
-        player.addChatMessage(new ChatComponentText(message));
+        player.sendMessage(new TextComponentString(message));
     }
 
     /** Returns the dimension containing the world. */
     public static int getDimensionId(World world){
-        return world.provider.dimensionId;
+        return world.provider.getDimension();
     }
 
     /** Spawns an entity in the world and reports whether it was accepted. */
     public static boolean spawnEntity(World world, Entity entity){
-        return world.spawnEntityInWorld(entity);
+        return world.spawnEntity(entity);
     }
 
     /** Decodes a legacy direction ordinal through the version-specific direction API. */
@@ -82,18 +95,22 @@ public class CommonUtil {
     }
 
     /** Gets a tile entity at integer world coordinates. */
+    public static TileEntity getTileEntity(net.minecraft.world.IBlockAccess world, int x, int y, int z){
+        return world.getTileEntity(new BlockPos(x, y, z));
+    }
+
     public static TileEntity getTileEntity(World world, int x, int y, int z){
-        return world.getTileEntity(x, y, z);
+        return world.getTileEntity(new BlockPos(x, y, z));
     }
 
     /** Sets a tile entity at integer world coordinates. */
     public static void setTileEntity(World world, int x, int y, int z, TileEntity tile){
-        world.setTileEntity(x, y, z, tile);
+        world.setTileEntity(new BlockPos(x, y, z), tile);
     }
 
     /** Gets a block's material through the version-specific block API. */
     public static Material getMaterial(Block block){
-        return block.getMaterial();
+        return block.getDefaultState().getMaterial();
     }
 
     /** Gets the material for an item's associated block. */
@@ -118,6 +135,10 @@ public class CommonUtil {
         return world.getBlockState(new BlockPos(floorDouble(x), floorDouble(y),floorDouble(z))).getBlock();
     }
 
+    public static Block getBlockAt(net.minecraft.world.IBlockAccess world, int x, int y, int z){
+        return world.getBlockState(new BlockPos(x,y,z)).getBlock();
+    }
+
     public static Block getBlockAt(World world, int x, int y, int z){
         return world.getBlockState(new BlockPos(x,y,z)).getBlock();
     }
@@ -127,11 +148,12 @@ public class CommonUtil {
     }
 
     public static boolean setBlock(World w, int x, int y, int z, Block b, int meta, int flags){
-        return w.setBlock(x, y, z, b, meta, flags);
+        return w.setBlockState(new BlockPos(x, y, z), b.getStateFromMeta(meta), flags);
     }
 
     public static boolean setBlockMeta(World w, int x, int y, int z, int meta, int flags){
-        return w.setBlockMetadataWithNotify(x, y, z, meta, flags);
+        BlockPos pos = new BlockPos(x, y, z);
+        return w.setBlockState(pos, w.getBlockState(pos).getBlock().getStateFromMeta(meta), flags);
     }
 
     public static void setBlockMeta(World w, int x, int y, int z, int meta){
@@ -199,7 +221,7 @@ public class CommonUtil {
      */
     public static boolean isRailBlockAt(World world, int x, int y, int z) {
         //todo ZnD support, either by jar reference or API update
-        return (/*world.getTileEntity(x, y, z) instanceof ITrackBase ||*/ world.getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockRailBase);
+        return (/*world.getTileEntity(new net.minecraft.util.math.BlockPos(x, y, z)) instanceof ITrackBase ||*/ world.getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockRailBase);
     }
 
     /**
@@ -207,6 +229,12 @@ public class CommonUtil {
      * in later versions it's used to identify what made the sound, like if it's for an entity or a block.
      */
     public static void playSound(World world, double xCoord, double yCoord, double zCoord, String file, float volume, float pitch, int soundType){
+    }
+
+    public static void playSound(World world, double xCoord, double yCoord, double zCoord, net.minecraft.util.SoundEvent sound, float volume, float pitch, int soundType){
+        if (world != null && sound != null) {
+            world.playSound(null, xCoord, yCoord, zCoord, sound, net.minecraft.util.SoundCategory.BLOCKS, volume, pitch);
+        }
     }
 
     public static void playSound(TileEntity tile, String file, float volume, float pitch){

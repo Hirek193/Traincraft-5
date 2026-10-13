@@ -1,4 +1,5 @@
 package train.common.entity.trains.diesel;
+import train.client.render.models.ModelSD40;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -90,7 +91,7 @@ return 3;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelSD40()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelSD40()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{-1.2f, -0.030000001f, 0.0f}};}
     @Override

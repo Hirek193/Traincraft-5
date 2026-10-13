@@ -43,15 +43,16 @@ public class TileEmbeddedStopper extends TileEntity {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbtTag) {
+    public NBTTagCompound writeToNBT(NBTTagCompound nbtTag) {
 
         super.writeToNBT(nbtTag);
 
         nbtTag.setByte("Orientation", (byte) facingMeta);
+    	return nbtTag;
     }
 
     @Override
-    public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket() {
 
         NBTTagCompound nbt = new NBTTagCompound();
         this.writeToNBT(nbt);
@@ -61,7 +62,7 @@ public class TileEmbeddedStopper extends TileEntity {
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt){
-        this.readFromNBT(pkt.func_148857_g());
+        this.readFromNBT(pkt.getNbtCompound());
         super.onDataPacket(net, pkt);
     }
 }

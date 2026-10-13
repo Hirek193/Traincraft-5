@@ -1,4 +1,5 @@
 package train.common.entity.stock.tanker;
+import train.client.render.models.ModelTankWagonUS;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -78,7 +79,7 @@ null,
  null, 
 null, 
 null, 
-new ItemStack(Items.potionitem, 1),
+new ItemStack(Items.POTIONITEM, 1),
 new ItemStack(thisItem)
         };
     }
@@ -92,7 +93,7 @@ return 2;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelTankWagonUS()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelTankWagonUS()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{0.0f, -0.030000001f, 0.0f}};}
 @Override

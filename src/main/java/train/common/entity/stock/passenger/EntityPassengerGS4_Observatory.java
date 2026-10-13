@@ -1,4 +1,5 @@
 package train.common.entity.stock.passenger;
+import train.client.render.models.ModelGS4Tavern;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -71,7 +72,7 @@ public class EntityPassengerGS4_Observatory extends EntityRollingStock implement
     @Override
     public ItemStack[] getRecipe() {
         return new ItemStack[]{
-                new ItemStack(Blocks.glass, 1), 
+                new ItemStack(Blocks.GLASS, 1), 
 new ItemStack(ItemIDs.bogie.item, 2), 
 new ItemStack(ItemIDs.steelframe.item, 1), 
 null, 
@@ -93,7 +94,7 @@ return 3;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelGS4Tavern()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelGS4Tavern()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{0.0f, -0.525f, 0.0f}};}
     @Override

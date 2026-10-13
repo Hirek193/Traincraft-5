@@ -1,4 +1,5 @@
 package train.common.entity.trains.steam;
+import train.client.render.models.ModelLocoSteamAdler;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -69,7 +70,7 @@ new ItemStack(ItemIDs.ironChimney.item, 1),
 null, 
 new ItemStack(ItemIDs.ironBoiler.item, 1), 
 new ItemStack(ItemIDs.ironFirebox.item, 1), 
-new ItemStack(Items.gold_ingot, 2),
+new ItemStack(Items.GOLD_INGOT, 2),
 new ItemStack(thisItem)
         };
     }
@@ -83,7 +84,7 @@ return 1;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelLocoSteamAdler()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelLocoSteamAdler()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{-0.8f, -1.55f, 0.0f}};}
     @Override

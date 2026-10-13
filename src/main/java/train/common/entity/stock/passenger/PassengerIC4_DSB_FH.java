@@ -1,4 +1,5 @@
 package train.common.entity.stock.passenger;
+import train.client.render.models.ModelLocoDieselIC4_DSB_FH;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -72,7 +73,7 @@ return 2;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelLocoDieselIC4_DSB_FH()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelLocoDieselIC4_DSB_FH()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{-0.8f, -0.060000002f, 0.0f}};}
 @Override

@@ -17,7 +17,7 @@ public abstract class Freight extends EntityRollingStock {
 
     public Freight(World world) {
         super(world);
-        dataWatcher.addObject(22, 0);
+        getDataWatcher().addObject(22, 0);
         cargoItems = new ItemStack[getSizeInventory()];
     }
 
@@ -38,8 +38,8 @@ public abstract class Freight extends EntityRollingStock {
         setDamage(getDamage() + i * 10);
 
         if (getDamage() > 40) {
-            if (getPassengers().get(0) != null) {
-                getPassengers().get(0).startRiding(this);
+            if (ebf.tim.utility.CommonUtil.rider(this) != null) {
+                ebf.tim.utility.CommonUtil.rider(this).startRiding(this);
             }
 
             this.setDead();
@@ -115,7 +115,7 @@ public abstract class Freight extends EntityRollingStock {
                     slotsFilled++;
                 }
             }
-            this.dataWatcher.updateObject(22, slotsFilled);
+            getDataWatcher().updateObject(22, slotsFilled);
         }
     }
 
@@ -177,7 +177,7 @@ public abstract class Freight extends EntityRollingStock {
     }
 
     public int getAmmountOfCargo() {
-        return this.dataWatcher.getWatchableObjectInt(22);
+        return getDataWatcher().getWatchableObjectInt(22);
     }
 
     @Override
@@ -197,7 +197,7 @@ public abstract class Freight extends EntityRollingStock {
                 }
             }
         }
-        this.dataWatcher.updateObject(22, slotsFilled);
+        getDataWatcher().updateObject(22, slotsFilled);
     }
 
     @Override

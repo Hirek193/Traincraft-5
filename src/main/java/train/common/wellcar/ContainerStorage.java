@@ -83,7 +83,7 @@ public class ContainerStorage extends Container
 
             if (stackInSlot.getCount() == 0)
             {
-                slot.putStack((ItemStack)null);
+                slot.putStack(ItemStack.EMPTY);
             }
             else
             {

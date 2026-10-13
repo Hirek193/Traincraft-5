@@ -64,8 +64,8 @@ public class PacketRollingStockRotation implements IMessage {
         @Override
         public IMessage onMessage(PacketRollingStockRotation message, MessageContext context) {
             Minecraft mc = Minecraft.getMinecraft();
-            if (mc.theWorld != null) {
-                Entity entity = mc.theWorld.getEntityByID(message.entityID);
+            if (mc.world != null) {
+                Entity entity = mc.world.getEntityByID(message.entityID);
                 if (entity instanceof EntityRollingStock) {
                     EntityRollingStock rollingStock = (EntityRollingStock) entity;
                     rollingStock.rotationYaw = message.rotationYawServer;

@@ -7,20 +7,20 @@
 
 package train.client.render.models.blocks;
 
+import train.client.render.obj.TCObjModel;
+
 import fexcraft.tmt.slim.ModelBase;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import train.common.library.Info;
 
 public class ModelAmericanStopper extends ModelBase {
 
-    private IModelCustom track;
+    private TCObjModel track;
 
     public ModelAmericanStopper(float scale) {
 
-        track =  AdvancedModelLoader.loadModel(new ResourceLocation(Info.modelPrefix + "american_bumper.obj"));
+        track =  TCObjModel.load(new ResourceLocation(Info.modelPrefix + "american_bumper.obj"));
 
 
     }

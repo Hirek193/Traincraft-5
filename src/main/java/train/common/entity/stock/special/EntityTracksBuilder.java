@@ -1,4 +1,5 @@
 package train.common.entity.stock.special;
+import train.client.render.models.ModelBuilder;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -69,7 +70,7 @@ new ItemStack(ItemIDs.steelchimney.item, 1),
 null, 
 new ItemStack(ItemIDs.boiler.item, 1), 
 new ItemStack(ItemIDs.firebox.item, 1), 
-new ItemStack(Blocks.rail, 16),
+new ItemStack(Blocks.RAIL, 16),
 new ItemStack(thisItem)
         };
     }
@@ -83,7 +84,7 @@ return 2;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelBuilder()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelBuilder()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{0.0f, -0.08000001f, 0.0f}};}
 @Override

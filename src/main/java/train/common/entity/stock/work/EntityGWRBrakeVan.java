@@ -1,4 +1,5 @@
 package train.common.entity.stock.work;
+import train.client.render.models.ModelGWRBrakeVan;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -83,7 +84,7 @@ return 1;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelGWRBrakeVan()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelGWRBrakeVan()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{0.0f, -0.6f, 0.0f}};}
     @Override

@@ -27,9 +27,9 @@ public class HUDloco extends GuiScreen {
         {
             if (game.player.getRidingEntity() instanceof AbstractControlCar)
             {
-                if (game.world.getEntityByID(game.player.getRidingEntity().getDataWatcher().getWatchableObjectInt(29)) != null)
+                if (game.world.getEntityByID(((AbstractControlCar) game.player.getRidingEntity()).getDataWatcher().getWatchableObjectInt(29)) != null)
                 {
-                    renderSkillHUD(event, (Locomotive) game.world.getEntityByID(game.player.getRidingEntity().getDataWatcher().getWatchableObjectInt(29)));
+                    renderSkillHUD(event, (Locomotive) game.world.getEntityByID(((AbstractControlCar) game.player.getRidingEntity()).getDataWatcher().getWatchableObjectInt(29)));
                 }
                 else
                 {

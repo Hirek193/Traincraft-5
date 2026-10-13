@@ -1,27 +1,27 @@
 package train.client.render.models.blocks;
 
+import train.client.render.obj.TCObjModel;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ebf.tim.utility.CommonUtil;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import train.common.library.Info;
 import train.common.tile.TileWindMill;
 
 @SideOnly(Side.CLIENT)
 public class ModelWindMillWheel extends ModelBase {
-	//private IModelCustom modelWindMill;
-	private IModelCustom modelWindMillWheel;
+	//private TCObjModel modelWindMill;
+	private TCObjModel modelWindMillWheel;
 	private long lastframe;
 	private float wheel;
 	private int l;
 	public float wheel1 = 0.4188790204786391F;
 
 	public ModelWindMillWheel() {
-		modelWindMillWheel = AdvancedModelLoader.loadModel(new ResourceLocation(Info.modelPrefix + "wind_mill_wheel.obj"));
+		modelWindMillWheel = TCObjModel.load(new ResourceLocation(Info.modelPrefix + "wind_mill_wheel.obj"));
 	}
 
 	public void render() {
@@ -46,7 +46,7 @@ public class ModelWindMillWheel extends ModelBase {
 		GL11.glColor4f(f1 * f2, f1 * f3, f1 * f4,1);
 		GL11.glScalef(0.45f, 0.45f, 0.45f);
 
-		int facing = CommonUtil.getBlockFacing(windMill.getWorldObj(), (int) windMill.xCoord, (int) windMill.yCoord, (int) windMill.zCoord);
+		int facing = CommonUtil.getBlockFacing(windMill.getWorld(), (int) windMill.getPos().getX(), (int) windMill.getPos().getY(), (int) windMill.getPos().getZ());
 		if (facing == 3) {
 		}
 		if (facing == 1) {
@@ -58,11 +58,11 @@ public class ModelWindMillWheel extends ModelBase {
 		if (facing == 2) {
 			GL11.glRotatef(90, 0, 1, 0);
 		}
-		int windStrength = (int) (windMill.windClient + (((double) windMill.yCoord / 256) * 10));//* (windMill.yCoord - 64);
-		if (windMill.world.isThundering()) {
+		int windStrength = (int) (windMill.windClient + (((double) windMill.getPos().getY() / 256) * 10));//* (windMill.getPos().getY() - 64);
+		if (windMill.getWorld().isThundering()) {
 			windStrength *= 7.5;
 		}
-		else if (windMill.world.isRaining()) {
+		else if (windMill.getWorld().isRaining()) {
 			windStrength *= 4.5;
 		}
 		//System.out.println(windStrength+" "+(((double)windMill.yCoord/256)*10));

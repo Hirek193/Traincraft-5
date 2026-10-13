@@ -1,12 +1,12 @@
 package train.client.render.models.blocks;
 
+import train.client.render.obj.TCObjModel;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ebf.tim.utility.CommonUtil;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import train.common.library.Info;
 import train.common.tile.TileTCRail;
@@ -14,12 +14,12 @@ import train.common.tile.TileTCRail;
 @SideOnly(Side.CLIENT)
 public class ModelMediumDiagonalStraightTCTrack extends ModelBase {
 
-    private IModelCustom modelMediumDiagonalStraight;
-    private IModelCustom modelEmbeddedMediumDiagonalStraight;
+    private TCObjModel modelMediumDiagonalStraight;
+    private TCObjModel modelEmbeddedMediumDiagonalStraight;
 
 
     public ModelMediumDiagonalStraightTCTrack() {
-        modelMediumDiagonalStraight = AdvancedModelLoader.loadModel(new ResourceLocation(Info.modelPrefix + "track_straight_diagonal_medium.obj"));
+        modelMediumDiagonalStraight = TCObjModel.load(new ResourceLocation(Info.modelPrefix + "track_straight_diagonal_medium.obj"));
 
     }
 
@@ -28,7 +28,7 @@ public class ModelMediumDiagonalStraightTCTrack extends ModelBase {
     }
 
     public void render(String type, TileTCRail tcRail, double x, double y, double z) {
-        render( type, CommonUtil.getBlockFacing(tcRail.getWorldObj(), tcRail.xCoord, tcRail.yCoord, tcRail.zCoord), x, y, z, 1, 1, 1, 1 );
+        render( type, CommonUtil.getBlockFacing(tcRail.getWorld(), tcRail.getPos().getX(), tcRail.getPos().getY(), tcRail.getPos().getZ()), x, y, z, 1, 1, 1, 1 );
     }
 
     public void render( String type, int facing, double x, double y, double z, float r, float g, float b, float a )

@@ -7,19 +7,19 @@
 
 package train.client.render.models.blocks;
 
+import train.client.render.obj.TCObjModel;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import train.common.library.Info;
 
 public class ModelLights extends ModelBase {
-	private IModelCustom present;
+	private TCObjModel present;
 	
 	public ModelLights() {
-		present = new AdvancedModelLoader().loadModel(new ResourceLocation(Info.modelPrefix + "lights2.obj"));
+		present = TCObjModel.load(new ResourceLocation(Info.modelPrefix + "lights2.obj"));
 	}
 	
 	public void render(String partname) {

@@ -49,7 +49,7 @@ public class RenderTCRail extends TileEntitySpecialRenderer {
 
     public static RailShapeCore trackRoute;
     @Override
-    public void renderTileEntityAt(TileEntity var1, double x, double y, double z, float var8) {
+    public void render(TileEntity var1, double x, double y, double z, float var8, int destroyStage, float alpha) {
         if (var1 instanceof TileTCRail) {
             railTile = (TileTCRail) var1;
             if (railTile.hasModel && railTile.getTrackType() != null) {
@@ -742,7 +742,7 @@ public class RenderTCRail extends TileEntitySpecialRenderer {
                     trackRoute.renderScale=1;
                     trackRoute.rail=new ItemStack(Items.IRON_INGOT);
                     trackRoute.ballast= new ItemStack(Blocks.STONE);
-                    trackRoute.ties= new ItemStack(Blocks.log);
+                    trackRoute.ties= new ItemStack(Blocks.LOG);
                     trackRoute.wires=null;
                 }
 
@@ -755,10 +755,10 @@ public class RenderTCRail extends TileEntitySpecialRenderer {
         //the base shape
         RailSimpleShape shape = new RailSimpleShape();
         shape.setSleeperCount(5);
-        DebugUtil.println((float)rail.cx-rail.xCoord, rail.xCoord, (float)rail.cz-rail.zCoord, rail.zCoord);
+        DebugUtil.println((float)rail.cx-rail.getPos().getX(), rail.getPos().getX(), (float)rail.cz-rail.getPos().getZ(), rail.getPos().getZ());
         shape.setStart(0,0,0)
-                .setEnd( (float)rail.cx-rail.xCoord,0, (float)rail.cz-rail.zCoord)
-                .setCenter( (float)(rail.cx*0.5)-rail.xCoord,0, (float)(rail.cz*0.5)-rail.zCoord);
+                .setEnd( (float)rail.cx-rail.getPos().getX(),0, (float)rail.cz-rail.getPos().getZ())
+                .setCenter( (float)(rail.cx*0.5)-rail.getPos().getX(),0, (float)(rail.cz*0.5)-rail.getPos().getZ());
 
 
         return shape;

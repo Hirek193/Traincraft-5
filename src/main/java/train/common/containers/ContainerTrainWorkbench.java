@@ -19,7 +19,7 @@ public class ContainerTrainWorkbench extends Container {
 	private World world;
 
 	public ContainerTrainWorkbench(InventoryPlayer invPlayer, World world, IInventory te) {
-		this.getWorld() = world;
+		this.world = world;
 		craftMatrix = te;
 
 		this.addSlotToContainer(new SlotTrainCrafting(invPlayer.player, craftMatrix, craftResult, 0, 124, 35));
@@ -48,7 +48,7 @@ public class ContainerTrainWorkbench extends Container {
 	@Override
 	public void onCraftMatrixChanged(IInventory inv) {
 		super.onCraftMatrixChanged(inv);
-		craftResult.setInventorySlotContents(0, TrainCraftingManager.getInstance().func_82787_a(craftMatrix, getWorld()));
+		craftResult.setInventorySlotContents(0, TrainCraftingManager.getInstance().func_82787_a(craftMatrix, world));
 	}
 
 	/*
@@ -57,12 +57,12 @@ public class ContainerTrainWorkbench extends Container {
 	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
-		craftResult.setInventorySlotContents(0, TrainCraftingManager.getInstance().func_82787_a(craftMatrix, getWorld()));
+		craftResult.setInventorySlotContents(0, TrainCraftingManager.getInstance().func_82787_a(craftMatrix, world));
 	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return craftMatrix.isUseableByPlayer(player);
+		return craftMatrix.isUsableByPlayer(player);
 	}
 
 	@Override

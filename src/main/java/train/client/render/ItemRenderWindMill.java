@@ -1,14 +1,15 @@
 package train.client.render;
 
+import train.client.render.item.TCItemRenderer;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 import train.client.render.models.blocks.ModelWindMill;
 import train.client.render.models.blocks.ModelWindMillWheel;
 import train.common.library.Info;
 
-public class ItemRenderWindMill implements IItemRenderer {
+public class ItemRenderWindMill extends TCItemRenderer {
     private final ModelWindMill modelWindMill;
     private final ModelWindMillWheel modelWindMillWheel;
 

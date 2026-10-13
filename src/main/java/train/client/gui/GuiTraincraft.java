@@ -67,7 +67,7 @@ public abstract class GuiTraincraft extends GuiContainer {
     }
 
     @Override
-    protected void mouseClicked(int par1, int par2, int mouseButton) {
+    protected void mouseClicked(int par1, int par2, int mouseButton) throws java.io.IOException {
         super.mouseClicked(par1, par2, mouseButton);
 
         // Handle ledger clicks

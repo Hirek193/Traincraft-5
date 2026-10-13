@@ -55,20 +55,19 @@ public class GuiDistil extends GuiContainer {
         //drawGuiContainerBackgroundLayer(par3, t, g);
         //drawGuiContainerForegroundLayer(t, g);
         super.drawScreen(t, g, par3);
-        if ((LiquidManager.DIESEL != null && distilInventory.getLiquidItemID() == LiquidManager.DIESEL.getID())) {
+        if ((LiquidManager.DIESEL != null && distilInventory.getLiquidItemID() == LiquidManager.fluidId(LiquidManager.DIESEL))) {
             if (intersectsWith(t, g)) {
-                drawCreativeTabHoveringText("Diesel", t, g);
+                drawHoveringText("Diesel", t, g);
             }
         }
-        if ((LiquidManager.REFINED_FUEL != null && distilInventory.getLiquidItemID() == LiquidManager.REFINED_FUEL.getID())) {
+        if ((LiquidManager.REFINED_FUEL != null && distilInventory.getLiquidItemID() == LiquidManager.fluidId(LiquidManager.REFINED_FUEL))) {
             if (intersectsWith(t, g)) {
-                drawCreativeTabHoveringText("Fuel", t, g);
+                drawHoveringText("Fuel", t, g);
             }
         }
     }
 
-    @Override
-    protected void drawCreativeTabHoveringText(String str, int t, int g) {
+    public void drawHoveringText(String str, int t, int g) {
         int textWidth = fontRenderer.getStringWidth(distilInventory.amount + "/" + distilInventory.getTankCapacity());
         int startX = t + 14;
         int startY = g - 12;
@@ -94,7 +93,7 @@ public class GuiDistil extends GuiContainer {
         int amount = distilInventory.getLiquid();
         int liqui = Math.abs((amount * 50) / (distilInventory.getTankCapacity()));
         drawTexturedModalRect(j + 145, (k + 57) - liqui, 177, 107 - liqui, 18, liqui);
-        if (LiquidManager.REFINED_FUEL != null && distilInventory.getLiquidItemID() == LiquidManager.REFINED_FUEL.getID()) {
+        if (LiquidManager.REFINED_FUEL != null && distilInventory.getLiquidItemID() == LiquidManager.fluidId(LiquidManager.REFINED_FUEL)) {
             drawRect(j + 145, k + 57, 177, 107, 0);
         }
 

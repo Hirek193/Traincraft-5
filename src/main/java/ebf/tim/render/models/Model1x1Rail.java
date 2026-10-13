@@ -126,7 +126,7 @@ public class Model1x1Rail {
         GL11.glColor4f(1.0f,1.0f,1.0f, 1.0f);
         GL11.glPopMatrix();
 
-        Tessellator.bindTexture(TextureMap.locationBlocksTexture);
+        fexcraft.tmt.slim.Tessellator.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         if(shape.ballast!=null && shape.ballast.getItem()!=null) {
             GL11.glPushMatrix();

@@ -1,4 +1,5 @@
 package train.common.entity.trains.electric;
+import train.client.render.models.ModelE10DB;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -87,7 +88,7 @@ return 3;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelE10DB()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelE10DB()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{-1.7f, -0.55f, 0.0f}};}
     @Override

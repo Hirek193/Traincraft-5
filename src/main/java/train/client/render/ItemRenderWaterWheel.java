@@ -1,13 +1,14 @@
 package train.client.render;
 
+import train.client.render.item.TCItemRenderer;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 import train.client.render.models.blocks.ModelWaterWheel;
 import train.common.library.Info;
 
-public class ItemRenderWaterWheel implements IItemRenderer {
+public class ItemRenderWaterWheel extends TCItemRenderer {
     private static final ResourceLocation texture = new ResourceLocation(Info.resourceLocation, Info.modelTexPrefix + "water_wheel_uv.png");
     private static final ModelWaterWheel modelWaterWheel = new ModelWaterWheel();
 

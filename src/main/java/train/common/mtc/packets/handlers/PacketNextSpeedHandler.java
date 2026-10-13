@@ -1,5 +1,7 @@
 package train.common.mtc.packets.handlers;
 
+import ebf.tim.utility.CommonUtil;
+
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -23,7 +25,7 @@ public  class PacketNextSpeedHandler implements IMessageHandler<PacketNextSpeed,
        //     return null;
       //  }
 
-        TileEntity its =  CommonUtil.getTileEntity(Minecraft.getMinecraft().theWorld, message.x, message.y, message.z);
+        TileEntity its =  CommonUtil.getTileEntity(Minecraft.getMinecraft().world, message.x, message.y, message.z);
 
 
         /* "instanceof" is null-safe, but we check to avoid four unnecessary instanceof checks for when the value is null anyways. */

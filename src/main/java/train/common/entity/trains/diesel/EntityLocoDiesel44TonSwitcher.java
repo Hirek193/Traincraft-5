@@ -1,4 +1,5 @@
 package train.common.entity.trains.diesel;
+import train.client.render.models.ModelLoco44TonSwitcher;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -84,7 +85,7 @@ return 2;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelLoco44TonSwitcher()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelLoco44TonSwitcher()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{-2.75f, -0.07499999f, 0.0f}};}
     @Override

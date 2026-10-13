@@ -1,4 +1,5 @@
 package train.common.entity.stock.passenger;
+import train.client.render.models.ModelRheingoldPassenger_Panorama;
 
 import fexcraft.tmt.slim.ModelBase;
 import ebf.tim.api.SkinRegistry;
@@ -62,7 +63,7 @@ public class EntityPassengerRheingoldPanorama extends EntityRollingStock impleme
     @Override
     public ItemStack[] getRecipe() {
         return new ItemStack[]{
-                new ItemStack(Blocks.glass, 1), 
+                new ItemStack(Blocks.GLASS, 1), 
 new ItemStack(ItemIDs.bogie.item, 2), 
 new ItemStack(ItemIDs.steelframe.item, 1), 
 null, 
@@ -84,7 +85,7 @@ return 3;
 }
     //Model stuff
     @Override
-    public ModelBase[] getModel(){return new ModelBase[]{new train.client.render.models.ModelRheingoldPassenger_Panorama()};}
+    public ModelBase[] getModel(){return new ModelBase[]{new ModelRheingoldPassenger_Panorama()};}
     @Override
     public float[][] modelOffsets(){return new float[][]{{-0.1f, -0.65f, 0.1f}};}
     @Override

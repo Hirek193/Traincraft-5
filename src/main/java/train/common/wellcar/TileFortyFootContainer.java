@@ -1,5 +1,7 @@
 package train.common.wellcar;
 
+import ebf.tim.utility.CommonUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -43,7 +45,7 @@ public class TileFortyFootContainer extends TileEntity implements IInventory {
         if (!CommonUtil.isItemStackEmpty(this.getStackInSlot(index))) {
             ItemStack itemstack;
 
-            if (this.getStackInSlot(index).stackSize <= count) {
+            if (this.getStackInSlot(index).getCount() <= count) {
                 itemstack = this.getStackInSlot(index);
                 this.setInventorySlotContents(index, null);
                 this.markDirty();
@@ -51,7 +53,7 @@ public class TileFortyFootContainer extends TileEntity implements IInventory {
             } else {
                 itemstack = this.getStackInSlot(index).splitStack(count);
 
-                if (this.getStackInSlot(index).stackSize <= 0) {
+                if (this.getStackInSlot(index).getCount() <= 0) {
                     this.setInventorySlotContents(index, null);
                 } else {
                     //Just to show that changes happened
@@ -78,10 +80,10 @@ public class TileFortyFootContainer extends TileEntity implements IInventory {
         if (index < 0 || index >= this.getSizeInventory())
             return;
 
-        if (stack != null && stack.stackSize > this.getInventoryStackLimit())
-            stack.stackSize = this.getInventoryStackLimit();
+        if (stack != null && stack.getCount() > this.getInventoryStackLimit())
+            stack.setCount(this.getInventoryStackLimit());
 
-        if (stack != null && stack.stackSize == 0)
+        if (stack != null && stack.getCount() == 0)
             stack = null;
 
         this.inventory[index] = stack;
@@ -96,7 +98,7 @@ public class TileFortyFootContainer extends TileEntity implements IInventory {
     }
 
     @Override
-    public boolean hasCustomInventoryName() {
+    public boolean hasCustomName() {
         return false;
     }
 
@@ -142,8 +144,7 @@ public class TileFortyFootContainer extends TileEntity implements IInventory {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
         NBTTagList list = new NBTTagList();
 
@@ -161,6 +162,7 @@ public class TileFortyFootContainer extends TileEntity implements IInventory {
         nbt.setTag("Items", list);
         nbt.setInteger("currentColor", currentColor);
         nbt.setString("currentColorString", getAvailableColors().get(currentColor));
+    	return nbt;
     }
 
     public ArrayList<String> getAvailableColors() {
@@ -182,5 +184,40 @@ public class TileFortyFootContainer extends TileEntity implements IInventory {
 
     }
 
+
+	/* 1.12 IInventory methods */
+	@Override
+	public void clear() {
+		for (int i = 0; i < getSizeInventory(); i++) {
+			setInventorySlotContents(i, ItemStack.EMPTY);
+		}
+	}
+
+	/* 1.12 IInventory methods */
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	/* 1.12 IInventory methods */
+	@Override
+	public void setField(int id, int value) {
+	}
+
+	/* 1.12 IInventory methods */
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	/* 1.12 IInventory methods */
+	@Override
+	public boolean isEmpty() {
+		for (int i = 0; i < getSizeInventory(); i++) {
+			ItemStack s = getStackInSlot(i);
+			if (s != null && !s.isEmpty()) return false;
+		}
+		return true;
+	}
 }
 

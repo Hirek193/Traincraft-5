@@ -1,6 +1,12 @@
 package train.common.mtc;
 
+import net.minecraft.util.EnumHand;
 
+import net.minecraft.block.state.IBlockState;
+
+
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import net.minecraft.block.BlockContainer;
@@ -18,9 +24,9 @@ public class BlockInfoTransmitterSpeed extends BlockContainer implements IPeriph
         instance = this;
     }
     @Override
-    public IPeripheral getPeripheral(World world, int x, int y, int z, int side) {
-        TileEntity tileEntity = CommonUtil.getTileEntity(world, x, y, z);
-        return (IPeripheral)tileEntity;
+    public IPeripheral getPeripheral(World world, BlockPos pos, EnumFacing side) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        return tileEntity instanceof IPeripheral ? (IPeripheral) tileEntity : null;
 
     }
 
@@ -28,7 +34,8 @@ public class BlockInfoTransmitterSpeed extends BlockContainer implements IPeriph
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
         return new TileInfoTransmitterSpeed();
     }
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float sideX, float sideY, float sideZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float sideX, float sideY, float sideZ) {
+    	int x = pos.getX(), y = pos.getY(), z = pos.getZ(); int metadata = facing.getIndex();
        // System.out.println("ting");
        // Minecraft.getMinecraft().displayGuiScreen(new GuiSpeedTransmitter( CommonUtil.getTileEntity(world, x, y, z)));
         return false;

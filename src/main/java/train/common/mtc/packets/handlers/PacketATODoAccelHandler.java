@@ -21,13 +21,13 @@ public class PacketATODoAccelHandler implements IMessageHandler<PacketDoAccel, I
    }
 
    public void accel(Entity entity) {
-      if(entity.getWorld() != null) {
+      if(entity.world != null) {
 
          Locomotive theTrain = (Locomotive)entity;
          if((int)theTrain.getSpeed() - 2 <= theTrain.speedLimit) {
-            if (theTrain.getPassengers().get(0) == null) {return;}
+            if (ebf.tim.utility.CommonUtil.rider(theTrain) == null) {return;}
             int dir = MathHelper
-                    .floor_double(((theTrain).rotationYaw * 4F) / 360F + 0.5D) & 3;
+                    .floor(((theTrain).rotationYaw * 4F) / 360F + 0.5D) & 3;
             if (dir == 2){
 
                entity.motionZ -= 0.0075 * theTrain.accelerate;

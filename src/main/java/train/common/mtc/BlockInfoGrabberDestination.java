@@ -1,5 +1,7 @@
 package train.common.mtc;
 
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import net.minecraft.block.BlockContainer;
@@ -20,9 +22,9 @@ public class BlockInfoGrabberDestination  extends BlockContainer implements IPer
         return new TileInfoGrabberDestination();
     }
 
-    public IPeripheral getPeripheral(World world, int x, int y, int z, int side) {
-        TileEntity tileEntity = CommonUtil.getTileEntity(world, x, y, z);
-        return (IPeripheral)tileEntity;
+    public IPeripheral getPeripheral(World world, BlockPos pos, EnumFacing side) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        return tileEntity instanceof IPeripheral ? (IPeripheral) tileEntity : null;
     }
 
 
