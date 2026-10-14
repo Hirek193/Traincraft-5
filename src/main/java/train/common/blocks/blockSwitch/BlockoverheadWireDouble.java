@@ -160,7 +160,7 @@ public class BlockoverheadWireDouble extends Block {
             }
         }
 
-        super.breakBlock(p_149749_1_, new BlockPos(p_149749_2_, p_149749_3_, p_149749_4_), p_149749_1_.getBlockState(new BlockPos(p_149749_2_, p_149749_3_, p_149749_4_)));
+        super.breakBlock(p_149749_1_, pos, state);
     }
 
 

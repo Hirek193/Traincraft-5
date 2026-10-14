@@ -116,7 +116,7 @@ public class BlockMetroMadridPole extends Block implements ITileEntityProvider {
 
     public void breakBlock(World p_149749_1_, BlockPos pos, IBlockState state) {
     	int p_149749_2_ = pos.getX(), p_149749_3_ = pos.getY(), p_149749_4_ = pos.getZ(); Block p_149749_5_ = state.getBlock(); int p_149749_6_ = getMetaFromState(state);
-        super.breakBlock(p_149749_1_, new BlockPos(p_149749_2_, p_149749_3_, p_149749_4_), p_149749_1_.getBlockState(new BlockPos(p_149749_2_, p_149749_3_, p_149749_4_)));
+        super.breakBlock(p_149749_1_, pos, state);
         if(p_149749_1_.getTileEntity(new BlockPos(p_149749_2_, p_149749_3_, p_149749_4_))!=null){
             p_149749_1_.removeTileEntity(new BlockPos(p_149749_2_, p_149749_3_, p_149749_4_));
         }

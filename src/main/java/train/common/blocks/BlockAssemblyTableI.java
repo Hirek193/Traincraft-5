@@ -90,7 +90,7 @@ public class BlockAssemblyTableI extends BlockDynamic {
 				} while (true);
 			}
 		}
-		super.breakBlock(world, new BlockPos(i, j, k), world.getBlockState(new BlockPos(i, j, k)));
+		super.breakBlock(world, pos, state);
 	}
 
 	@Override

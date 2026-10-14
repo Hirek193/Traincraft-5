@@ -200,6 +200,9 @@ public class Traincraft {
         }
 
 
+        // 1.12: SoundEvents must be registered before the server can send them
+        train.common.core.TCSounds.registerAll();
+
         TraincraftRegistry.registerTransports("", listspecial());
         TraincraftRegistry.registerTransports("", listfreight());
         TraincraftRegistry.registerTransports("", listpassenger());

@@ -153,6 +153,6 @@ public class BlockWaterWheel extends Block {
 		if (tile != null && tile instanceof TileWaterWheel) {
 			(tile).onChunkUnload();
 		}
-		super.breakBlock(par1World, new BlockPos(par2, par3, par4), par1World.getBlockState(new BlockPos(par2, par3, par4)));
+		super.breakBlock(par1World, pos, state);
 	}
 }

@@ -129,7 +129,7 @@ public class BlockOpenHearthFurnace extends BlockDynamic {
 				}
 			}
 		}
-		super.breakBlock(world, new BlockPos(i, j, k), world.getBlockState(new BlockPos(i, j, k)));
+		super.breakBlock(world, pos, state);
 	}
 
 	@Override

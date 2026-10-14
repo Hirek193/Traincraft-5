@@ -725,7 +725,7 @@ public abstract class Locomotive extends Freight implements WirelessTransmitter,
                             CommonUtil.playSound(this, soundRunning.addr, soundRunning.vol, soundRunning.pit);
                             soundPosition = soundRunning.len / 3;
                         }
-                    } else {
+                    } else if (soundRunning != null && !soundRunning.addr.isEmpty()) {
                         if (speed > 0.01D && soundPosition == 0) {
                             CommonUtil.playSound(this, soundRunning.addr, soundRunning.vol, soundRunning.pit);
                             soundPosition = soundRunning.len;

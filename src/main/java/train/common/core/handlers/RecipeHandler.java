@@ -134,7 +134,7 @@ public class RecipeHandler {
         TCRecipes.shaped(new ItemStack(ItemIDs.tcRailLargeSlopeWood.item, 1), "   ", "  T", " T ", 'T', ItemIDs.tcRailSlopeWood.item);
         TCRecipes.shaped(new ItemStack(ItemIDs.tcRailVeryLargeSlopeWood.item, 1), "  T", " T ", "T  ", 'T', ItemIDs.tcRailSlopeWood.item);
 
-        TCRecipes.shaped(new ItemStack(ItemIDs.tcRailSlopeSnowGravel.item, 1), " TS", "TSS", "SSS", 'T', ItemIDs.tcRailMediumStraight.item, 'S', new ItemStack(BlockIDs.snowGravel.block, 1, 4));
+        TCRecipes.shaped(new ItemStack(ItemIDs.tcRailSlopeSnowGravel.item, 1), " TS", "TSS", "SSS", 'T', ItemIDs.tcRailMediumStraight.item, 'S', new ItemStack(BlockIDs.snowGravel.block, 1, 0));
         TCRecipes.shaped(new ItemStack(ItemIDs.tcRailLargeSlopeSnowGravel.item, 1), "   ", "  T", " T ", 'T', ItemIDs.tcRailSlopeSnowGravel.item);
         TCRecipes.shaped(new ItemStack(ItemIDs.tcRailVeryLargeSlopeSnowGravel.item, 1), "  T", " T ", "T  ", 'T', ItemIDs.tcRailSlopeSnowGravel.item);
 
@@ -570,7 +570,7 @@ public class RecipeHandler {
         TrainCraftingManager.instance.addRecipe(new ItemStack(ItemIDs.tcRailLargeSlopeWood.item, 1), "   ", "  T", " T ", 'T', ItemIDs.tcRailSlopeWood.item);
         TrainCraftingManager.instance.addRecipe(new ItemStack(ItemIDs.tcRailVeryLargeSlopeWood.item, 1), "  T", " T ", "T  ", 'T', ItemIDs.tcRailSlopeWood.item);
 
-        TrainCraftingManager.instance.addRecipe(new ItemStack(ItemIDs.tcRailSlopeSnowGravel.item, 1), " TS", "TSS", "SSS", 'T', ItemIDs.tcRailMediumStraight.item, 'S', new ItemStack(BlockIDs.snowGravel.block, 1, 4));
+        TrainCraftingManager.instance.addRecipe(new ItemStack(ItemIDs.tcRailSlopeSnowGravel.item, 1), " TS", "TSS", "SSS", 'T', ItemIDs.tcRailMediumStraight.item, 'S', new ItemStack(BlockIDs.snowGravel.block, 1, 0));
         TrainCraftingManager.instance.addRecipe(new ItemStack(ItemIDs.tcRailLargeSlopeSnowGravel.item, 1), "   ", "  T", " T ", 'T', ItemIDs.tcRailSlopeSnowGravel.item);
         TrainCraftingManager.instance.addRecipe(new ItemStack(ItemIDs.tcRailVeryLargeSlopeSnowGravel.item, 1), "  T", " T ", "T  ", 'T', ItemIDs.tcRailSlopeSnowGravel.item);
 

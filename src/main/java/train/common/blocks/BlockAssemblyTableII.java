@@ -76,7 +76,7 @@ public class BlockAssemblyTableII extends BlockDynamic {
 					if (i1 > itemstack.getCount()) {
 						i1 = itemstack.getCount();
 					}
-					itemstack.shrink(i1);
+					// splitStack already takes the items out of the stack (1.7.10 did stackSize -= i1 + new ItemStack)
 					EntityItem entityitem = new EntityItem(world, i + f, j + f1, k + f2, itemstack.splitStack(i1));
 					float f3 = 0.05F;
 					entityitem.motionX = (float) distilRand.nextGaussian() * f3;
@@ -86,7 +86,7 @@ public class BlockAssemblyTableII extends BlockDynamic {
 				} while (true);
 			}
 		}
-		super.breakBlock(world, new BlockPos(i, j, k), world.getBlockState(new BlockPos(i, j, k)));
+		super.breakBlock(world, pos, state);
 	}
 
 	@Override

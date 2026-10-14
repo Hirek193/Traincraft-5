@@ -232,6 +232,13 @@ public class CommonUtil {
      * in later versions it's used to identify what made the sound, like if it's for an entity or a block.
      */
     public static void playSound(World world, double xCoord, double yCoord, double zCoord, String file, float volume, float pitch, int soundType){
+        // 1.7.10 World.playSound(x,y,z,...) only played on the client that called it
+        if (world != null && world.isRemote) {
+            net.minecraft.util.SoundEvent sound = train.common.core.TCSounds.get(file);
+            if (sound != null) {
+                world.playSound(xCoord, yCoord, zCoord, sound, net.minecraft.util.SoundCategory.BLOCKS, volume, pitch, false);
+            }
+        }
     }
 
     public static void playSound(World world, double xCoord, double yCoord, double zCoord, net.minecraft.util.SoundEvent sound, float volume, float pitch, int soundType){
@@ -241,9 +248,33 @@ public class CommonUtil {
     }
 
     public static void playSound(TileEntity tile, String file, float volume, float pitch){
+        if (tile != null) {
+            BlockPos p = tile.getPos();
+            playSound(tile.getWorld(), p.getX() + 0.5D, p.getY() + 0.5D, p.getZ() + 0.5D, file, volume, pitch, 0);
+        }
     }
 
+    /**
+     * 1.7.10 playSoundAtEntity: called on the server it is sent to every player around the entity.
+     * On the client only sounds made by the local player are played (GUI clicks etc.), everything else
+     * comes from the server so it is not heard twice.
+     */
     public static void playSound(Entity entity, String file, float volume, float pitch){
+        if (entity == null || entity.world == null) {
+            return;
+        }
+        net.minecraft.util.SoundEvent sound = train.common.core.TCSounds.get(file);
+        if (sound == null) {
+            return;
+        }
+        if (!entity.world.isRemote) {
+            // a player hears his own sounds from his client (vanilla pattern), everyone else gets them from here
+            EntityPlayer except = entity instanceof EntityPlayer ? (EntityPlayer) entity : null;
+            entity.world.playSound(except, entity.posX, entity.posY, entity.posZ, sound,
+                    except != null ? net.minecraft.util.SoundCategory.PLAYERS : net.minecraft.util.SoundCategory.NEUTRAL, volume, pitch);
+        } else if (entity instanceof EntityPlayer) {
+            entity.world.playSound((EntityPlayer) entity, entity.posX, entity.posY, entity.posZ, sound, net.minecraft.util.SoundCategory.PLAYERS, volume, pitch);
+        }
     }
 
     public static boolean stringContains(String s1, String... s2){

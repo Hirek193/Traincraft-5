@@ -60,6 +60,8 @@ public class SlotTrainCrafting extends Slot {
 		for (int var3 = 0; var3 < this.craftMatrix.getSizeInventory(); ++var3) {
 			ItemStack var4 = this.craftMatrix.getStackInSlot(var3);
 			if (!StackUtil.isEmpty(var4)) {
+				// keep a copy: in 1.12 a stack shrunk to 0 turns into air and loses its item
+				var4 = var4.copy();
 				this.craftMatrix.decrStackSize(var3, 1);
 				if (var4.getItem().hasContainerItem()) {
 					ItemStack var5 = var4.getItem().getContainerItem(var4);
